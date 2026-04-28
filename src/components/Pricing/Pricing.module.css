@@ -1,0 +1,132 @@
+/* ── Pricing Comparison Table ── */
+
+.pricing {
+  background: var(--bg);
+  padding: 80px 64px;
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.headline {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.12;
+  margin-bottom: 12px;
+}
+
+.sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  padding: 24px 20px;
+  text-align: center;
+  vertical-align: bottom;
+  border-bottom: 2px solid rgba(26, 16, 8, 0.08);
+}
+
+.table thead th:first-child {
+  text-align: left;
+  width: 280px;
+}
+
+.thTier {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.thTierFeatured {
+  composes: thTier;
+  color: var(--accent);
+}
+
+.thPrice {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.thPeriod {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+
+.thLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Body */
+.table tbody td {
+  padding: 16px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(26, 16, 8, 0.06);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.table tbody td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.yes {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.no {
+  font-size: 14px;
+  color: rgba(26, 16, 8, 0.2);
+}
+
+/* Featured column */
+.featured {
+  background: rgba(184, 50, 40, 0.03);
+}
+
+/* Footer */
+.table tfoot td {
+  padding: 28px 20px;
+  text-align: center;
+  border-top: 2px solid rgba(26, 16, 8, 0.08);
+}
+
+.table tfoot td:first-child {
+  text-align: left;
+}

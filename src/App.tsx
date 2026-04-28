@@ -6,6 +6,7 @@ import { LogoTicker } from './components/LogoTicker/LogoTicker';
 import { About } from './components/About/About';
 import { SpringCohort } from './components/SpringCohort/SpringCohort';
 import { SummerCohort } from './components/SummerCohort/SummerCohort';
+import { Pricing } from './components/Pricing/Pricing';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       </div>
       <SpringCohort />
       <SummerCohort />
+      <Pricing />
     </LanguageProvider>
   );
 }
