@@ -2,6 +2,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { Nav } from './components/Nav/Nav';
 import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
+import { LogoTicker } from './components/LogoTicker/LogoTicker';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <ArcBackground />
         <Nav />
         <Hero />
+        <LogoTicker />
       </div>
     </LanguageProvider>
   );

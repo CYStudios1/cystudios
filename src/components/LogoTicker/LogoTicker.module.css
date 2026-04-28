@@ -1,0 +1,67 @@
+.logoSection {
+  background: rgba(26,16,8,0.04);
+  padding: 48px 0;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(26,16,8,0.1);
+  border-bottom: 1px solid rgba(26,16,8,0.1);
+}
+
+.logoSection::before,
+.logoSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.logoSection::before {
+  left: 0;
+  background: linear-gradient(to right, #EEE0D2, transparent);
+}
+
+.logoSection::after {
+  right: 0;
+  background: linear-gradient(to left, #EEE0D2, transparent);
+}
+
+.logoTrack {
+  display: inline-flex;
+  align-items: center;
+  gap: 100px;
+  animation: logoScroll 28s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes logoScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+
+.logoItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.55;
+  flex-shrink: 0;
+  transition: opacity 0.3s;
+}
+
+.logoItem:hover {
+  opacity: 0.85;
+}
+
+.logoItem img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) opacity(0.7);
+}
+
+.logoItem:hover img {
+  filter: brightness(0) opacity(0.9);
+}
