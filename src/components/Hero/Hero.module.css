@@ -1,0 +1,147 @@
+/* ── Arc background layer ── */
+.bgLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  perspective: 1100px;
+  perspective-origin: 68% 35%;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%);
+  mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%);
+}
+
+.arcsSvg {
+  position: absolute;
+  top: -5%;
+  right: -6%;
+  width: 80%;
+  height: 80%;
+  transform-origin: right center;
+  animation: planeBreath 10s ease-in-out infinite;
+}
+
+@keyframes planeBreath {
+  0%, 100% { transform: rotateX(0deg) translateY(0px); }
+  50%       { transform: rotateX(5deg) translateY(-8px); }
+}
+
+.ring {
+  transform-box: view-box;
+  transform-origin: 600px 350px;
+  animation: ringWave ease-in-out infinite;
+}
+
+@keyframes ringWave {
+  0%, 100% { transform: scale(1);     opacity: var(--op); }
+  50%       { transform: scale(1.022); opacity: calc(var(--op) * 1.7); }
+}
+
+.ringRed {
+  transform-box: view-box;
+  transform-origin: 600px 350px;
+  animation: ringRedWave ease-in-out infinite;
+}
+
+@keyframes ringRedWave {
+  0%, 100% { transform: scale(1);     opacity: 0.06; }
+  50%       { transform: scale(1.015); opacity: 0.13; }
+}
+
+.crosshair {
+  animation: crossFade 9s ease-in-out infinite;
+}
+
+@keyframes crossFade {
+  0%, 100% { opacity: 0.18; }
+  50%      { opacity: 0.35; }
+}
+
+.mark {
+  position: absolute;
+  border-radius: 50%;
+  background: #b83228;
+  animation: mpulse 4s ease-in-out infinite;
+}
+
+@keyframes mpulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(1.4); }
+}
+
+/* ── Hero section ── */
+.heroSection {
+  min-height: 100vh;
+  background: transparent;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroBody {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  z-index: 10;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 48px 48px 64px;
+}
+
+.heroPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b83228;
+  background: rgba(184, 50, 40, 0.1);
+  border: 1px solid rgba(184, 50, 40, 0.2);
+  padding: 6px 16px;
+  border-radius: 99px;
+  margin-bottom: 28px;
+}
+
+.pillDot {
+  width: 6px;
+  height: 6px;
+  background: #b83228;
+  border-radius: 50%;
+  animation: pdot 2s infinite;
+}
+
+@keyframes pdot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+.heroHeadline {
+  font-size: clamp(40px, 4.5vw, 68px);
+  font-weight: 800;
+  line-height: 1.02;
+  color: #1a1008;
+  margin-bottom: 20px;
+}
+
+.heroSub {
+  font-size: 15px;
+  font-weight: 300;
+  color: #5a4e44;
+  line-height: 1.85;
+  max-width: 380px;
+  margin-bottom: 32px;
+}
+
+.deviceSide {
+  position: relative;
+}

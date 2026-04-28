@@ -7,6 +7,7 @@ export const translations: Record<string, string> = {
   'Book a Consultation': '상담 예약하기',
   'Now Booking — Summer Cohort': '여름 코호트 — 모집 중',
   'Your brand, built with intention.': '당신의 브랜드, 의도를 담아 만듭니다.',
+  'heroHeadlineHtml': '당신의 브랜드,<br>의도를 담아<br>만듭니다.',
   'CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.': 'CY Studios는 소수의 클라이언트만 받는 부티크 크리에이티브 에이전시입니다 — 모든 브랜드가 마땅히 받아야 할 관심을 드리기 위해.',
   'Book a Consultation →': '상담 예약하기 →',
   'Who We Are': '우리에 대해',
