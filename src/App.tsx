@@ -4,6 +4,7 @@ import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
 import { LogoTicker } from './components/LogoTicker/LogoTicker';
 import { About } from './components/About/About';
+import { SpringCohort } from './components/SpringCohort/SpringCohort';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <LogoTicker />
         <About />
       </div>
+      <SpringCohort />
     </LanguageProvider>
   );
 }
