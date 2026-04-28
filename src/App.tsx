@@ -3,6 +3,7 @@ import { Nav } from './components/Nav/Nav';
 import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
 import { LogoTicker } from './components/LogoTicker/LogoTicker';
+import { About } from './components/About/About';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Nav />
         <Hero />
         <LogoTicker />
+        <About />
       </div>
     </LanguageProvider>
   );
