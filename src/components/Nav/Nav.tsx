@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styles from './Nav.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
@@ -6,7 +7,12 @@ export function Nav() {
   const { t, isKorean, toggleLang } = useTranslation();
 
   return (
-    <nav className={styles.nav}>
+    <motion.nav
+      className={styles.nav}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+    >
       <div className={styles.logo}>CY Studios</div>
       <div className={styles.navRight}>
         <div className={styles.navLinks}>
@@ -23,6 +29,6 @@ export function Nav() {
           {t('Book a Consultation')}
         </Button>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

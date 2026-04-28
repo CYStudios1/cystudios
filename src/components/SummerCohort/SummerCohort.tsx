@@ -10,6 +10,18 @@ const slots = [
   { num: '3', text: 'Looking for a founder who wants to build something intentional from the ground up.' },
 ];
 
+const slotContainer = {
+  initial: {},
+  whileInView: {},
+  transition: { staggerChildren: 0.12 },
+};
+
+const slotCard = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+};
+
 export function SummerCohort() {
   const { t } = useTranslation();
 
@@ -33,17 +45,23 @@ export function SummerCohort() {
           </p>
         </div>
 
-        <div className={styles.slots}>
+        <motion.div
+          className={styles.slots}
+          variants={slotContainer}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: '-80px' }}
+        >
           {slots.map((slot) => (
-            <div key={slot.num} className={styles.slot}>
+            <motion.div key={slot.num} className={styles.slot} variants={slotCard}>
               <div className={styles.slotNum}>{slot.num}</div>
               <div className={styles.slotStatus}>
                 <span className={styles.dot} /> {t('Open')}
               </div>
               <div className={styles.slotText}>{t(slot.text)}</div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className={styles.cta}>
           <Button>{t('Book a Consultation →')}</Button>

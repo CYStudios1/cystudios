@@ -3,6 +3,18 @@ import styles from './Footer.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
 
+const colContainer = {
+  initial: {},
+  whileInView: {},
+  transition: { staggerChildren: 0.1 },
+};
+
+const colItem = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+};
+
 export function Footer() {
   const { t } = useTranslation();
 
@@ -26,12 +38,18 @@ export function Footer() {
       </div>
 
       {/* Four Columns */}
-      <div className={styles.cols}>
-        <div>
+      <motion.div
+        className={styles.cols}
+        variants={colContainer}
+        initial="initial"
+        whileInView="whileInView"
+        viewport={{ once: true, margin: '-80px' }}
+      >
+        <motion.div variants={colItem}>
           <div className={styles.logo}>{t('CY Studios')}</div>
           <div className={styles.brandText}>{t('A boutique creative agency building brands with intention — one cohort at a time.')}</div>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={colItem}>
           <div className={styles.colTitle}>{t('Navigate')}</div>
           <div className={styles.colLinks}>
             <a href="#services" className={styles.colLink}>{t('Services')}</a>
@@ -40,8 +58,8 @@ export function Footer() {
             <a href="#pricing" className={styles.colLink}>{t('Pricing')}</a>
             <a href="#faq" className={styles.colLink}>{t('FAQ')}</a>
           </div>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={colItem}>
           <div className={styles.colTitle}>{t('Services')}</div>
           <div className={styles.colLinks}>
             <a href="#" className={styles.colLink}>{t('Website Design')}</a>
@@ -49,8 +67,8 @@ export function Footer() {
             <a href="#" className={styles.colLink}>{t('SEO')}</a>
             <a href="#" className={styles.colLink}>{t('GenAI Marketing')}</a>
           </div>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={colItem}>
           <div className={styles.colTitle}>{t('Contact')}</div>
           <div className={styles.colLinks}>
             <a href="mailto:design@cy-studios.com" className={styles.colLink}>design@cy-studios.com</a>
@@ -58,8 +76,8 @@ export function Footer() {
             <a href="#" className={styles.colLink}>{t('LinkedIn')}</a>
             <a href="#" className={styles.colLink}>{t('Twitter / X')}</a>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Bottom Bar */}
       <div className={styles.bottom}>

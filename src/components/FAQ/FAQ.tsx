@@ -31,6 +31,18 @@ const faqData = [
   },
 ];
 
+const faqContainer = {
+  initial: {},
+  whileInView: {},
+  transition: { staggerChildren: 0.08 },
+};
+
+const faqItem = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+};
+
 export function FAQ() {
   const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -61,11 +73,18 @@ export function FAQ() {
           </div>
         </div>
 
-        <div className={styles.items}>
+        <motion.div
+          className={styles.items}
+          variants={faqContainer}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: '-80px' }}
+        >
           {faqData.map((item, i) => (
-            <div
+            <motion.div
               key={i}
               className={`${styles.item} ${openIndex === i ? styles.itemOpen : ''}`}
+              variants={faqItem}
             >
               <div className={styles.question} onClick={() => toggle(i)}>
                 <div className={styles.qText}>{t(item.q)}</div>
@@ -74,9 +93,9 @@ export function FAQ() {
               <div className={styles.answer}>
                 <div className={styles.aText}>{t(item.a)}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

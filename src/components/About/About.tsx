@@ -3,6 +3,18 @@ import { SectionLabel } from '../shared/SectionLabel';
 import { useTranslation } from '../shared/useTranslation';
 import s from './About.module.css';
 
+const founderContainer = {
+  initial: {},
+  whileInView: {},
+  transition: { staggerChildren: 0.15 },
+};
+
+const founderItem = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+};
+
 export function About() {
   const { t } = useTranslation();
 
@@ -25,8 +37,14 @@ export function About() {
             "We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in."
           )}
         </p>
-        <div className={s.founders}>
-          <div className={s.founder}>
+        <motion.div
+          className={s.founders}
+          variants={founderContainer}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: '-80px' }}
+        >
+          <motion.div className={s.founder} variants={founderItem}>
             <div className={s.photo} />
             <div className={s.name}>David</div>
             <div className={s.role}>{t('Design & Strategy')}</div>
@@ -35,9 +53,9 @@ export function About() {
                 'Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.'
               )}
             </div>
-          </div>
-          <div className={s.divider} />
-          <div className={s.founder}>
+          </motion.div>
+          <motion.div className={s.divider} variants={founderItem} />
+          <motion.div className={s.founder} variants={founderItem}>
             <div className={s.photo} />
             <div className={s.name}>Colin</div>
             <div className={s.role}>{t('Development & Growth')}</div>
@@ -46,8 +64,8 @@ export function About() {
                 "Turns vision into performance. Builds brands that don't just look good — they grow."
               )}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </motion.div>
   );
