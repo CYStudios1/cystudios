@@ -7,6 +7,7 @@ import { About } from './components/About/About';
 import { SpringCohort } from './components/SpringCohort/SpringCohort';
 import { SummerCohort } from './components/SummerCohort/SummerCohort';
 import { Pricing } from './components/Pricing/Pricing';
+import { FAQ } from './components/FAQ/FAQ';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <SpringCohort />
       <SummerCohort />
       <Pricing />
+      <FAQ />
     </LanguageProvider>
   );
 }
