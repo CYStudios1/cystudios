@@ -5,6 +5,7 @@ import { Hero } from './components/Hero/Hero';
 import { LogoTicker } from './components/LogoTicker/LogoTicker';
 import { About } from './components/About/About';
 import { SpringCohort } from './components/SpringCohort/SpringCohort';
+import { SummerCohort } from './components/SummerCohort/SummerCohort';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <About />
       </div>
       <SpringCohort />
+      <SummerCohort />
     </LanguageProvider>
   );
 }
