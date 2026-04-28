@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Hyper-Real Laptop Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .section { min-height: 100vh; background: #F2E4D8; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .divider { height: 4px; background: #1a1008; }
+  .section-label { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 30; background: #1a1008; color: rgba(255,255,255,0.85); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 7px 20px; border-radius: 99px; white-space: nowrap; }
+
+  /* Arc background */
+  .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .arcs-svg { position: absolute; top: -8%; right: -6%; width: 80%; height: 120%; }
+  .mark { position: absolute; border-radius: 50%; background: #b83228; animation: mpulse 4s ease-in-out infinite; }
+  @keyframes mpulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.3)} }
+
+  /* Nav */
+  .nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 64px; height: 64px; background: transparent; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links span { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; }
+  .nav-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 9px 22px; border-radius: 5px; }
+
+  /* Hero split */
+  .hero-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 10; }
+  .hero-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 48px 48px 64px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(40px, 4.5vw, 68px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 380px; margin-bottom: 32px; }
+  .btn { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 13px 28px; border-radius: 6px; display: inline-block; }
+
+  /* Device side */
+  .device-side { display: flex; align-items: center; justify-content: center; padding: 30px 40px 30px 16px; position: relative; }
+
+  /* ══ HYPER-REAL LAPTOP ══ */
+  .laptop-wrap { perspective: 1200px; }
+
+  .laptop-3d {
+    width: 460px;
+    transform: rotateY(-20deg) rotateX(5deg);
+    transform-style: preserve-3d;
+    filter: drop-shadow(40px 50px 80px rgba(26,16,8,0.35)) drop-shadow(0 20px 40px rgba(26,16,8,0.2));
+  }
+
+  /* Lid */
+  .laptop-lid {
+    background: linear-gradient(160deg, #2c2218 0%, #1a1008 50%, #221508 100%);
+    border-radius: 12px 12px 3px 3px;
+    padding: 11px 11px 0;
+    position: relative;
+  }
+  /* Thin rim at bottom of lid */
+  .laptop-lid::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 8px; right: 8px; height: 2px;
+    background: linear-gradient(90deg, #333, #555, #333);
+    border-radius: 0 0 2px 2px;
+  }
+
+  /* Screen bezel */
+  .laptop-bezel {
+    background: #0e0906;
+    border-radius: 6px 6px 3px 3px;
+    padding: 8px 8px 24px;
+    position: relative;
+  }
+
+  /* Actual screen */
+  .laptop-screen {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    position: relative;
+  }
+
+  /* Screen glare overlay */
+  .screen-glare {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0.18) 0%,
+      rgba(255,255,255,0.06) 30%,
+      transparent 55%,
+      rgba(255,255,255,0.02) 100%
+    );
+    z-index: 50;
+    pointer-events: none;
+    border-radius: 4px;
+  }
+
+  /* Camera dot */
+  .camera-dot {
+    position: absolute;
+    bottom: 6px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 5px;
+    background: #1a1008;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #333;
+  }
+
+  /* Screen ambient glow */
+  .screen-glow {
+    position: absolute;
+    inset: -20px;
+    border-radius: 12px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(242,228,216,0.4) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Base/keyboard */
+  .laptop-base {
+    background: linear-gradient(180deg, #2a1e10 0%, #1e1409 100%);
+    height: 14px;
+    border-radius: 0 0 3px 3px;
+    position: relative;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .laptop-base::before {
+    content: '';
+    position: absolute;
+    inset: 2px 20px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    border-radius: 2px;
+  }
+  .trackpad-hint { width: 52px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+
+  .laptop-foot {
+    height: 5px;
+    background: linear-gradient(180deg, #111 0%, #222 100%);
+    margin: 0 28px;
+    border-radius: 0 0 6px 6px;
+  }
+  .foot-rubber-l { position: absolute; left: 32px; bottom: 0; width: 20px; height: 5px; background: #333; border-radius: 0 0 4px 4px; }
+  .foot-rubber-r { position: absolute; right: 32px; bottom: 0; width: 20px; height: 5px; background: #333; border-radius: 0 0 4px 4px; }
+
+  /* ══ SCREEN CONTENT — rendered mini site ══ */
+  .mini-site {
+    width: 100%;
+    height: 100%;
+    background: #F2E4D8;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Raleway', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Mini concentric arcs */
+  .mini-arcs {
+    position: absolute;
+    top: -5%; right: -3%;
+    width: 55%; height: 110%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mini-nav {
+    position: relative; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px;
+    height: 24px;
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+    flex-shrink: 0;
+  }
+  .mini-logo { font-size: 5.5px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .mini-links { display: flex; gap: 7px; }
+  .mini-link-txt { font-size: 4px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4e44; }
+  .mini-cta-btn { font-size: 4px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #b83228; color: #fff; padding: 3px 7px; border-radius: 2px; }
+
+  .mini-hero {
+    flex: 1; display: flex;
+    align-items: center;
+    padding: 8px 14px 6px;
+    gap: 8px;
+    position: relative; z-index: 2;
+  }
+  .mini-text { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .mini-pill {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 3.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #b83228; background: rgba(184,50,40,0.1); border: 0.5px solid rgba(184,50,40,0.25);
+    padding: 2px 6px; border-radius: 99px; margin-bottom: 4px; width: fit-content;
+  }
+  .mini-pill-dot { width: 2.5px; height: 2.5px; background: #b83228; border-radius: 50%; }
+  .mini-h1 { font-size: 12px; font-weight: 800; line-height: 1.05; color: #1a1008; margin-bottom: 3px; }
+  .mini-body { font-size: 4px; font-weight: 300; color: #5a4e44; line-height: 1.7; max-width: 120px; margin-bottom: 5px; }
+  .mini-btn { font-size: 4px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #b83228; color: #fff; padding: 4px 9px; border-radius: 2px; display: inline-block; width: fit-content; }
+
+  .mini-ticker {
+    flex-shrink: 0;
+    border-top: 0.5px solid rgba(26,16,8,0.1);
+    background: rgba(26,16,8,0.03);
+    padding: 4px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 3.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #5a4e44;
+    display: flex; align-items: center; gap: 10px;
+    position: relative; z-index: 5;
+  }
+  .mini-tick-track { display: inline-flex; gap: 12px; animation: minitick 12s linear infinite; white-space: nowrap; padding: 0 8px; }
+  @keyframes minitick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .mini-tdot { display: inline-block; width: 2px; height: 2px; background: #b83228; border-radius: 50%; margin: 0 3px; vertical-align: middle; }
+
+  /* Ticker (outer) */
+  .ticker { position: relative; z-index: 10; border-top: 1px solid rgba(26,16,8,0.1); background: rgba(26,16,8,0.04); padding: 13px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-track { display: inline-flex; animation: tick 20s linear infinite; }
+  .ticker-item { display: inline-flex; align-items: center; gap: 16px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; padding-right: 40px; }
+  .tdot { width: 4px; height: 4px; background: #b83228; border-radius: 50%; flex-shrink: 0; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+</style>
+</head>
+<body>
+
+<script>
+function arcsBg() {
+  return `<svg class="arcs-svg" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+    <circle cx="600" cy="350" r="80"  stroke="#1a1008" stroke-width="1" opacity="0.07"/>
+    <circle cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" opacity="0.065"/>
+    <circle cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" opacity="0.06"/>
+    <circle cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" opacity="0.055"/>
+    <circle cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" opacity="0.05"/>
+    <circle cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" opacity="0.045"/>
+    <circle cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" opacity="0.04"/>
+    <circle cx="600" cy="350" r="575" stroke="#1a1008" stroke-width="1" opacity="0.035"/>
+    <circle cx="600" cy="350" r="665" stroke="#b83228" stroke-width="0.75" opacity="0.06"/>
+    <line x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+    <line x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+    <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+  </svg>
+  <div class="mark" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+  <div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div>
+  <div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div>`;
+}
+
+// Mini version of the CY Studios site rendered inside the screen
+function miniSite() {
+  return `<div class="mini-site">
+    <svg class="mini-arcs" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle cx="600" cy="350" r="120" stroke="#1a1008" stroke-width="2" opacity="0.07"/>
+      <circle cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="2" opacity="0.065"/>
+      <circle cx="600" cy="350" r="290" stroke="#1a1008" stroke-width="2" opacity="0.06"/>
+      <circle cx="600" cy="350" r="390" stroke="#1a1008" stroke-width="2" opacity="0.055"/>
+      <circle cx="600" cy="350" r="500" stroke="#1a1008" stroke-width="2" opacity="0.045"/>
+      <circle cx="600" cy="350" r="620" stroke="#b83228" stroke-width="1.5" opacity="0.06"/>
+      <line x1="575" y1="350" x2="625" y2="350" stroke="#b83228" stroke-width="1.5" opacity="0.18"/>
+      <line x1="600" y1="325" x2="600" y2="375" stroke="#b83228" stroke-width="1.5" opacity="0.18"/>
+      <circle cx="600" cy="350" r="8" fill="#b83228" opacity="0.15"/>
+    </svg>
+    <div class="mini-nav">
+      <div class="mini-logo">CY Studios</div>
+      <div class="mini-links">
+        <div class="mini-link-txt">Services</div>
+        <div class="mini-link-txt">About</div>
+        <div class="mini-link-txt">Pricing</div>
+      </div>
+      <div class="mini-cta-btn">Book a Call</div>
+    </div>
+    <div class="mini-hero">
+      <div class="mini-text">
+        <div class="mini-pill"><span class="mini-pill-dot"></span>Now Booking — Summer</div>
+        <div class="mini-h1">Your brand,<br>built with<br>intention.</div>
+        <div class="mini-body">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+        <div class="mini-btn">Book a Consultation →</div>
+      </div>
+    </div>
+    <div class="mini-ticker">
+      <div class="mini-tick-track">
+        <span>Spring Cohort</span><span class="mini-tdot"></span>
+        <span>Fully Booked</span><span class="mini-tdot"></span>
+        <span>Summer Cohort</span><span class="mini-tdot"></span>
+        <span>Now Booking</span><span class="mini-tdot"></span>
+        <span>Website Design</span><span class="mini-tdot"></span>
+        <span>Social Media</span><span class="mini-tdot"></span>
+        <span>SEO</span><span class="mini-tdot"></span>
+        <span>GenAI Marketing</span><span class="mini-tdot"></span>
+        <span>Spring Cohort</span><span class="mini-tdot"></span>
+        <span>Fully Booked</span><span class="mini-tdot"></span>
+        <span>Summer Cohort</span><span class="mini-tdot"></span>
+        <span>Now Booking</span><span class="mini-tdot"></span>
+        <span>Website Design</span><span class="mini-tdot"></span>
+        <span>Social Media</span><span class="mini-tdot"></span>
+        <span>SEO</span><span class="mini-tdot"></span>
+        <span>GenAI Marketing</span><span class="mini-tdot"></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function heroContent() {
+  return `<div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>`;
+}
+
+function nav() {
+  return `<div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>`;
+}
+
+function ticker() {
+  return `<div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ── A: HYPER-REAL (with rendered mini site, glare, glow) ──
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="section">
+      <div class="section-label">Option 3A — Tilted Laptop · Hyper-Real Screen</div>
+      <div class="bg-layer">${arcsBg()}</div>
+      ${nav()}
+      <div class="hero-body">
+        ${heroContent()}
+        <div class="device-side">
+          <div class="laptop-wrap">
+            <div class="laptop-3d" style="position:relative;">
+              <div class="screen-glow"></div>
+              <div class="laptop-lid" style="position:relative;">
+                <div class="laptop-bezel">
+                  <div class="laptop-screen" style="position:relative;">
+                    ${miniSite()}
+                    <div class="screen-glare"></div>
+                  </div>
+                  <div class="camera-dot"></div>
+                </div>
+              </div>
+              <div class="laptop-base" style="position:relative;">
+                <div class="trackpad-hint"></div>
+                <div class="foot-rubber-l"></div>
+                <div class="foot-rubber-r"></div>
+              </div>
+              <div class="laptop-foot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${ticker()}
+    </div>
+    <div class="divider"></div>
+  `);
+
+  // ── B: HYPER-REAL WIDER ANGLE — more dramatic tilt ──
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="section">
+      <div class="section-label">Option 3B — Tilted Laptop · Steeper Perspective</div>
+      <div class="bg-layer">${arcsBg()}</div>
+      ${nav()}
+      <div class="hero-body">
+        ${heroContent()}
+        <div class="device-side">
+          <div class="laptop-wrap" style="perspective:900px;">
+            <div class="laptop-3d" style="position:relative;transform:rotateY(-28deg) rotateX(6deg);width:480px;filter:drop-shadow(50px 55px 90px rgba(26,16,8,0.4)) drop-shadow(0 20px 40px rgba(26,16,8,0.2));">
+              <div class="screen-glow"></div>
+              <div class="laptop-lid" style="position:relative;">
+                <div class="laptop-bezel">
+                  <div class="laptop-screen" style="position:relative;">
+                    ${miniSite()}
+                    <div class="screen-glare"></div>
+                  </div>
+                  <div class="camera-dot"></div>
+                </div>
+              </div>
+              <div class="laptop-base" style="position:relative;">
+                <div class="trackpad-hint"></div>
+                <div class="foot-rubber-l"></div>
+                <div class="foot-rubber-r"></div>
+              </div>
+              <div class="laptop-foot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${ticker()}
+    </div>
+    <div class="divider"></div>
+  `);
+
+  // ── C: SLIGHT TILT — almost-flat but still 3D, more screen visible ──
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="section">
+      <div class="section-label">Option 3C — Subtle Tilt · More Screen Visible</div>
+      <div class="bg-layer">${arcsBg()}</div>
+      ${nav()}
+      <div class="hero-body">
+        ${heroContent()}
+        <div class="device-side">
+          <div class="laptop-wrap" style="perspective:1600px;">
+            <div class="laptop-3d" style="position:relative;transform:rotateY(-10deg) rotateX(2deg);width:480px;filter:drop-shadow(20px 35px 70px rgba(26,16,8,0.28)) drop-shadow(0 16px 32px rgba(26,16,8,0.16));">
+              <div class="screen-glow"></div>
+              <div class="laptop-lid" style="position:relative;">
+                <div class="laptop-bezel">
+                  <div class="laptop-screen" style="position:relative;">
+                    ${miniSite()}
+                    <div class="screen-glare" style="background:linear-gradient(130deg,rgba(255,255,255,0.12) 0%,rgba(255,255,255,0.04) 35%,transparent 55%,rgba(255,255,255,0.01) 100%);"></div>
+                  </div>
+                  <div class="camera-dot"></div>
+                </div>
+              </div>
+              <div class="laptop-base" style="position:relative;">
+                <div class="trackpad-hint"></div>
+                <div class="foot-rubber-l"></div>
+                <div class="foot-rubber-r"></div>
+              </div>
+              <div class="laptop-foot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${ticker()}
+    </div>
+  `);
+
+});
+</script>
+
+</body>
+</html>

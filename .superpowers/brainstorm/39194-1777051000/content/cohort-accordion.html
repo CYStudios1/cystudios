@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohort Showcase — Accordion Expand</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #F2E4D8; }
+
+  .section { padding: 80px 64px; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .section-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 48px; }
+
+  /* ── Accordion columns ── */
+  .accordion {
+    display: flex;
+    gap: 12px;
+    height: 480px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .accordion-item {
+    flex: 1;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .accordion:hover .accordion-item {
+    flex: 0.6;
+  }
+
+  .accordion:hover .accordion-item:hover {
+    flex: 3;
+  }
+
+  /* Background mockup */
+  .accordion-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(26,16,8,0.06), rgba(26,16,8,0.12));
+    transition: background 0.6s ease;
+  }
+
+  .accordion-item:nth-child(1) .accordion-bg {
+    background: linear-gradient(160deg, #1a1008 0%, #2c2218 40%, #3a2e22 100%);
+  }
+  .accordion-item:nth-child(2) .accordion-bg {
+    background: linear-gradient(160deg, #1e1409 0%, #352a1e 40%, #4a3c2e 100%);
+  }
+  .accordion-item:nth-child(3) .accordion-bg {
+    background: linear-gradient(160deg, #221810 0%, #3e3028 40%, #503e30 100%);
+  }
+
+  /* Mockup screen inside */
+  .accordion-screen {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    aspect-ratio: 16/10;
+    background: #F2E4D8;
+    border-radius: 6px;
+    opacity: 0.9;
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    overflow: hidden;
+  }
+
+  .accordion-item:hover .accordion-screen {
+    opacity: 1;
+  }
+
+  /* Placeholder site content in screen */
+  .mock-site {
+    width: 100%; height: 100%; padding: 12px 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .mock-site-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 6px; border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .mock-site-logo { font-size: 7px; font-weight: 800; color: #1a1008; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mock-site-links { display: flex; gap: 8px; }
+  .mock-site-link { font-size: 4px; font-weight: 500; color: #5a4e44; text-transform: uppercase; letter-spacing: 0.1em; }
+  .mock-site-hero { flex: 1; display: flex; align-items: center; padding: 8px 0; }
+  .mock-site-h1 { font-size: 14px; font-weight: 800; color: #1a1008; line-height: 1.1; }
+  .mock-site-body { font-size: 5px; font-weight: 300; color: #5a4e44; line-height: 1.6; max-width: 60%; margin-top: 6px; }
+  .mock-site-btn { font-size: 4px; font-weight: 700; background: #b83228; color: #fff; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-top: 8px; }
+
+  /* Info overlay */
+  .accordion-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px;
+    background: linear-gradient(to top, rgba(26,16,8,0.9) 0%, rgba(26,16,8,0.6) 60%, transparent 100%);
+    transition: opacity 0.4s ease;
+  }
+
+  .accordion-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #B83228; margin-bottom: 6px;
+  }
+  .accordion-name {
+    font-size: 22px; font-weight: 700; color: #F2E4D8; margin-bottom: 4px;
+    white-space: nowrap;
+  }
+  .accordion-desc {
+    font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.7); line-height: 1.6;
+    max-width: 360px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  }
+  .accordion-item:hover .accordion-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Vertical label when collapsed */
+  .accordion-label-vertical {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    font-size: 14px; font-weight: 700; color: rgba(242,228,216,0.8);
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .accordion-item:hover .accordion-label-vertical {
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="section">
+  <div class="section-label">Spring Cohort</div>
+  <div class="section-headline">Work that speaks<br>for itself.</div>
+
+  <div class="accordion">
+
+    <!-- Burg&Shaw -->
+    <div class="accordion-item">
+      <div class="accordion-bg"></div>
+      <div class="accordion-screen">
+        <div class="mock-site">
+          <div class="mock-site-nav">
+            <div class="mock-site-logo">Burg&Shaw</div>
+            <div class="mock-site-links"><div class="mock-site-link">Services</div><div class="mock-site-link">Book</div><div class="mock-site-link">About</div></div>
+          </div>
+          <div class="mock-site-hero">
+            <div>
+              <div class="mock-site-h1">Premium<br>grooming,<br>redefined.</div>
+              <div class="mock-site-body">A modern barbershop experience built on craft, precision, and attention to detail.</div>
+              <div class="mock-site-btn">Book Now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-label-vertical">Burg&Shaw</div>
+      <div class="accordion-info">
+        <div class="accordion-num">01</div>
+        <div class="accordion-name">Burg&Shaw</div>
+        <div class="accordion-desc">Premium barbershop rebrand & website — a full identity overhaul that matches the quality of their craft.</div>
+      </div>
+    </div>
+
+    <!-- Nakwon Catering -->
+    <div class="accordion-item">
+      <div class="accordion-bg"></div>
+      <div class="accordion-screen">
+        <div class="mock-site">
+          <div class="mock-site-nav">
+            <div class="mock-site-logo">Nakwon</div>
+            <div class="mock-site-links"><div class="mock-site-link">Menu</div><div class="mock-site-link">Catering</div><div class="mock-site-link">Contact</div></div>
+          </div>
+          <div class="mock-site-hero">
+            <div>
+              <div class="mock-site-h1">Authentic<br>Korean<br>catering.</div>
+              <div class="mock-site-body">From family gatherings to corporate events — traditional flavors, modern presentation.</div>
+              <div class="mock-site-btn">View Menu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-label-vertical">Nakwon Catering</div>
+      <div class="accordion-info">
+        <div class="accordion-num">02</div>
+        <div class="accordion-name">Nakwon Catering</div>
+        <div class="accordion-desc">Korean catering service — site & branding that honors tradition while feeling fresh and inviting.</div>
+      </div>
+    </div>
+
+    <!-- PJ Beauty Supply -->
+    <div class="accordion-item">
+      <div class="accordion-bg"></div>
+      <div class="accordion-screen">
+        <div class="mock-site">
+          <div class="mock-site-nav">
+            <div class="mock-site-logo">PJ Beauty</div>
+            <div class="mock-site-links"><div class="mock-site-link">Shop</div><div class="mock-site-link">Brands</div><div class="mock-site-link">About</div></div>
+          </div>
+          <div class="mock-site-hero">
+            <div>
+              <div class="mock-site-h1">Beauty,<br>supplied<br>right.</div>
+              <div class="mock-site-body">Your neighborhood beauty supply — now with a digital presence that matches the in-store experience.</div>
+              <div class="mock-site-btn">Shop Now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-label-vertical">PJ Beauty Supply</div>
+      <div class="accordion-info">
+        <div class="accordion-num">03</div>
+        <div class="accordion-name">PJ Beauty Supply</div>
+        <div class="accordion-desc">Beauty supply e-commerce & digital presence — bringing a local favorite online with style.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

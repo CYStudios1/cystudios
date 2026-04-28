@@ -1,0 +1,195 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400&display=swap');
+
+  .preview-divider { border:none;border-top:1px solid rgba(0,0,0,0.09);margin:28px 0; }
+  .accent-pill {
+    display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.16em;
+    text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:16px;
+    background:#fdf0ed;color:#b83228;
+  }
+  .pricing-grid { display:flex;gap:16px; }
+  .pricing-card { flex:1;border-radius:10px;padding:22px 22px;border:1px solid rgba(0,0,0,0.1);background:rgba(255,255,255,0.45); }
+  .pricing-card.featured { background:#1a1008;border-color:#1a1008; }
+  .block-label {
+    font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+    color:#b83228;margin-bottom:18px;
+  }
+
+  /* ── Plus Jakarta Sans ── */
+  .pj { font-family:'Plus Jakarta Sans',sans-serif; }
+  .pj-nav { font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:32px;align-items:center; }
+  .pj-logo { font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:#1a1008;margin-right:auto; }
+  .pj-headline { font-family:'Plus Jakarta Sans',sans-serif;font-size:60px;font-weight:800;line-height:1.05;letter-spacing:-0.3px;color:#1a1008;margin:0 0 18px; }
+  .pj-sub { font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:300;color:#5a4e44;line-height:1.8;margin-bottom:28px;max-width:480px; }
+  .pj-cta { display:inline-block;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:6px; }
+  .pj-section-head { font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:700;line-height:1.12;color:#1a1008;margin:0 0 12px; }
+  .pj-body { font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.85;max-width:520px; }
+  .pj-tier { font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#aaa;margin-bottom:5px; }
+  .pj-tier.l { color:rgba(255,255,255,0.4); }
+  .pj-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:#1a1008;line-height:1;margin-bottom:3px; }
+  .pj-price.l { color:#fff; }
+  .pj-pdesc { font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:300;color:#999;margin-bottom:14px; }
+  .pj-pdesc.l { color:rgba(255,255,255,0.4); }
+  .pj-feat { font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:400;color:#5a4e44;line-height:2.1; }
+  .pj-feat.l { color:rgba(255,255,255,0.7); }
+  .pj-pop { font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:3px; }
+  .pj-quote { font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:200;line-height:1.55;color:#1a1008;margin-bottom:14px; }
+  .pj-attr { font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;color:#999;letter-spacing:0.04em; }
+
+  /* ── Bricolage Grotesque ── */
+  .bg-nav { font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:32px;align-items:center; }
+  .bg-logo { font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:800;color:#1a1008;margin-right:auto; }
+  .bg-headline { font-family:'Bricolage Grotesque',sans-serif;font-size:60px;font-weight:800;line-height:1.0;letter-spacing:-0.5px;color:#1a1008;margin:0 0 18px; }
+  .bg-sub { font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:300;color:#5a4e44;line-height:1.8;margin-bottom:28px;max-width:480px; }
+  .bg-cta { display:inline-block;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:6px; }
+  .bg-section-head { font-family:'Bricolage Grotesque',sans-serif;font-size:40px;font-weight:700;line-height:1.1;color:#1a1008;margin:0 0 12px; }
+  .bg-body { font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.85;max-width:520px; }
+  .bg-tier { font-family:'Bricolage Grotesque',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#aaa;margin-bottom:5px; }
+  .bg-tier.l { color:rgba(255,255,255,0.4); }
+  .bg-price { font-family:'Bricolage Grotesque',sans-serif;font-size:34px;font-weight:800;color:#1a1008;line-height:1;margin-bottom:3px; }
+  .bg-price.l { color:#fff; }
+  .bg-pdesc { font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:300;color:#999;margin-bottom:14px; }
+  .bg-pdesc.l { color:rgba(255,255,255,0.4); }
+  .bg-feat { font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:400;color:#5a4e44;line-height:2.1; }
+  .bg-feat.l { color:rgba(255,255,255,0.7); }
+  .bg-pop { font-family:'Bricolage Grotesque',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:3px; }
+  .bg-quote { font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:200;line-height:1.55;color:#1a1008;margin-bottom:14px; }
+  .bg-attr { font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:500;color:#999;letter-spacing:0.04em; }
+
+  /* ── Raleway ── */
+  .rw-nav { font-family:'Raleway',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:32px;align-items:center; }
+  .rw-logo { font-family:'Raleway',sans-serif;font-size:17px;font-weight:800;color:#1a1008;margin-right:auto;letter-spacing:0.05em; }
+  .rw-headline { font-family:'Raleway',sans-serif;font-size:60px;font-weight:800;line-height:1.05;letter-spacing:-0.5px;color:#1a1008;margin:0 0 18px; }
+  .rw-sub { font-family:'Raleway',sans-serif;font-size:16px;font-weight:300;color:#5a4e44;line-height:1.8;margin-bottom:28px;max-width:480px;letter-spacing:0.02em; }
+  .rw-cta { display:inline-block;font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:6px; }
+  .rw-section-head { font-family:'Raleway',sans-serif;font-size:40px;font-weight:700;line-height:1.12;color:#1a1008;margin:0 0 12px;letter-spacing:-0.2px; }
+  .rw-body { font-family:'Raleway',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.85;max-width:520px;letter-spacing:0.02em; }
+  .rw-tier { font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;margin-bottom:5px; }
+  .rw-tier.l { color:rgba(255,255,255,0.4); }
+  .rw-price { font-family:'Raleway',sans-serif;font-size:34px;font-weight:800;color:#1a1008;line-height:1;margin-bottom:3px; }
+  .rw-price.l { color:#fff; }
+  .rw-pdesc { font-family:'Raleway',sans-serif;font-size:12px;font-weight:300;color:#999;margin-bottom:14px;letter-spacing:0.04em; }
+  .rw-pdesc.l { color:rgba(255,255,255,0.4); }
+  .rw-feat { font-family:'Raleway',sans-serif;font-size:13px;font-weight:500;color:#5a4e44;line-height:2.1;letter-spacing:0.02em; }
+  .rw-feat.l { color:rgba(255,255,255,0.7); }
+  .rw-pop { font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:3px; }
+  .rw-quote { font-family:'Raleway',sans-serif;font-size:26px;font-weight:200;line-height:1.55;color:#1a1008;margin-bottom:14px;letter-spacing:0.01em; }
+  .rw-attr { font-family:'Raleway',sans-serif;font-size:13px;font-weight:600;color:#999;letter-spacing:0.08em; }
+</style>
+
+<h2>Premium sans-serif with personality</h2>
+<p class="subtitle">Natural proportions, distinctive character — no artificial stretching.</p>
+
+<!-- ══ PLUS JAKARTA SANS ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:44px 52px;margin:20px 0 24px;">
+  <div class="block-label" style="font-family:'Plus Jakarta Sans',sans-serif;">Option Q — Plus Jakarta Sans</div>
+
+  <div class="pj-nav">
+    <span class="pj-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill" style="font-family:'Plus Jakarta Sans',sans-serif;">Now Booking — Summer Cohort</div>
+    <div class="pj-headline">We build brands<br>that actually work.</div>
+    <div class="pj-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="pj-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Plus Jakarta Sans',sans-serif;">Our Services</div>
+    <div class="pj-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div class="pj-body">From your first website to a full growth stack — we design the pieces that move together, built around your business, not a template.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:14px;">Pricing</div>
+    <div class="pricing-grid">
+      <div class="pricing-card"><div class="pj-tier">Starter</div><div class="pj-price">$X,XXX</div><div class="pj-pdesc">one-time</div><div class="pj-feat">✦ Website design</div></div>
+      <div class="pricing-card featured"><div class="pj-pop">★ Most Popular</div><div class="pj-tier l">Growth</div><div class="pj-price l">$X,XXX</div><div class="pj-pdesc l">one-time</div><div class="pj-feat l">✦ Website design<br>✦ Social media</div></div>
+      <div class="pricing-card"><div class="pj-tier">Scale</div><div class="pj-price">$X,XXX</div><div class="pj-pdesc">one-time</div><div class="pj-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div></div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="pj-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="pj-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>
+
+<!-- ══ BRICOLAGE GROTESQUE ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:44px 52px;margin:0 0 24px;">
+  <div class="block-label" style="font-family:'Bricolage Grotesque',sans-serif;">Option R — Bricolage Grotesque</div>
+
+  <div class="bg-nav">
+    <span class="bg-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill" style="font-family:'Bricolage Grotesque',sans-serif;">Now Booking — Summer Cohort</div>
+    <div class="bg-headline">We build brands<br>that actually work.</div>
+    <div class="bg-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="bg-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Bricolage Grotesque',sans-serif;">Our Services</div>
+    <div class="bg-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div class="bg-body">From your first website to a full growth stack — we design the pieces that move together, built around your business, not a template.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Bricolage Grotesque',sans-serif;margin-bottom:14px;">Pricing</div>
+    <div class="pricing-grid">
+      <div class="pricing-card"><div class="bg-tier">Starter</div><div class="bg-price">$X,XXX</div><div class="bg-pdesc">one-time</div><div class="bg-feat">✦ Website design</div></div>
+      <div class="pricing-card featured"><div class="bg-pop">★ Most Popular</div><div class="bg-tier l">Growth</div><div class="bg-price l">$X,XXX</div><div class="bg-pdesc l">one-time</div><div class="bg-feat l">✦ Website design<br>✦ Social media</div></div>
+      <div class="pricing-card"><div class="bg-tier">Scale</div><div class="bg-price">$X,XXX</div><div class="bg-pdesc">one-time</div><div class="bg-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div></div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="bg-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="bg-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>
+
+<!-- ══ RALEWAY ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:44px 52px;margin:0 0 8px;">
+  <div class="block-label" style="font-family:'Raleway',sans-serif;">Option S — Raleway</div>
+
+  <div class="rw-nav">
+    <span class="rw-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill" style="font-family:'Raleway',sans-serif;">Now Booking — Summer Cohort</div>
+    <div class="rw-headline">We build brands<br>that actually work.</div>
+    <div class="rw-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="rw-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Raleway',sans-serif;">Our Services</div>
+    <div class="rw-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div class="rw-body">From your first website to a full growth stack — we design the pieces that move together, built around your business, not a template.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="block-label" style="font-family:'Raleway',sans-serif;margin-bottom:14px;">Pricing</div>
+    <div class="pricing-grid">
+      <div class="pricing-card"><div class="rw-tier">Starter</div><div class="rw-price">$X,XXX</div><div class="rw-pdesc">one-time</div><div class="rw-feat">✦ Website design</div></div>
+      <div class="pricing-card featured"><div class="rw-pop">★ Most Popular</div><div class="rw-tier l">Growth</div><div class="rw-price l">$X,XXX</div><div class="rw-pdesc l">one-time</div><div class="rw-feat l">✦ Website design<br>✦ Social media</div></div>
+      <div class="pricing-card"><div class="rw-tier">Scale</div><div class="rw-price">$X,XXX</div><div class="rw-pdesc">one-time</div><div class="rw-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div></div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="rw-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="rw-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>

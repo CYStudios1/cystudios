@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohort Accordion — Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  /* ── Shared ── */
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+
+  .section-header { background: #F2E4D8; padding: 80px 64px 48px; }
+  .section-header-full { padding: 80px 64px 48px; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .section-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; }
+
+  .spacer { height: 20px; background: #F2E4D8; }
+
+  /* ── Mock site content ── */
+  .mock-site { width: 100%; height: 100%; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .mock-site-nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .mock-site-logo { font-size: 7px; font-weight: 800; color: #1a1008; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mock-site-links { display: flex; gap: 8px; }
+  .mock-site-link { font-size: 4px; font-weight: 500; color: #5a4e44; text-transform: uppercase; letter-spacing: 0.1em; }
+  .mock-site-hero { flex: 1; display: flex; align-items: center; padding: 8px 0; }
+  .mock-site-h1 { font-size: 14px; font-weight: 800; color: #1a1008; line-height: 1.1; }
+  .mock-site-body { font-size: 5px; font-weight: 300; color: #5a4e44; line-height: 1.6; max-width: 60%; margin-top: 6px; }
+  .mock-site-btn { font-size: 4px; font-weight: 700; background: #b83228; color: #fff; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-top: 8px; }
+
+
+  /* ══════════════════════════════════════
+     V1 — Original (with gap, contained)
+     ══════════════════════════════════════ */
+  .v1-wrap { background: #F2E4D8; padding: 0 64px 80px; }
+  .accordion-v1 {
+    display: flex; gap: 12px; height: 480px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .accordion-v1 .acc-item {
+    flex: 1; position: relative; border-radius: 14px; overflow: hidden; cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .accordion-v1:hover .acc-item { flex: 0.6; }
+  .accordion-v1:hover .acc-item:hover { flex: 3; }
+
+  /* ══════════════════════════════════════
+     V2 — No gaps, color strips, contained
+     ══════════════════════════════════════ */
+  .v2-wrap { background: #F2E4D8; padding: 0 64px 80px; }
+  .accordion-v2 {
+    display: flex; gap: 0; height: 480px;
+    max-width: 1100px; margin: 0 auto;
+    border-radius: 16px; overflow: hidden;
+  }
+  .accordion-v2 .acc-item {
+    flex: 1; position: relative; overflow: hidden; cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .accordion-v2 .acc-item + .acc-item {
+    border-left: 1px solid rgba(242,228,216,0.08);
+  }
+  .accordion-v2:hover .acc-item { flex: 0.6; }
+  .accordion-v2:hover .acc-item:hover { flex: 3; }
+
+  /* Color strip accent at top */
+  .acc-color-strip {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 5;
+  }
+  .strip-red { background: #B83228; }
+  .strip-terracotta { background: #D44A28; }
+  .strip-warm { background: #C47A3A; }
+
+  /* ══════════════════════════════════════
+     V3 — Full width, no gaps, edge to edge
+     ══════════════════════════════════════ */
+  .accordion-v3 {
+    display: flex; gap: 0; height: 520px;
+    width: 100%;
+  }
+  .accordion-v3 .acc-item {
+    flex: 1; position: relative; overflow: hidden; cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .accordion-v3 .acc-item + .acc-item {
+    border-left: 1px solid rgba(242,228,216,0.06);
+  }
+  .accordion-v3:hover .acc-item { flex: 0.6; }
+  .accordion-v3:hover .acc-item:hover { flex: 3; }
+
+
+  /* ── Shared accordion internals ── */
+  .acc-bg { position: absolute; inset: 0; transition: background 0.6s ease; }
+  .bg-1 { background: linear-gradient(160deg, #1a1008 0%, #2c2218 40%, #3a2e22 100%); }
+  .bg-2 { background: linear-gradient(160deg, #1e1409 0%, #352a1e 40%, #4a3c2e 100%); }
+  .bg-3 { background: linear-gradient(160deg, #221810 0%, #3e3028 40%, #503e30 100%); }
+
+  .acc-screen {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 80%; max-width: 500px; aspect-ratio: 16/10;
+    background: #F2E4D8; border-radius: 6px; opacity: 0.85;
+    transition: opacity 0.4s ease, width 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    overflow: hidden;
+  }
+  .acc-item:hover .acc-screen { opacity: 1; }
+
+  .acc-info {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
+    background: linear-gradient(to top, rgba(26,16,8,0.92) 0%, rgba(26,16,8,0.6) 60%, transparent 100%);
+  }
+  .acc-num { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 6px; }
+  .acc-name { font-size: 22px; font-weight: 700; color: #F2E4D8; margin-bottom: 4px; white-space: nowrap; }
+  .acc-desc {
+    font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.7); line-height: 1.6;
+    max-width: 360px; opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  }
+  .acc-item:hover .acc-desc { opacity: 1; transform: translateY(0); }
+
+  .acc-label-vert {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
+    font-size: 14px; font-weight: 700; color: rgba(242,228,216,0.8);
+    white-space: nowrap; letter-spacing: 0.08em;
+    transition: opacity 0.3s ease; pointer-events: none;
+  }
+  .acc-item:hover .acc-label-vert { opacity: 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ V1 — Original (with gaps) ═══ -->
+<div class="var-label">
+  <div class="var-num">1</div>
+  <div><div class="var-title">Original — With Gaps</div><div class="var-desc">Rounded cards, 12px gaps between columns, contained width</div></div>
+</div>
+<div class="section-header"><div class="section-label">Spring Cohort</div><div class="section-headline">Work that speaks<br>for itself.</div></div>
+<div class="v1-wrap">
+  <div class="accordion-v1">
+    <div class="acc-item"><div class="acc-bg bg-1"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Burg&Shaw</div><div class="mock-site-links"><div class="mock-site-link">Services</div><div class="mock-site-link">Book</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Premium<br>grooming,<br>redefined.</div><div class="mock-site-body">A modern barbershop experience built on craft and precision.</div><div class="mock-site-btn">Book Now</div></div></div></div></div><div class="acc-label-vert">Burg&Shaw</div><div class="acc-info"><div class="acc-num">01</div><div class="acc-name">Burg&Shaw</div><div class="acc-desc">Premium barbershop rebrand & website — a full identity overhaul that matches their craft.</div></div></div>
+    <div class="acc-item"><div class="acc-bg bg-2"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Nakwon</div><div class="mock-site-links"><div class="mock-site-link">Menu</div><div class="mock-site-link">Catering</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Authentic<br>Korean<br>catering.</div><div class="mock-site-body">From family gatherings to corporate events — traditional flavors, modern presentation.</div><div class="mock-site-btn">View Menu</div></div></div></div></div><div class="acc-label-vert">Nakwon Catering</div><div class="acc-info"><div class="acc-num">02</div><div class="acc-name">Nakwon Catering</div><div class="acc-desc">Korean catering service — site & branding that honors tradition while feeling fresh.</div></div></div>
+    <div class="acc-item"><div class="acc-bg bg-3"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">PJ Beauty</div><div class="mock-site-links"><div class="mock-site-link">Shop</div><div class="mock-site-link">Brands</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Beauty,<br>supplied<br>right.</div><div class="mock-site-body">Your neighborhood beauty supply — now with a digital presence to match.</div><div class="mock-site-btn">Shop Now</div></div></div></div></div><div class="acc-label-vert">PJ Beauty Supply</div><div class="acc-info"><div class="acc-num">03</div><div class="acc-name">PJ Beauty Supply</div><div class="acc-desc">Beauty supply e-commerce & digital presence — bringing a local favorite online.</div></div></div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V2 — No gaps, color strips, contained ═══ -->
+<div class="var-label">
+  <div class="var-num">2</div>
+  <div><div class="var-title">No Gaps — Color Strip Accents</div><div class="var-desc">Seamless columns, thin color strip at top of each panel, contained width with rounded corners</div></div>
+</div>
+<div class="section-header"><div class="section-label">Spring Cohort</div><div class="section-headline">Work that speaks<br>for itself.</div></div>
+<div class="v2-wrap">
+  <div class="accordion-v2">
+    <div class="acc-item"><div class="acc-color-strip strip-red"></div><div class="acc-bg bg-1"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Burg&Shaw</div><div class="mock-site-links"><div class="mock-site-link">Services</div><div class="mock-site-link">Book</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Premium<br>grooming,<br>redefined.</div><div class="mock-site-body">A modern barbershop experience built on craft and precision.</div><div class="mock-site-btn">Book Now</div></div></div></div></div><div class="acc-label-vert">Burg&Shaw</div><div class="acc-info"><div class="acc-num">01</div><div class="acc-name">Burg&Shaw</div><div class="acc-desc">Premium barbershop rebrand & website — a full identity overhaul that matches their craft.</div></div></div>
+    <div class="acc-item"><div class="acc-color-strip strip-terracotta"></div><div class="acc-bg bg-2"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Nakwon</div><div class="mock-site-links"><div class="mock-site-link">Menu</div><div class="mock-site-link">Catering</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Authentic<br>Korean<br>catering.</div><div class="mock-site-body">From family gatherings to corporate events — traditional flavors, modern presentation.</div><div class="mock-site-btn">View Menu</div></div></div></div></div><div class="acc-label-vert">Nakwon Catering</div><div class="acc-info"><div class="acc-num">02</div><div class="acc-name">Nakwon Catering</div><div class="acc-desc">Korean catering service — site & branding that honors tradition while feeling fresh.</div></div></div>
+    <div class="acc-item"><div class="acc-color-strip strip-warm"></div><div class="acc-bg bg-3"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">PJ Beauty</div><div class="mock-site-links"><div class="mock-site-link">Shop</div><div class="mock-site-link">Brands</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Beauty,<br>supplied<br>right.</div><div class="mock-site-body">Your neighborhood beauty supply — now with a digital presence to match.</div><div class="mock-site-btn">Shop Now</div></div></div></div></div><div class="acc-label-vert">PJ Beauty Supply</div><div class="acc-info"><div class="acc-num">03</div><div class="acc-name">PJ Beauty Supply</div><div class="acc-desc">Beauty supply e-commerce & digital presence — bringing a local favorite online.</div></div></div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V3 — Full width, edge to edge ═══ -->
+<div class="var-label">
+  <div class="var-num">3</div>
+  <div><div class="var-title">Full Width — Edge to Edge</div><div class="var-desc">No padding, no gaps, columns stretch from left edge to right edge of the screen</div></div>
+</div>
+<div class="section-header-full" style="background:#F2E4D8;"><div class="section-label">Spring Cohort</div><div class="section-headline">Work that speaks<br>for itself.</div></div>
+<div class="accordion-v3">
+  <div class="acc-item"><div class="acc-color-strip strip-red"></div><div class="acc-bg bg-1"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Burg&Shaw</div><div class="mock-site-links"><div class="mock-site-link">Services</div><div class="mock-site-link">Book</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Premium<br>grooming,<br>redefined.</div><div class="mock-site-body">A modern barbershop experience built on craft and precision.</div><div class="mock-site-btn">Book Now</div></div></div></div></div><div class="acc-label-vert">Burg&Shaw</div><div class="acc-info"><div class="acc-num">01</div><div class="acc-name">Burg&Shaw</div><div class="acc-desc">Premium barbershop rebrand & website — a full identity overhaul that matches their craft.</div></div></div>
+  <div class="acc-item"><div class="acc-color-strip strip-terracotta"></div><div class="acc-bg bg-2"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Nakwon</div><div class="mock-site-links"><div class="mock-site-link">Menu</div><div class="mock-site-link">Catering</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Authentic<br>Korean<br>catering.</div><div class="mock-site-body">From family gatherings to corporate events — traditional flavors, modern presentation.</div><div class="mock-site-btn">View Menu</div></div></div></div></div><div class="acc-label-vert">Nakwon Catering</div><div class="acc-info"><div class="acc-num">02</div><div class="acc-name">Nakwon Catering</div><div class="acc-desc">Korean catering service — site & branding that honors tradition while feeling fresh.</div></div></div>
+  <div class="acc-item"><div class="acc-color-strip strip-warm"></div><div class="acc-bg bg-3"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">PJ Beauty</div><div class="mock-site-links"><div class="mock-site-link">Shop</div><div class="mock-site-link">Brands</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Beauty,<br>supplied<br>right.</div><div class="mock-site-body">Your neighborhood beauty supply — now with a digital presence to match.</div><div class="mock-site-btn">Shop Now</div></div></div></div></div><div class="acc-label-vert">PJ Beauty Supply</div><div class="acc-info"><div class="acc-num">03</div><div class="acc-name">PJ Beauty Supply</div><div class="acc-desc">Beauty supply e-commerce & digital presence — bringing a local favorite online.</div></div></div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Drastic Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: #1a1008; -webkit-font-smoothing: antialiased; }
+
+  .section { min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; background: #F2E4D8; }
+  .divider { height: 4px; background: #1a1008; }
+  .section-label { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 20; background: #1a1008; color: rgba(255,255,255,0.82); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 7px 20px; border-radius: 99px; white-space: nowrap; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0 64px; height: 64px; border-bottom: 1px solid rgba(26,16,8,0.1); background: rgba(242,228,216,0.85); backdrop-filter: blur(12px); position: relative; z-index: 10; }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links span { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; }
+  .nav-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 9px 22px; border-radius: 5px; }
+
+  .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+  .hero-content { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 64px 48px; position: relative; z-index: 10; max-width: 680px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(52px, 6.5vw, 86px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 22px; }
+  .hero-sub { font-size: 16px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 440px; margin-bottom: 36px; }
+  .btn { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 14px 30px; border-radius: 6px; display: inline-block; }
+
+  /* inverted text for dark panel sections */
+  .hero-headline-light { color: #fff; }
+  .hero-sub-light { color: rgba(255,255,255,0.65); }
+  .hero-pill-light { color: rgba(255,200,150,0.9); background: rgba(255,160,80,0.12); border-color: rgba(255,160,80,0.25); }
+  .pill-dot-light { background: rgba(255,180,100,0.9); }
+
+  .ticker { border-top: 1px solid rgba(26,16,8,0.1); background: rgba(26,16,8,0.04); padding: 13px 0; overflow: hidden; white-space: nowrap; position: relative; z-index: 10; }
+  .ticker-light { border-top: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.15); }
+  .ticker-item-light { color: rgba(255,255,255,0.45) !important; }
+  .tdot-light { background: rgba(255,150,80,0.6) !important; }
+  .ticker-track { display: inline-flex; animation: tick 20s linear infinite; }
+  .ticker-item { display: inline-flex; align-items: center; gap: 16px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; padding-right: 40px; }
+  .tdot { width: 4px; height: 4px; background: #b83228; border-radius: 50%; flex-shrink: 0; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ── ORIGINAL ARCS ── */
+  .arcs-svg { position: absolute; bottom: -15%; right: -6%; width: 80%; height: 115%; }
+  .mark { position: absolute; border-radius: 50%; background: #b83228; animation: mpulse 4s ease-in-out infinite; }
+  @keyframes mpulse { 0%,100%{opacity:0.25;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  /* ── VAR 1: BOLD SPLIT PANEL ── */
+  .split-panel { position: absolute; top: 0; right: 0; width: 42%; height: 100%; background: #1a1008; }
+  .split-edge { position: absolute; top: 0; right: 42%; width: 1px; height: 100%; background: rgba(26,16,8,0.15); }
+  .split-inner { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 60px 40px; }
+  .split-tagline { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 40px; }
+  .split-stat { margin-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 36px; }
+  .split-stat:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .split-num { font-family: 'Raleway', sans-serif; font-size: 52px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; }
+  .split-label { font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+  .split-accent { color: #e8622a; }
+
+  /* ── VAR 2: HALFTONE ── */
+  .halftone-svg { position: absolute; top: 0; right: 0; width: 70%; height: 100%; }
+
+  /* ── VAR 3: ISOMETRIC GRID ── */
+  .iso-svg { position: absolute; top: -5%; right: -2%; width: 72%; height: 110%; opacity: 1; }
+
+  /* ── VAR 4: PAINT SPLASH ── */
+  .splash-svg { position: absolute; top: -5%; right: -4%; width: 68%; height: 110%; }
+</style>
+</head>
+<body>
+
+<!-- ══ ORIGINAL ══ -->
+<div class="section">
+  <div class="section-label">Original — Concentric Arcs (your pick)</div>
+  <div class="bg-layer">
+    <svg class="arcs-svg" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle cx="600" cy="350" r="80"  stroke="#1a1008" stroke-width="1" opacity="0.07"/>
+      <circle cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" opacity="0.065"/>
+      <circle cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" opacity="0.06"/>
+      <circle cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" opacity="0.055"/>
+      <circle cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" opacity="0.05"/>
+      <circle cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" opacity="0.045"/>
+      <circle cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" opacity="0.04"/>
+      <circle cx="600" cy="350" r="575" stroke="#1a1008" stroke-width="1" opacity="0.035"/>
+      <circle cx="600" cy="350" r="665" stroke="#b83228" stroke-width="0.75" opacity="0.06"/>
+      <line x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+      <line x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+    </svg>
+    <div class="mark" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+    <div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div>
+    <div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div>
+    <div class="mark" style="width:3px;height:3px;top:72%;left:60%;animation-delay:0.8s"></div>
+    <div class="mark" style="width:5px;height:5px;top:18%;left:78%;animation-delay:1.8s"></div>
+  </div>
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span><span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ VAR 1: BOLD SPLIT PANEL ══ -->
+<div class="section">
+  <div class="section-label">Variation 1 — Bold Split Panel</div>
+  <div class="bg-layer">
+    <div class="split-panel">
+      <div class="split-inner">
+        <div class="split-tagline">By the numbers</div>
+        <div class="split-stat">
+          <div class="split-num">3<span class="split-accent" style="font-size:28px;font-weight:300;"> clients</span></div>
+          <div class="split-label">Spring Cohort — fully booked</div>
+        </div>
+        <div class="split-stat">
+          <div class="split-num">4<span class="split-accent" style="font-size:28px;font-weight:300;"> services</span></div>
+          <div class="split-label">Web · Social · SEO · GenAI</div>
+        </div>
+        <div class="split-stat">
+          <div class="split-num">2<span class="split-accent" style="font-size:28px;font-weight:300;"> founders</span></div>
+          <div class="split-label">David & Colin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav" style="background:rgba(242,228,216,0.92);">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span><span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ VAR 2: HALFTONE ══ -->
+<div class="section">
+  <div class="section-label">Variation 2 — Halftone Screen</div>
+  <div class="bg-layer">
+    <svg class="halftone-svg" viewBox="0 0 560 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <defs>
+        <radialGradient id="hgrad" cx="80%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#1a1008" stop-opacity="0.22"/>
+          <stop offset="60%" stop-color="#1a1008" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#1a1008" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- Halftone dots: vary radius based on distance from center-right -->
+      <!-- Row by row, cols left to right, radius shrinks left -->
+      <g opacity="1">
+        <!-- Generate halftone grid: spacing 28px, center at (480,400) -->
+        <!-- Dots closer to center are larger -->
+        <script type="text/javascript">/* SVG doesn't support JS in this context, using pre-calculated dots */</script>
+        <!-- Pre-drawn halftone rows — dots sized by proximity to right side -->
+        <!-- Far left = tiny (r=0.8), far right = large (r=5.5) -->
+        <!-- I'll draw 20 cols × 28 rows of dots with varying radius -->
+        <!-- Col positions: 0=80, stepping 24px right to 560 -->
+        <!-- Row positions: 0=16, stepping 28px down to 800 -->
+
+        <!-- Columns left→right, radius 0.6 → 5 -->
+        <g fill="#1a1008">
+          <!-- col 0 r=0.7 x=90 -->
+          <circle cx="90" cy="28" r="0.7" opacity="0.12"/><circle cx="90" cy="56" r="0.7" opacity="0.12"/><circle cx="90" cy="84" r="0.7" opacity="0.12"/><circle cx="90" cy="112" r="0.7" opacity="0.12"/><circle cx="90" cy="140" r="0.7" opacity="0.12"/><circle cx="90" cy="168" r="0.7" opacity="0.12"/><circle cx="90" cy="196" r="0.7" opacity="0.12"/><circle cx="90" cy="224" r="0.7" opacity="0.12"/><circle cx="90" cy="252" r="0.7" opacity="0.12"/><circle cx="90" cy="280" r="0.7" opacity="0.12"/><circle cx="90" cy="308" r="0.7" opacity="0.12"/><circle cx="90" cy="336" r="0.7" opacity="0.12"/><circle cx="90" cy="364" r="0.7" opacity="0.12"/><circle cx="90" cy="392" r="0.7" opacity="0.12"/><circle cx="90" cy="420" r="0.7" opacity="0.12"/><circle cx="90" cy="448" r="0.7" opacity="0.12"/><circle cx="90" cy="476" r="0.7" opacity="0.12"/><circle cx="90" cy="504" r="0.7" opacity="0.12"/><circle cx="90" cy="532" r="0.7" opacity="0.12"/><circle cx="90" cy="560" r="0.7" opacity="0.12"/><circle cx="90" cy="588" r="0.7" opacity="0.12"/><circle cx="90" cy="616" r="0.7" opacity="0.12"/><circle cx="90" cy="644" r="0.7" opacity="0.12"/><circle cx="90" cy="672" r="0.7" opacity="0.12"/><circle cx="90" cy="700" r="0.7" opacity="0.12"/><circle cx="90" cy="728" r="0.7" opacity="0.12"/><circle cx="90" cy="756" r="0.7" opacity="0.12"/><circle cx="90" cy="784" r="0.7" opacity="0.12"/>
+          <!-- col 1 r=1 x=118 -->
+          <circle cx="118" cy="28" r="1" opacity="0.13"/><circle cx="118" cy="56" r="1" opacity="0.13"/><circle cx="118" cy="84" r="1" opacity="0.13"/><circle cx="118" cy="112" r="1" opacity="0.13"/><circle cx="118" cy="140" r="1" opacity="0.13"/><circle cx="118" cy="168" r="1" opacity="0.13"/><circle cx="118" cy="196" r="1" opacity="0.13"/><circle cx="118" cy="224" r="1" opacity="0.13"/><circle cx="118" cy="252" r="1" opacity="0.13"/><circle cx="118" cy="280" r="1" opacity="0.13"/><circle cx="118" cy="308" r="1" opacity="0.13"/><circle cx="118" cy="336" r="1" opacity="0.13"/><circle cx="118" cy="364" r="1" opacity="0.13"/><circle cx="118" cy="392" r="1" opacity="0.13"/><circle cx="118" cy="420" r="1" opacity="0.13"/><circle cx="118" cy="448" r="1" opacity="0.13"/><circle cx="118" cy="476" r="1" opacity="0.13"/><circle cx="118" cy="504" r="1" opacity="0.13"/><circle cx="118" cy="532" r="1" opacity="0.13"/><circle cx="118" cy="560" r="1" opacity="0.13"/><circle cx="118" cy="588" r="1" opacity="0.13"/><circle cx="118" cy="616" r="1" opacity="0.13"/><circle cx="118" cy="644" r="1" opacity="0.13"/><circle cx="118" cy="672" r="1" opacity="0.13"/><circle cx="118" cy="700" r="1" opacity="0.13"/><circle cx="118" cy="728" r="1" opacity="0.13"/><circle cx="118" cy="756" r="1" opacity="0.13"/><circle cx="118" cy="784" r="1" opacity="0.13"/>
+          <!-- col 2 r=1.4 x=146 -->
+          <circle cx="146" cy="28" r="1.4" opacity="0.13"/><circle cx="146" cy="56" r="1.4" opacity="0.13"/><circle cx="146" cy="84" r="1.4" opacity="0.13"/><circle cx="146" cy="112" r="1.4" opacity="0.13"/><circle cx="146" cy="140" r="1.4" opacity="0.13"/><circle cx="146" cy="168" r="1.4" opacity="0.13"/><circle cx="146" cy="196" r="1.4" opacity="0.13"/><circle cx="146" cy="224" r="1.4" opacity="0.13"/><circle cx="146" cy="252" r="1.4" opacity="0.13"/><circle cx="146" cy="280" r="1.4" opacity="0.13"/><circle cx="146" cy="308" r="1.4" opacity="0.13"/><circle cx="146" cy="336" r="1.4" opacity="0.13"/><circle cx="146" cy="364" r="1.4" opacity="0.13"/><circle cx="146" cy="392" r="1.4" opacity="0.13"/><circle cx="146" cy="420" r="1.4" opacity="0.13"/><circle cx="146" cy="448" r="1.4" opacity="0.13"/><circle cx="146" cy="476" r="1.4" opacity="0.13"/><circle cx="146" cy="504" r="1.4" opacity="0.13"/><circle cx="146" cy="532" r="1.4" opacity="0.13"/><circle cx="146" cy="560" r="1.4" opacity="0.13"/><circle cx="146" cy="588" r="1.4" opacity="0.13"/><circle cx="146" cy="616" r="1.4" opacity="0.13"/><circle cx="146" cy="644" r="1.4" opacity="0.13"/><circle cx="146" cy="672" r="1.4" opacity="0.13"/><circle cx="146" cy="700" r="1.4" opacity="0.13"/><circle cx="146" cy="728" r="1.4" opacity="0.13"/><circle cx="146" cy="756" r="1.4" opacity="0.13"/><circle cx="146" cy="784" r="1.4" opacity="0.13"/>
+          <!-- col 3 r=1.8 x=174 -->
+          <circle cx="174" cy="28" r="1.8" opacity="0.14"/><circle cx="174" cy="56" r="1.8" opacity="0.14"/><circle cx="174" cy="84" r="1.8" opacity="0.14"/><circle cx="174" cy="112" r="1.8" opacity="0.14"/><circle cx="174" cy="140" r="1.8" opacity="0.14"/><circle cx="174" cy="168" r="1.8" opacity="0.14"/><circle cx="174" cy="196" r="1.8" opacity="0.14"/><circle cx="174" cy="224" r="1.8" opacity="0.14"/><circle cx="174" cy="252" r="1.8" opacity="0.14"/><circle cx="174" cy="280" r="1.8" opacity="0.14"/><circle cx="174" cy="308" r="1.8" opacity="0.14"/><circle cx="174" cy="336" r="1.8" opacity="0.14"/><circle cx="174" cy="364" r="1.8" opacity="0.14"/><circle cx="174" cy="392" r="1.8" opacity="0.14"/><circle cx="174" cy="420" r="1.8" opacity="0.14"/><circle cx="174" cy="448" r="1.8" opacity="0.14"/><circle cx="174" cy="476" r="1.8" opacity="0.14"/><circle cx="174" cy="504" r="1.8" opacity="0.14"/><circle cx="174" cy="532" r="1.8" opacity="0.14"/><circle cx="174" cy="560" r="1.8" opacity="0.14"/><circle cx="174" cy="588" r="1.8" opacity="0.14"/><circle cx="174" cy="616" r="1.8" opacity="0.14"/><circle cx="174" cy="644" r="1.8" opacity="0.14"/><circle cx="174" cy="672" r="1.8" opacity="0.14"/><circle cx="174" cy="700" r="1.8" opacity="0.14"/><circle cx="174" cy="728" r="1.8" opacity="0.14"/><circle cx="174" cy="756" r="1.8" opacity="0.14"/><circle cx="174" cy="784" r="1.8" opacity="0.14"/>
+          <!-- col 4 r=2.3 x=202 -->
+          <circle cx="202" cy="28" r="2.3" opacity="0.14"/><circle cx="202" cy="56" r="2.3" opacity="0.14"/><circle cx="202" cy="84" r="2.3" opacity="0.14"/><circle cx="202" cy="112" r="2.3" opacity="0.14"/><circle cx="202" cy="140" r="2.3" opacity="0.14"/><circle cx="202" cy="168" r="2.3" opacity="0.14"/><circle cx="202" cy="196" r="2.3" opacity="0.14"/><circle cx="202" cy="224" r="2.3" opacity="0.14"/><circle cx="202" cy="252" r="2.3" opacity="0.14"/><circle cx="202" cy="280" r="2.3" opacity="0.14"/><circle cx="202" cy="308" r="2.3" opacity="0.14"/><circle cx="202" cy="336" r="2.3" opacity="0.14"/><circle cx="202" cy="364" r="2.3" opacity="0.14"/><circle cx="202" cy="392" r="2.3" opacity="0.14"/><circle cx="202" cy="420" r="2.3" opacity="0.14"/><circle cx="202" cy="448" r="2.3" opacity="0.14"/><circle cx="202" cy="476" r="2.3" opacity="0.14"/><circle cx="202" cy="504" r="2.3" opacity="0.14"/><circle cx="202" cy="532" r="2.3" opacity="0.14"/><circle cx="202" cy="560" r="2.3" opacity="0.14"/><circle cx="202" cy="588" r="2.3" opacity="0.14"/><circle cx="202" cy="616" r="2.3" opacity="0.14"/><circle cx="202" cy="644" r="2.3" opacity="0.14"/><circle cx="202" cy="672" r="2.3" opacity="0.14"/><circle cx="202" cy="700" r="2.3" opacity="0.14"/><circle cx="202" cy="728" r="2.3" opacity="0.14"/><circle cx="202" cy="756" r="2.3" opacity="0.14"/><circle cx="202" cy="784" r="2.3" opacity="0.14"/>
+          <!-- col 5 r=2.8 x=230 -->
+          <circle cx="230" cy="28" r="2.8" opacity="0.14"/><circle cx="230" cy="56" r="2.8" opacity="0.14"/><circle cx="230" cy="84" r="2.8" opacity="0.14"/><circle cx="230" cy="112" r="2.8" opacity="0.14"/><circle cx="230" cy="140" r="2.8" opacity="0.14"/><circle cx="230" cy="168" r="2.8" opacity="0.14"/><circle cx="230" cy="196" r="2.8" opacity="0.14"/><circle cx="230" cy="224" r="2.8" opacity="0.14"/><circle cx="230" cy="252" r="2.8" opacity="0.14"/><circle cx="230" cy="280" r="2.8" opacity="0.14"/><circle cx="230" cy="308" r="2.8" opacity="0.14"/><circle cx="230" cy="336" r="2.8" opacity="0.14"/><circle cx="230" cy="364" r="2.8" opacity="0.14"/><circle cx="230" cy="392" r="2.8" opacity="0.14"/><circle cx="230" cy="420" r="2.8" opacity="0.14"/><circle cx="230" cy="448" r="2.8" opacity="0.14"/><circle cx="230" cy="476" r="2.8" opacity="0.14"/><circle cx="230" cy="504" r="2.8" opacity="0.14"/><circle cx="230" cy="532" r="2.8" opacity="0.14"/><circle cx="230" cy="560" r="2.8" opacity="0.14"/><circle cx="230" cy="588" r="2.8" opacity="0.14"/><circle cx="230" cy="616" r="2.8" opacity="0.14"/><circle cx="230" cy="644" r="2.8" opacity="0.14"/><circle cx="230" cy="672" r="2.8" opacity="0.14"/><circle cx="230" cy="700" r="2.8" opacity="0.14"/><circle cx="230" cy="728" r="2.8" opacity="0.14"/><circle cx="230" cy="756" r="2.8" opacity="0.14"/><circle cx="230" cy="784" r="2.8" opacity="0.14"/>
+          <!-- col 6 r=3.4 x=258 -->
+          <circle cx="258" cy="28" r="3.4" opacity="0.13"/><circle cx="258" cy="56" r="3.4" opacity="0.13"/><circle cx="258" cy="84" r="3.4" opacity="0.13"/><circle cx="258" cy="112" r="3.4" opacity="0.13"/><circle cx="258" cy="140" r="3.4" opacity="0.13"/><circle cx="258" cy="168" r="3.4" opacity="0.13"/><circle cx="258" cy="196" r="3.4" opacity="0.13"/><circle cx="258" cy="224" r="3.4" opacity="0.13"/><circle cx="258" cy="252" r="3.4" opacity="0.13"/><circle cx="258" cy="280" r="3.4" opacity="0.13"/><circle cx="258" cy="308" r="3.4" opacity="0.13"/><circle cx="258" cy="336" r="3.4" opacity="0.13"/><circle cx="258" cy="364" r="3.4" opacity="0.13"/><circle cx="258" cy="392" r="3.4" opacity="0.13"/><circle cx="258" cy="420" r="3.4" opacity="0.13"/><circle cx="258" cy="448" r="3.4" opacity="0.13"/><circle cx="258" cy="476" r="3.4" opacity="0.13"/><circle cx="258" cy="504" r="3.4" opacity="0.13"/><circle cx="258" cy="532" r="3.4" opacity="0.13"/><circle cx="258" cy="560" r="3.4" opacity="0.13"/><circle cx="258" cy="588" r="3.4" opacity="0.13"/><circle cx="258" cy="616" r="3.4" opacity="0.13"/><circle cx="258" cy="644" r="3.4" opacity="0.13"/><circle cx="258" cy="672" r="3.4" opacity="0.13"/><circle cx="258" cy="700" r="3.4" opacity="0.13"/><circle cx="258" cy="728" r="3.4" opacity="0.13"/><circle cx="258" cy="756" r="3.4" opacity="0.13"/><circle cx="258" cy="784" r="3.4" opacity="0.13"/>
+          <!-- col 7 r=4 x=286 -->
+          <circle cx="286" cy="28" r="4" opacity="0.12"/><circle cx="286" cy="56" r="4" opacity="0.12"/><circle cx="286" cy="84" r="4" opacity="0.12"/><circle cx="286" cy="112" r="4" opacity="0.12"/><circle cx="286" cy="140" r="4" opacity="0.12"/><circle cx="286" cy="168" r="4" opacity="0.12"/><circle cx="286" cy="196" r="4" opacity="0.12"/><circle cx="286" cy="224" r="4" opacity="0.12"/><circle cx="286" cy="252" r="4" opacity="0.12"/><circle cx="286" cy="280" r="4" opacity="0.12"/><circle cx="286" cy="308" r="4" opacity="0.12"/><circle cx="286" cy="336" r="4" opacity="0.12"/><circle cx="286" cy="364" r="4" opacity="0.12"/><circle cx="286" cy="392" r="4" opacity="0.12"/><circle cx="286" cy="420" r="4" opacity="0.12"/><circle cx="286" cy="448" r="4" opacity="0.12"/><circle cx="286" cy="476" r="4" opacity="0.12"/><circle cx="286" cy="504" r="4" opacity="0.12"/><circle cx="286" cy="532" r="4" opacity="0.12"/><circle cx="286" cy="560" r="4" opacity="0.12"/><circle cx="286" cy="588" r="4" opacity="0.12"/><circle cx="286" cy="616" r="4" opacity="0.12"/><circle cx="286" cy="644" r="4" opacity="0.12"/><circle cx="286" cy="672" r="4" opacity="0.12"/><circle cx="286" cy="700" r="4" opacity="0.12"/><circle cx="286" cy="728" r="4" opacity="0.12"/><circle cx="286" cy="756" r="4" opacity="0.12"/><circle cx="286" cy="784" r="4" opacity="0.12"/>
+          <!-- col 8 r=5 x=314 -->
+          <circle cx="314" cy="28" r="5" opacity="0.11"/><circle cx="314" cy="56" r="5" opacity="0.11"/><circle cx="314" cy="84" r="5" opacity="0.11"/><circle cx="314" cy="112" r="5" opacity="0.11"/><circle cx="314" cy="140" r="5" opacity="0.11"/><circle cx="314" cy="168" r="5" opacity="0.11"/><circle cx="314" cy="196" r="5" opacity="0.11"/><circle cx="314" cy="224" r="5" opacity="0.11"/><circle cx="314" cy="252" r="5" opacity="0.11"/><circle cx="314" cy="280" r="5" opacity="0.11"/><circle cx="314" cy="308" r="5" opacity="0.11"/><circle cx="314" cy="336" r="5" opacity="0.11"/><circle cx="314" cy="364" r="5" opacity="0.11"/><circle cx="314" cy="392" r="5" opacity="0.11"/><circle cx="314" cy="420" r="5" opacity="0.11"/><circle cx="314" cy="448" r="5" opacity="0.11"/><circle cx="314" cy="476" r="5" opacity="0.11"/><circle cx="314" cy="504" r="5" opacity="0.11"/><circle cx="314" cy="532" r="5" opacity="0.11"/><circle cx="314" cy="560" r="5" opacity="0.11"/><circle cx="314" cy="588" r="5" opacity="0.11"/><circle cx="314" cy="616" r="5" opacity="0.11"/><circle cx="314" cy="644" r="5" opacity="0.11"/><circle cx="314" cy="672" r="5" opacity="0.11"/><circle cx="314" cy="700" r="5" opacity="0.11"/><circle cx="314" cy="728" r="5" opacity="0.11"/><circle cx="314" cy="756" r="5" opacity="0.11"/><circle cx="314" cy="784" r="5" opacity="0.11"/>
+          <!-- col 9 r=6 x=342 -->
+          <circle cx="342" cy="28" r="6" opacity="0.10"/><circle cx="342" cy="56" r="6" opacity="0.10"/><circle cx="342" cy="84" r="6" opacity="0.10"/><circle cx="342" cy="112" r="6" opacity="0.10"/><circle cx="342" cy="140" r="6" opacity="0.10"/><circle cx="342" cy="168" r="6" opacity="0.10"/><circle cx="342" cy="196" r="6" opacity="0.10"/><circle cx="342" cy="224" r="6" opacity="0.10"/><circle cx="342" cy="252" r="6" opacity="0.10"/><circle cx="342" cy="280" r="6" opacity="0.10"/><circle cx="342" cy="308" r="6" opacity="0.10"/><circle cx="342" cy="336" r="6" opacity="0.10"/><circle cx="342" cy="364" r="6" opacity="0.10"/><circle cx="342" cy="392" r="6" opacity="0.10"/><circle cx="342" cy="420" r="6" opacity="0.10"/><circle cx="342" cy="448" r="6" opacity="0.10"/><circle cx="342" cy="476" r="6" opacity="0.10"/><circle cx="342" cy="504" r="6" opacity="0.10"/><circle cx="342" cy="532" r="6" opacity="0.10"/><circle cx="342" cy="560" r="6" opacity="0.10"/><circle cx="342" cy="588" r="6" opacity="0.10"/><circle cx="342" cy="616" r="6" opacity="0.10"/><circle cx="342" cy="644" r="6" opacity="0.10"/><circle cx="342" cy="672" r="6" opacity="0.10"/><circle cx="342" cy="700" r="6" opacity="0.10"/><circle cx="342" cy="728" r="6" opacity="0.10"/><circle cx="342" cy="756" r="6" opacity="0.10"/><circle cx="342" cy="784" r="6" opacity="0.10"/>
+          <!-- accent dots in red -->
+          <circle cx="258" cy="392" r="4" fill="#b83228" opacity="0.28"/>
+          <circle cx="314" cy="280" r="3" fill="#b83228" opacity="0.2"/>
+          <circle cx="342" cy="504" r="4.5" fill="#b83228" opacity="0.18"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span><span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ VAR 3: ISOMETRIC GRID ══ -->
+<div class="section">
+  <div class="section-label">Variation 3 — Isometric Grid</div>
+  <div class="bg-layer">
+    <svg class="iso-svg" viewBox="0 0 700 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <defs>
+        <linearGradient id="isoFade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-opacity="0" stop-color="#F2E4D8"/>
+          <stop offset="35%" stop-opacity="0" stop-color="#F2E4D8"/>
+          <stop offset="100%" stop-opacity="1" stop-color="#F2E4D8"/>
+        </linearGradient>
+      </defs>
+      <!-- Isometric lines going right-down -->
+      <g opacity="0.085" stroke="#1a1008" stroke-width="0.8">
+        <!-- Right-leaning diagonals (↘) -->
+        <line x1="0" y1="0" x2="700" y2="404"/>
+        <line x1="0" y1="70" x2="700" y2="474"/>
+        <line x1="0" y1="140" x2="700" y2="544"/>
+        <line x1="0" y1="210" x2="700" y2="614"/>
+        <line x1="0" y1="280" x2="700" y2="684"/>
+        <line x1="0" y1="350" x2="700" y2="754"/>
+        <line x1="0" y1="420" x2="700" y2="824"/>
+        <line x1="0" y1="490" x2="700" y2="894"/>
+        <line x1="0" y1="560" x2="700" y2="964"/>
+        <line x1="0" y1="630" x2="700" y2="1034"/>
+        <line x1="0" y1="700" x2="700" y2="1104"/>
+        <line x1="0" y1="770" x2="700" y2="1174"/>
+        <!-- Left-leaning diagonals (↙) -->
+        <line x1="0" y1="0" x2="700" y2="-404"/>
+        <line x1="0" y1="70" x2="700" y2="-334"/>
+        <line x1="0" y1="140" x2="700" y2="-264"/>
+        <line x1="0" y1="210" x2="700" y2="-194"/>
+        <line x1="0" y1="280" x2="700" y2="-124"/>
+        <line x1="0" y1="350" x2="700" y2="-54"/>
+        <line x1="0" y1="420" x2="700" y2="16"/>
+        <line x1="0" y1="490" x2="700" y2="86"/>
+        <line x1="0" y1="560" x2="700" y2="156"/>
+        <line x1="0" y1="630" x2="700" y2="226"/>
+        <line x1="0" y1="700" x2="700" y2="296"/>
+        <line x1="0" y1="770" x2="700" y2="366"/>
+        <line x1="0" y1="840" x2="700" y2="436"/>
+        <line x1="70" y1="800" x2="700" y2="436"/>
+        <line x1="140" y1="800" x2="700" y2="458"/>
+        <!-- Vertical lines -->
+        <line x1="100" y1="0" x2="100" y2="800"/>
+        <line x1="200" y1="0" x2="200" y2="800"/>
+        <line x1="300" y1="0" x2="300" y2="800"/>
+        <line x1="400" y1="0" x2="400" y2="800"/>
+        <line x1="500" y1="0" x2="500" y2="800"/>
+        <line x1="600" y1="0" x2="600" y2="800"/>
+        <line x1="700" y1="0" x2="700" y2="800"/>
+      </g>
+      <!-- Accent highlight node -->
+      <circle cx="500" cy="350" r="5" fill="#b83228" opacity="0.25"/>
+      <circle cx="500" cy="350" r="12" stroke="#b83228" stroke-width="0.75" opacity="0.15" fill="none"/>
+      <circle cx="600" cy="280" r="3.5" fill="#b83228" opacity="0.18"/>
+      <circle cx="400" cy="490" r="3" fill="#b83228" opacity="0.15"/>
+      <!-- Fade overlay -->
+      <rect x="0" y="0" width="700" height="800" fill="url(#isoFade)"/>
+    </svg>
+  </div>
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span><span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ VAR 4: ABSTRACT PAINT SPLASH ══ -->
+<div class="section">
+  <div class="section-label">Variation 4 — Abstract Paint Splash</div>
+  <div class="bg-layer">
+    <svg class="splash-svg" viewBox="0 0 700 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <defs>
+        <linearGradient id="splashFade" x1="0%" y1="0%" x2="40%" y2="0%">
+          <stop offset="0%" stop-color="#F2E4D8" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#F2E4D8" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="blur1" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2"/>
+        </filter>
+      </defs>
+      <!-- Main large organic blob — terracotta/dark -->
+      <path d="M 420 80 C 520 40 660 100 690 220 C 720 340 640 420 600 500 C 560 580 540 680 460 720 C 380 760 280 740 240 680 C 200 620 220 520 260 440 C 300 360 280 260 320 200 C 360 140 380 110 420 80 Z" fill="#1a1008" opacity="0.055" filter="url(#blur1)"/>
+      <!-- Secondary smaller blob — accent red -->
+      <path d="M 540 200 C 590 170 640 200 650 260 C 660 320 620 370 570 360 C 520 350 500 300 510 250 C 518 215 530 212 540 200 Z" fill="#b83228" opacity="0.09" filter="url(#blur1)"/>
+      <!-- Tertiary blob — warm tone -->
+      <path d="M 350 550 C 400 520 460 540 480 590 C 500 640 470 690 420 700 C 370 710 330 680 320 640 C 310 600 320 568 350 550 Z" fill="#c45c2e" opacity="0.07" filter="url(#blur1)"/>
+      <!-- Fine brushstroke lines -->
+      <path d="M 300 300 Q 420 280 500 320 Q 580 360 560 420" stroke="#1a1008" stroke-width="1.5" opacity="0.08" fill="none" stroke-linecap="round"/>
+      <path d="M 380 480 Q 460 460 520 500 Q 570 530 550 570" stroke="#1a1008" stroke-width="1" opacity="0.07" fill="none" stroke-linecap="round"/>
+      <path d="M 440 160 Q 510 140 560 180" stroke="#b83228" stroke-width="1.2" opacity="0.14" fill="none" stroke-linecap="round"/>
+      <!-- Small ink dots -->
+      <circle cx="480" cy="320" r="2.5" fill="#1a1008" opacity="0.18"/>
+      <circle cx="420" cy="460" r="2" fill="#1a1008" opacity="0.14"/>
+      <circle cx="560" cy="240" r="3" fill="#b83228" opacity="0.22"/>
+      <circle cx="380" cy="600" r="2" fill="#b83228" opacity="0.16"/>
+      <!-- Fade left edge -->
+      <rect x="0" y="0" width="700" height="800" fill="url(#splashFade)"/>
+    </svg>
+  </div>
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span><span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span><span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span><span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+  </div></div>
+</div>
+
+</body>
+</html>

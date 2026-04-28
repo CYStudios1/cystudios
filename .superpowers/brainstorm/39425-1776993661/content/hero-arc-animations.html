@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Arc Animations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: #1a1008; -webkit-font-smoothing: antialiased; }
+
+  .section { min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; background: #F2E4D8; }
+  .divider { height: 4px; background: #1a1008; }
+
+  .section-label { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 20; background: #1a1008; color: rgba(255,255,255,0.8); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 7px 20px; border-radius: 99px; white-space: nowrap; }
+
+  /* NAV */
+  .nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 64px; height: 64px; border-bottom: 1px solid rgba(26,16,8,0.1); background: rgba(242,228,216,0.7); backdrop-filter: blur(8px); }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links span { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; }
+  .nav-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 9px 22px; border-radius: 5px; }
+
+  /* HERO CONTENT */
+  .hero-content { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 64px 48px; position: relative; z-index: 10; max-width: 680px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 24px; }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(48px, 6vw, 80px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 400px; margin-bottom: 32px; }
+  .btn { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 13px 28px; border-radius: 6px; display: inline-block; }
+
+  .ticker { position: relative; z-index: 10; border-top: 1px solid rgba(26,16,8,0.1); background: rgba(26,16,8,0.04); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-track { display: inline-flex; animation: tick 20s linear infinite; }
+  .ticker-item { display: inline-flex; align-items: center; gap: 16px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; padding-right: 40px; }
+  .tdot { width: 4px; height: 4px; background: #b83228; border-radius: 50%; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ARC SVG base */
+  .arc-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .arc-svg { position: absolute; bottom: -15%; right: -6%; width: 80%; height: 115%; }
+
+  /* ══════════════════════════
+     A — DRAW-ON
+  ══════════════════════════ */
+  .draw-circle {
+    fill: none;
+    stroke: #1a1008;
+    stroke-width: 1;
+  }
+
+  /* Each circle gets its own circumference set via inline style */
+  .draw-circle { stroke-dashoffset: var(--c); stroke-dasharray: var(--c); animation: draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
+
+  @keyframes draw {
+    0%   { stroke-dashoffset: var(--c); opacity: 0.06; }
+    100% { stroke-dashoffset: 0; opacity: 0.06; }
+  }
+
+  .draw-accent { fill: none; stroke: #b83228; stroke-width: 0.75; stroke-dasharray: var(--c); stroke-dashoffset: var(--c); animation: draw 1.2s cubic-bezier(0.4,0,0.2,1) forwards; opacity: 0; }
+  @keyframes draw { 0%{stroke-dashoffset:var(--c);opacity:0} 10%{opacity:0.07} 100%{stroke-dashoffset:0;opacity:0.07} }
+
+  .crosshair-line { stroke: #b83228; stroke-width: 0.75; opacity: 0; animation: fadein 0.4s ease forwards; }
+  .crosshair-dot { fill: #b83228; opacity: 0; animation: fadein 0.4s ease forwards; }
+  @keyframes fadein { to { opacity: 0.22; } }
+
+  /* Draw-on dots */
+  .draw-dot { position: absolute; border-radius: 50%; background: #b83228; opacity: 0; animation: dotappear 0.5s ease forwards; }
+  @keyframes dotappear { to { opacity: 0.35; } }
+
+
+  /* ══════════════════════════
+     B — PULSE / BREATHE
+  ══════════════════════════ */
+  .pulse-ring {
+    fill: none;
+    stroke: #1a1008;
+    stroke-width: 1;
+  }
+
+  /* Sonar pulse: extra rings that expand + fade */
+  .sonar-ring {
+    fill: none;
+    stroke: #b83228;
+    stroke-width: 0.8;
+    transform-origin: 600px 350px;
+    transform-box: fill-box;
+  }
+
+  @keyframes sonar1 { 0%{r:60;opacity:0.18} 100%{r:700;opacity:0} }
+  @keyframes sonar2 { 0%{r:60;opacity:0.14} 100%{r:700;opacity:0} }
+  @keyframes sonar3 { 0%{r:60;opacity:0.1} 100%{r:700;opacity:0} }
+
+  .pulse-dot { position: absolute; border-radius: 50%; background: #b83228; animation: breathedot 3s ease-in-out infinite; }
+  @keyframes breathedot { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.55;transform:scale(1.5)} }
+
+  /* Static rings for pulse option */
+  .static-ring { fill: none; stroke: #1a1008; stroke-width: 1; }
+
+
+  /* ══════════════════════════
+     C — SLOW ROTATION
+  ══════════════════════════ */
+  .rotate-group {
+    transform-origin: 600px 350px;
+    animation: slowspin 60s linear infinite;
+  }
+  @keyframes slowspin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  .rotate-ring { fill: none; stroke: #1a1008; stroke-width: 1; }
+  .rotate-accent-ring { fill: none; stroke: #b83228; stroke-width: 0.75; }
+
+  /* dashed for rotation effect */
+  .rotate-ring-dashed { fill: none; stroke: #1a1008; stroke-width: 0.75; stroke-dasharray: 4 12; }
+
+  .rot-dot { position: absolute; border-radius: 50%; background: #b83228; opacity: 0.3; }
+
+
+  /* ══════════════════════════
+     D — STAGGER REVEAL
+  ══════════════════════════ */
+  .stagger-ring {
+    fill: none;
+    stroke: #1a1008;
+    stroke-width: 1;
+    opacity: 0;
+    animation: stagfade 0.6s ease forwards;
+  }
+  .stagger-accent { fill: none; stroke: #b83228; stroke-width: 0.75; opacity: 0; animation: stagfade 0.6s ease forwards; }
+  @keyframes stagfade { to { opacity: 0.06; } }
+
+  .stag-dot { position: absolute; border-radius: 50%; background: #b83228; opacity: 0; animation: dotpop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+  @keyframes dotpop { 0%{opacity:0;transform:scale(0)} 100%{opacity:0.35;transform:scale(1)} }
+
+  .stag-crosshair { opacity: 0; animation: stagfade 0.5s ease forwards; }
+  @keyframes stagfade { to { opacity: 0.22; } }
+</style>
+</head>
+<body>
+
+<!-- ══ A: DRAW-ON ══ -->
+<div class="section">
+  <div class="section-label">A — Draw-On (rings trace in on load)</div>
+
+  <div class="arc-wrap">
+    <svg class="arc-svg" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <!-- r=80, C≈502 -->
+      <circle cx="600" cy="350" r="80"  class="draw-circle" style="--c:502px" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="502" stroke-dashoffset="502" opacity="0" style="animation:draw 0.8s 0.1s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="140" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="879" stroke-dashoffset="879" opacity="0" style="animation:draw 0.9s 0.25s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="200" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="1257" stroke-dashoffset="1257" opacity="0" style="animation:draw 1.0s 0.4s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="265" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="1665" stroke-dashoffset="1665" opacity="0" style="animation:draw 1.1s 0.55s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="335" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="2105" stroke-dashoffset="2105" opacity="0" style="animation:draw 1.15s 0.7s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="410" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="2576" stroke-dashoffset="2576" opacity="0" style="animation:draw 1.2s 0.85s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="490" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="3079" stroke-dashoffset="3079" opacity="0" style="animation:draw 1.25s 1.0s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="575" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="3613" stroke-dashoffset="3613" opacity="0" style="animation:draw 1.3s 1.15s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <circle cx="600" cy="350" r="665" fill="none" stroke="#b83228" stroke-width="0.75" stroke-dasharray="4178" stroke-dashoffset="4178" opacity="0" style="animation:draw 1.35s 1.3s cubic-bezier(0.4,0,0.2,1) forwards"/>
+      <line x1="578" y1="350" x2="622" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0" style="animation:fadein 0.5s 1.6s ease forwards"/>
+      <line x1="600" y1="328" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0" style="animation:fadein 0.5s 1.6s ease forwards"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0" style="animation:fadein 0.5s 1.65s ease forwards"/>
+    </svg>
+    <div class="draw-dot" style="width:5px;height:5px;top:28%;left:68%;animation-delay:1.8s"></div>
+    <div class="draw-dot" style="width:4px;height:4px;top:62%;left:82%;animation-delay:2.0s"></div>
+    <div class="draw-dot" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.2s"></div>
+    <div class="draw-dot" style="width:3px;height:3px;top:72%;left:60%;animation-delay:2.4s"></div>
+    <div class="draw-dot" style="width:5px;height:5px;top:18%;left:78%;animation-delay:2.6s"></div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ B: PULSE / BREATHE ══ -->
+<div class="section">
+  <div class="section-label">B — Pulse / Breathe (sonar ping on loop)</div>
+
+  <div class="arc-wrap">
+    <svg class="arc-svg" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <!-- Static rings -->
+      <circle cx="600" cy="350" r="80"  fill="none" stroke="#1a1008" stroke-width="1" opacity="0.06"/>
+      <circle cx="600" cy="350" r="140" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.055"/>
+      <circle cx="600" cy="350" r="200" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.05"/>
+      <circle cx="600" cy="350" r="265" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.048"/>
+      <circle cx="600" cy="350" r="335" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.044"/>
+      <circle cx="600" cy="350" r="410" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.04"/>
+      <circle cx="600" cy="350" r="490" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.036"/>
+      <circle cx="600" cy="350" r="575" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.032"/>
+      <circle cx="600" cy="350" r="665" fill="none" stroke="#b83228" stroke-width="0.75" opacity="0.055"/>
+      <!-- Sonar pings -->
+      <circle cx="600" cy="350" r="60" fill="none" stroke="#b83228" stroke-width="1.2" opacity="0">
+        <animate attributeName="r" from="60" to="700" dur="4s" repeatCount="indefinite" begin="0s"/>
+        <animate attributeName="opacity" from="0.22" to="0" dur="4s" repeatCount="indefinite" begin="0s"/>
+      </circle>
+      <circle cx="600" cy="350" r="60" fill="none" stroke="#b83228" stroke-width="1.2" opacity="0">
+        <animate attributeName="r" from="60" to="700" dur="4s" repeatCount="indefinite" begin="1.33s"/>
+        <animate attributeName="opacity" from="0.16" to="0" dur="4s" repeatCount="indefinite" begin="1.33s"/>
+      </circle>
+      <circle cx="600" cy="350" r="60" fill="none" stroke="#b83228" stroke-width="1.2" opacity="0">
+        <animate attributeName="r" from="60" to="700" dur="4s" repeatCount="indefinite" begin="2.66s"/>
+        <animate attributeName="opacity" from="0.1" to="0" dur="4s" repeatCount="indefinite" begin="2.66s"/>
+      </circle>
+      <!-- Crosshair -->
+      <line x1="578" y1="350" x2="622" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0.2"/>
+      <line x1="600" y1="328" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0.2"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.25">
+        <animate attributeName="opacity" values="0.25;0.6;0.25" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="4;6;4" dur="4s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+    <div class="pulse-dot" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+    <div class="pulse-dot" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1s"></div>
+    <div class="pulse-dot" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2s"></div>
+    <div class="pulse-dot" style="width:3px;height:3px;top:72%;left:60%;animation-delay:0.5s"></div>
+    <div class="pulse-dot" style="width:5px;height:5px;top:18%;left:78%;animation-delay:1.5s"></div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ C: SLOW ROTATION ══ -->
+<div class="section">
+  <div class="section-label">C — Slow Rotation (imperceptible spin)</div>
+
+  <div class="arc-wrap">
+    <svg class="arc-svg" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <g style="transform-origin:600px 350px;animation:slowspin 80s linear infinite">
+        <circle cx="600" cy="350" r="80"  fill="none" stroke="#1a1008" stroke-width="1" opacity="0.06"/>
+        <circle cx="600" cy="350" r="140" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="16 8" opacity="0.055"/>
+        <circle cx="600" cy="350" r="200" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.05"/>
+        <circle cx="600" cy="350" r="265" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="20 10" opacity="0.048"/>
+        <circle cx="600" cy="350" r="335" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.044"/>
+        <circle cx="600" cy="350" r="410" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="24 12" opacity="0.04"/>
+        <circle cx="600" cy="350" r="490" fill="none" stroke="#1a1008" stroke-width="1" opacity="0.036"/>
+        <circle cx="600" cy="350" r="575" fill="none" stroke="#1a1008" stroke-width="1" stroke-dasharray="28 14" opacity="0.032"/>
+        <circle cx="600" cy="350" r="665" fill="none" stroke="#b83228" stroke-width="0.75" opacity="0.06"/>
+        <!-- Tick marks at compass points -->
+        <line x1="600" y1="265" x2="600" y2="253" stroke="#b83228" stroke-width="1" opacity="0.2"/>
+        <line x1="600" y1="447" x2="600" y2="459" stroke="#b83228" stroke-width="1" opacity="0.2"/>
+        <line x1="515" y1="350" x2="503" y2="350" stroke="#b83228" stroke-width="1" opacity="0.2"/>
+        <line x1="685" y1="350" x2="697" y2="350" stroke="#b83228" stroke-width="1" opacity="0.2"/>
+      </g>
+      <!-- Crosshair stays fixed -->
+      <line x1="578" y1="350" x2="622" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0.2"/>
+      <line x1="600" y1="328" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0.2"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.25"/>
+    </svg>
+    <div class="rot-dot" style="width:5px;height:5px;top:28%;left:68%"></div>
+    <div class="rot-dot" style="width:4px;height:4px;top:62%;left:82%"></div>
+    <div class="rot-dot" style="width:6px;height:6px;top:44%;left:74%"></div>
+    <div class="rot-dot" style="width:3px;height:3px;top:72%;left:60%"></div>
+    <div class="rot-dot" style="width:5px;height:5px;top:18%;left:78%"></div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+  </div></div>
+</div>
+<div class="divider"></div>
+
+<!-- ══ D: STAGGER REVEAL ══ -->
+<div class="section">
+  <div class="section-label">D — Stagger Reveal (center out, then dots pop in)</div>
+
+  <div class="arc-wrap">
+    <svg class="arc-svg" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle cx="600" cy="350" r="80"  fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.1s ease forwards"/>
+      <circle cx="600" cy="350" r="140" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.25s ease forwards"/>
+      <circle cx="600" cy="350" r="200" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.4s ease forwards"/>
+      <circle cx="600" cy="350" r="265" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.55s ease forwards"/>
+      <circle cx="600" cy="350" r="335" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.7s ease forwards"/>
+      <circle cx="600" cy="350" r="410" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 0.85s ease forwards"/>
+      <circle cx="600" cy="350" r="490" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 1.0s ease forwards"/>
+      <circle cx="600" cy="350" r="575" fill="none" stroke="#1a1008" stroke-width="1" opacity="0" style="animation:stagfade 0.5s 1.15s ease forwards"/>
+      <circle cx="600" cy="350" r="665" fill="none" stroke="#b83228" stroke-width="0.75" opacity="0" style="animation:stagfade 0.5s 1.3s ease forwards"/>
+      <line x1="578" y1="350" x2="622" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0" style="animation:crossfade 0.4s 1.5s ease forwards"/>
+      <line x1="600" y1="328" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0" style="animation:crossfade 0.4s 1.5s ease forwards"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0" style="animation:crossfade 0.4s 1.55s ease forwards"/>
+    </svg>
+    <div class="stag-dot" style="width:5px;height:5px;top:28%;left:68%;animation-delay:1.7s"></div>
+    <div class="stag-dot" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.9s"></div>
+    <div class="stag-dot" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.1s"></div>
+    <div class="stag-dot" style="width:3px;height:3px;top:72%;left:60%;animation-delay:2.3s"></div>
+    <div class="stag-dot" style="width:5px;height:5px;top:18%;left:78%;animation-delay:2.5s"></div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+    <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+    <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+    <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI</span>
+  </div></div>
+</div>
+
+<style>
+  @keyframes draw { 0%{stroke-dashoffset:var(--c,9999);opacity:0} 5%{opacity:0.06} 100%{stroke-dashoffset:0;opacity:0.06} }
+  @keyframes fadein { to{opacity:0.22} }
+  @keyframes slowspin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes stagfade { to{opacity:0.055} }
+  @keyframes crossfade { to{opacity:0.22} }
+  @keyframes dotpop { 0%{opacity:0;transform:scale(0)} 100%{opacity:0.35;transform:scale(1)} }
+</style>
+
+</body>
+</html>

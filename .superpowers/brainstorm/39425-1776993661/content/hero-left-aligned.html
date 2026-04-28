@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Left Aligned Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: 'Raleway', sans-serif; background: #1a1008; -webkit-font-smoothing: antialiased; }
+
+  .preview-section { min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .section-label {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 20;
+    background: #1a1008; color: rgba(255,255,255,0.7); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; padding: 7px 18px; border-radius: 99px; white-space: nowrap;
+  }
+
+  /* NAV */
+  .nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 64px; height: 64px; border-bottom: 1px solid rgba(26,16,8,0.1); }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links span { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; }
+  .nav-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 9px 22px; border-radius: 5px; }
+
+  /* HERO CONTENT — LEFT ALIGNED */
+  .hero-content {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+    padding: 80px 64px 64px;
+    position: relative; z-index: 10;
+    max-width: 760px;
+  }
+
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2);
+    padding: 6px 16px; border-radius: 99px; margin-bottom: 28px;
+  }
+  .hero-pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-headline {
+    font-size: clamp(52px, 6.5vw, 86px); font-weight: 800; line-height: 1.02;
+    color: #1a1008; margin-bottom: 22px;
+  }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; color: #5a4e44; line-height: 1.85;
+    max-width: 440px; margin-bottom: 36px;
+  }
+  .hero-btns { display: flex; gap: 14px; align-items: center; }
+  .btn-primary { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 14px 30px; border-radius: 6px; }
+  .btn-ghost { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4e44; }
+
+  /* TICKER */
+  .ticker { position: relative; z-index: 10; border-top: 1px solid rgba(26,16,8,0.1); background: rgba(26,16,8,0.04); padding: 13px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-track { display: inline-flex; animation: tick 20s linear infinite; }
+  .ticker-item { display: inline-flex; align-items: center; gap: 16px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; padding-right: 40px; }
+  .ticker-dot { width: 4px; height: 4px; background: #b83228; border-radius: 50%; flex-shrink: 0; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  .divider-bar { height: 4px; background: #1a1008; width: 100%; }
+
+  /* ── OPTION B: Gradient mesh ── */
+  .bg-b { background: #F2E4D8; }
+  .mesh-canvas { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55; mix-blend-mode: multiply; }
+  .blob-1 { width: 600px; height: 600px; background: #D4704A; top: -120px; left: -100px; animation: float1 14s ease-in-out infinite; }
+  .blob-2 { width: 500px; height: 500px; background: #E8A87C; top: 100px; right: -80px; animation: float2 18s ease-in-out infinite; }
+  .blob-3 { width: 400px; height: 400px; background: #C45C2E; bottom: -80px; left: 40%; animation: float3 16s ease-in-out infinite; }
+  .blob-4 { width: 300px; height: 300px; background: #F0C4A0; top: 40%; left: 30%; animation: float4 12s ease-in-out infinite; }
+  @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(60px,40px) scale(1.05)} 66%{transform:translate(-30px,60px) scale(0.95)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-50px,30px) scale(1.08)} 66%{transform:translate(40px,-40px) scale(0.97)} }
+  @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,-50px) scale(1.1)} }
+  @keyframes float4 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-60px)} }
+  .grain { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
+
+  /* ── OPTION C: Typographic ── */
+  .bg-c { background: #F2E4D8; }
+  .typo-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; display: flex; align-items: center; justify-content: flex-end; padding-right: 40px; }
+  .typo-bg-text { font-size: clamp(180px, 24vw, 320px); font-weight: 800; color: #1a1008; opacity: 0.042; letter-spacing: -0.02em; line-height: 0.9; user-select: none; text-align: right; }
+</style>
+</head>
+<body>
+
+  <!-- ══ OPTION B — Left aligned ══ -->
+  <div class="preview-section bg-b">
+    <div class="section-label">Option B — Gradient Mesh · Left Aligned</div>
+
+    <div class="mesh-canvas">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="nav">
+      <div class="nav-logo">CY Studios</div>
+      <div class="nav-links">
+        <span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span>
+      </div>
+      <div class="nav-cta">Book a Call</div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-pill"><span class="hero-pill-dot"></span>Now Booking — Summer Cohort</div>
+      <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+      <div class="hero-btns">
+        <div class="btn-primary">Apply for Summer Cohort →</div>
+        <div class="btn-ghost">See our work ↓</div>
+      </div>
+    </div>
+
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">Spring Cohort <span class="ticker-dot"></span> Fully Booked</span>
+        <span class="ticker-item">Summer Cohort <span class="ticker-dot"></span> Now Booking</span>
+        <span class="ticker-item">Website Design <span class="ticker-dot"></span> Social Media <span class="ticker-dot"></span> SEO <span class="ticker-dot"></span> GenAI Marketing</span>
+        <span class="ticker-item">Spring Cohort <span class="ticker-dot"></span> Fully Booked</span>
+        <span class="ticker-item">Summer Cohort <span class="ticker-dot"></span> Now Booking</span>
+        <span class="ticker-item">Website Design <span class="ticker-dot"></span> Social Media <span class="ticker-dot"></span> SEO <span class="ticker-dot"></span> GenAI Marketing</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-bar"></div>
+
+  <!-- ══ OPTION C — Left aligned ══ -->
+  <div class="preview-section bg-c">
+    <div class="section-label">Option C — Typographic · Left Aligned</div>
+
+    <div class="typo-bg">
+      <div class="typo-bg-text">CY<br>ST<br>UD<br>IO<br>S</div>
+    </div>
+
+    <div class="nav">
+      <div class="nav-logo">CY Studios</div>
+      <div class="nav-links">
+        <span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span>
+      </div>
+      <div class="nav-cta">Book a Call</div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-pill"><span class="hero-pill-dot"></span>Now Booking — Summer Cohort</div>
+      <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+      <div class="hero-btns">
+        <div class="btn-primary">Apply for Summer Cohort →</div>
+        <div class="btn-ghost">See our work ↓</div>
+      </div>
+    </div>
+
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">Spring Cohort <span class="ticker-dot"></span> Fully Booked</span>
+        <span class="ticker-item">Summer Cohort <span class="ticker-dot"></span> Now Booking</span>
+        <span class="ticker-item">Website Design <span class="ticker-dot"></span> Social Media <span class="ticker-dot"></span> SEO <span class="ticker-dot"></span> GenAI Marketing</span>
+        <span class="ticker-item">Spring Cohort <span class="ticker-dot"></span> Fully Booked</span>
+        <span class="ticker-item">Summer Cohort <span class="ticker-dot"></span> Now Booking</span>
+        <span class="ticker-item">Website Design <span class="ticker-dot"></span> Social Media <span class="ticker-dot"></span> SEO <span class="ticker-dot"></span> GenAI Marketing</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

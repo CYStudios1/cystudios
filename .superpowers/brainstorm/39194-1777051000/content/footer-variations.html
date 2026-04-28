@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer — 3 Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+  .spacer { height: 20px; background: #F2E4D8; }
+
+  .btn { font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 30px; border-radius: 6px; display: inline-block; cursor: pointer; border: none; color: #fff; background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%); background-size: 200% 100%; background-position: 100% 0; box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18); transition: background-position 0.6s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.4s cubic-bezier(0.25,0.1,0.25,1), transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42); }
+  .btn-sm { font-size: 11px; padding: 9px 22px; border-radius: 5px; }
+  .btn-outline-light { background: transparent; color: #F2E4D8; border: 1.5px solid rgba(242,228,216,0.2); box-shadow: none; }
+  .btn-outline-light:hover { border-color: #B83228; color: #B83228; background: rgba(184,50,40,0.1); box-shadow: none; transform: translateY(-2px); }
+
+
+  /* ══════════════════════════════════════
+     V1 — Dark, CTA banner + four columns
+     ══════════════════════════════════════ */
+  .f1 { background: #F2E4D8; }
+  .f1-cta-banner {
+    padding: 64px 64px; border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .f1-cta-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+  }
+  .f1-cta-text { font-size: 32px; font-weight: 700; color: #1A1008; line-height: 1.2; }
+  .f1-cta-sub { font-size: 15px; font-weight: 300; color: #5A4E44; margin-top: 8px; }
+  .f1-cols {
+    max-width: 1100px; margin: 0 auto; padding: 56px 0;
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px;
+  }
+  .f1-brand { }
+  .f1-logo { font-size: 18px; font-weight: 800; color: #1A1008; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 16px; }
+  .f1-brand-text { font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.7; max-width: 260px; }
+  .f1-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .f1-col-links { display: flex; flex-direction: column; gap: 12px; }
+  .f1-col-link { font-size: 13px; font-weight: 400; color: #5A4E44; text-decoration: none; transition: color 0.2s ease; }
+  .f1-col-link:hover { color: #1A1008; }
+  .f1-bottom {
+    max-width: 1100px; margin: 0 auto; padding: 24px 0;
+    border-top: 1px solid rgba(26,16,8,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .f1-copy { font-size: 12px; font-weight: 400; color: rgba(26,16,8,0.35); }
+  .f1-socials { display: flex; gap: 16px; }
+  .f1-social { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(26,16,8,0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #5A4E44; transition: border-color 0.2s ease, color 0.2s ease; }
+  .f1-social:hover { border-color: #B83228; color: #B83228; }
+
+
+  /* ══════════════════════════════════════
+     V2 — Minimal, centered
+     ══════════════════════════════════════ */
+  .f2 { background: #1a1008; padding: 80px 64px 40px; }
+  .f2-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+  .f2-logo { font-size: 24px; font-weight: 800; color: #F2E4D8; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 20px; }
+  .f2-tagline { font-size: 15px; font-weight: 300; color: rgba(242,228,216,0.5); line-height: 1.7; margin-bottom: 32px; }
+  .f2-links { display: flex; justify-content: center; gap: 36px; margin-bottom: 32px; }
+  .f2-link { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(242,228,216,0.6); text-decoration: none; transition: color 0.2s ease; }
+  .f2-link:hover { color: #F2E4D8; }
+  .f2-cta { margin-bottom: 48px; }
+  .f2-divider { width: 40px; height: 1px; background: rgba(242,228,216,0.1); margin: 0 auto 24px; }
+  .f2-bottom { display: flex; justify-content: center; align-items: center; gap: 24px; }
+  .f2-copy { font-size: 12px; font-weight: 400; color: rgba(242,228,216,0.3); }
+  .f2-dot { width: 3px; height: 3px; background: rgba(242,228,216,0.15); border-radius: 50%; }
+  .f2-email { font-size: 12px; font-weight: 400; color: rgba(242,228,216,0.3); text-decoration: none; }
+  .f2-email:hover { color: #B83228; }
+
+
+  /* ══════════════════════════════════════
+     V3 — Split: big CTA left, links right
+     ══════════════════════════════════════ */
+  .f3 { background: #1a1008; padding: 80px 64px 40px; }
+  .f3-inner { max-width: 1100px; margin: 0 auto; }
+  .f3-top {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+    padding-bottom: 56px; border-bottom: 1px solid rgba(242,228,216,0.06);
+  }
+  .f3-left {}
+  .f3-logo { font-size: 18px; font-weight: 800; color: #F2E4D8; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 24px; }
+  .f3-headline { font-size: 32px; font-weight: 700; color: #F2E4D8; line-height: 1.2; margin-bottom: 12px; }
+  .f3-sub { font-size: 15px; font-weight: 300; color: rgba(242,228,216,0.5); line-height: 1.7; margin-bottom: 28px; }
+  .f3-right { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding-top: 8px; }
+  .f3-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .f3-col-links { display: flex; flex-direction: column; gap: 14px; }
+  .f3-col-link { font-size: 13px; font-weight: 400; color: rgba(242,228,216,0.6); text-decoration: none; transition: color 0.2s ease; }
+  .f3-col-link:hover { color: #F2E4D8; }
+  .f3-bottom {
+    padding: 24px 0; display: flex; justify-content: space-between; align-items: center;
+  }
+  .f3-copy { font-size: 12px; font-weight: 400; color: rgba(242,228,216,0.3); }
+  .f3-socials { display: flex; gap: 16px; }
+  .f3-social { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(242,228,216,0.12); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: rgba(242,228,216,0.5); transition: border-color 0.2s ease, color 0.2s ease; }
+  .f3-social:hover { border-color: #B83228; color: #B83228; }
+</style>
+</head>
+<body>
+
+<!-- ═══ V1 — CTA Banner + Four Columns ═══ -->
+<div class="var-label"><div class="var-num">1</div><div><div class="var-title">CTA Banner + Four Columns</div><div class="var-desc">Big CTA strip at top, then logo + three link columns below, social icons in bottom bar</div></div></div>
+<div class="f1">
+  <div class="f1-cta-banner"><div class="f1-cta-inner">
+    <div><div class="f1-cta-text">Ready to build something intentional?</div><div class="f1-cta-sub">Book a free consultation — no pressure, just a conversation about your brand.</div></div>
+    <button class="btn">Book a Consultation →</button>
+  </div></div>
+  <div class="f1-cols">
+    <div class="f1-brand">
+      <div class="f1-logo">CY Studios</div>
+      <div class="f1-brand-text">A boutique creative agency building brands with intention — one cohort at a time.</div>
+    </div>
+    <div>
+      <div class="f1-col-title">Navigate</div>
+      <div class="f1-col-links">
+        <a href="#" class="f1-col-link">Services</a>
+        <a href="#" class="f1-col-link">About</a>
+        <a href="#" class="f1-col-link">Cohorts</a>
+        <a href="#" class="f1-col-link">Pricing</a>
+        <a href="#" class="f1-col-link">FAQ</a>
+      </div>
+    </div>
+    <div>
+      <div class="f1-col-title">Services</div>
+      <div class="f1-col-links">
+        <a href="#" class="f1-col-link">Website Design</a>
+        <a href="#" class="f1-col-link">Social Media</a>
+        <a href="#" class="f1-col-link">SEO</a>
+        <a href="#" class="f1-col-link">GenAI Marketing</a>
+      </div>
+    </div>
+    <div>
+      <div class="f1-col-title">Contact</div>
+      <div class="f1-col-links">
+        <a href="#" class="f1-col-link">design@cy-studios.com</a>
+        <a href="#" class="f1-col-link">Instagram</a>
+        <a href="#" class="f1-col-link">LinkedIn</a>
+        <a href="#" class="f1-col-link">Twitter / X</a>
+      </div>
+    </div>
+  </div>
+  <div class="f1-bottom">
+    <div class="f1-copy">© 2026 CY Studios. All rights reserved.</div>
+    <div class="f1-socials">
+      <div class="f1-social">IG</div>
+      <div class="f1-social">LI</div>
+      <div class="f1-social">X</div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V2 — Minimal Centered ═══ -->
+<div class="var-label"><div class="var-num">2</div><div><div class="var-title">Minimal Centered</div><div class="var-desc">Everything centered — logo, tagline, nav links, CTA, then copyright. Clean and simple.</div></div></div>
+<div class="f2">
+  <div class="f2-inner">
+    <div class="f2-logo">CY Studios</div>
+    <div class="f2-tagline">A boutique creative agency building brands with intention — one cohort at a time.</div>
+    <div class="f2-links">
+      <a href="#" class="f2-link">Services</a>
+      <a href="#" class="f2-link">About</a>
+      <a href="#" class="f2-link">Cohorts</a>
+      <a href="#" class="f2-link">Pricing</a>
+      <a href="#" class="f2-link">FAQ</a>
+    </div>
+    <div class="f2-cta"><button class="btn">Book a Consultation →</button></div>
+    <div class="f2-divider"></div>
+    <div class="f2-bottom">
+      <div class="f2-copy">© 2026 CY Studios</div>
+      <div class="f2-dot"></div>
+      <a href="mailto:design@cy-studios.com" class="f2-email">design@cy-studios.com</a>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V3 — Split: Big CTA Left, Links Right ═══ -->
+<div class="var-label"><div class="var-num">3</div><div><div class="var-title">Split — CTA Left, Links Right</div><div class="var-desc">Logo + headline + CTA on the left, two link columns on the right, social icons in bottom bar</div></div></div>
+<div class="f3">
+  <div class="f3-inner">
+    <div class="f3-top">
+      <div class="f3-left">
+        <div class="f3-logo">CY Studios</div>
+        <div class="f3-headline">Let's build something<br>worth talking about.</div>
+        <div class="f3-sub">Book a free consultation — no pressure, just a conversation about your brand.</div>
+        <button class="btn">Book a Consultation →</button>
+      </div>
+      <div class="f3-right">
+        <div>
+          <div class="f3-col-title">Navigate</div>
+          <div class="f3-col-links">
+            <a href="#" class="f3-col-link">Services</a>
+            <a href="#" class="f3-col-link">About</a>
+            <a href="#" class="f3-col-link">Cohorts</a>
+            <a href="#" class="f3-col-link">Pricing</a>
+            <a href="#" class="f3-col-link">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div class="f3-col-title">Contact</div>
+          <div class="f3-col-links">
+            <a href="#" class="f3-col-link">design@cy-studios.com</a>
+            <a href="#" class="f3-col-link">Instagram</a>
+            <a href="#" class="f3-col-link">LinkedIn</a>
+            <a href="#" class="f3-col-link">Twitter / X</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="f3-bottom">
+      <div class="f3-copy">© 2026 CY Studios. All rights reserved.</div>
+      <div class="f3-socials">
+        <div class="f3-social">IG</div>
+        <div class="f3-social">LI</div>
+        <div class="f3-social">X</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>

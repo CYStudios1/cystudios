@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Number Font Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&family=DM+Sans:wght@900&family=Inter:wght@900&family=Outfit:wght@900&family=Space+Grotesk:wght@700&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #F2E4D8; padding: 60px 64px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto; }
+  .option {
+    background: #EDD9C8; border-radius: 14px; padding: 40px 32px;
+    border: 2px solid rgba(26,16,8,0.06); cursor: pointer;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .option:hover { border-color: rgba(184,50,40,0.3); transform: translateY(-3px); }
+  .option-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 8px; }
+  .option-font { font-size: 12px; font-weight: 400; color: #5A4E44; margin-bottom: 20px; }
+  .option-prices { display: flex; gap: 32px; align-items: baseline; }
+  .option-tier { text-align: center; }
+  .option-tier-name { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5A4E44; margin-bottom: 6px; }
+  .option-price { font-size: 36px; font-weight: 900; color: #1A1008; line-height: 1; }
+  .option-period { font-size: 11px; font-weight: 400; color: #5A4E44; margin-top: 4px; }
+
+  .current { border-color: rgba(26,16,8,0.15); }
+  .current .option-label { color: #5A4E44; }
+
+  h2 { font-size: 32px; font-weight: 700; color: #1A1008; margin-bottom: 8px; grid-column: 1 / -1; }
+  .subtitle { font-size: 15px; font-weight: 300; color: #5A4E44; margin-bottom: 32px; grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+<div class="grid">
+  <h2>Pricing Number Font</h2>
+  <p class="subtitle">Same layout, different fonts for the price numbers only. Which feels most minimal?</p>
+
+  <!-- Current: Raleway -->
+  <div class="option current">
+    <div class="option-label">Current</div>
+    <div class="option-font">Raleway 900</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'Raleway',sans-serif;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'Raleway',sans-serif;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'Raleway',sans-serif;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+  <!-- A: Inter -->
+  <div class="option">
+    <div class="option-label">A</div>
+    <div class="option-font">Inter 900 — clean, neutral, geometric</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'Inter',sans-serif;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'Inter',sans-serif;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'Inter',sans-serif;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+  <!-- B: DM Sans -->
+  <div class="option">
+    <div class="option-label">B</div>
+    <div class="option-font">DM Sans 900 — sharp, modern, slightly geometric</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'DM Sans',sans-serif;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'DM Sans',sans-serif;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'DM Sans',sans-serif;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+  <!-- C: Space Grotesk -->
+  <div class="option">
+    <div class="option-label">C</div>
+    <div class="option-font">Space Grotesk 700 — technical, monospaced feel</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'Space Grotesk',sans-serif; font-weight:700;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'Space Grotesk',sans-serif; font-weight:700;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'Space Grotesk',sans-serif; font-weight:700;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+  <!-- D: Outfit -->
+  <div class="option">
+    <div class="option-label">D</div>
+    <div class="option-font">Outfit 900 — geometric, minimal, clean curves</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'Outfit',sans-serif;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'Outfit',sans-serif;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'Outfit',sans-serif;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+  <!-- E: Manrope -->
+  <div class="option">
+    <div class="option-label">E</div>
+    <div class="option-font">Manrope 800 — minimal, tight, slightly squared</div>
+    <div class="option-prices">
+      <div class="option-tier"><div class="option-tier-name">Standard</div><div class="option-price" style="font-family:'Manrope',sans-serif; font-weight:800;">$2,500</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Growth</div><div class="option-price" style="font-family:'Manrope',sans-serif; font-weight:800;">$5,000</div><div class="option-period">/project</div></div>
+      <div class="option-tier"><div class="option-tier-name">Scale</div><div class="option-price" style="font-family:'Manrope',sans-serif; font-weight:800;">$8,500</div><div class="option-period">/project</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

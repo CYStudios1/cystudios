@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Section — Three Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  /* ── Shared logo ticker (context strip) ── */
+  .logo-section {
+    background: #F2E4D8;
+    padding: 48px 0;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid rgba(26,16,8,0.07);
+  }
+  .logo-section::before,
+  .logo-section::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 10; pointer-events: none;
+  }
+  .logo-section::before { left: 0; background: linear-gradient(to right, #F2E4D8, transparent); }
+  .logo-section::after  { right: 0; background: linear-gradient(to left, #F2E4D8, transparent); }
+  .logo-track {
+    display: inline-flex; align-items: center; gap: 100px;
+    animation: logoScroll 28s linear infinite; white-space: nowrap;
+  }
+  @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.45; flex-shrink: 0; }
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; }
+  .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: #1a1008; }
+  .logo-b-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; }
+  .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1008; }
+  .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid #1a1008; display: flex; align-items: center; justify-content: center; }
+  .logo-d-inner { width: 12px; height: 12px; background: #1a1008; border-radius: 50%; }
+  .logo-d-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+
+  /* ── Direction label ── */
+  .direction-label {
+    background: #1a1008; color: #F2E4D8;
+    padding: 32px 64px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .direction-letter {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 2px solid #B83228; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #B83228;
+  }
+  .direction-title { font-size: 18px; font-weight: 700; }
+  .direction-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.6); margin-left: 8px; }
+
+  /* ── About sections ── */
+  .about {
+    background: #F2E4D8;
+    padding: 80px 64px;
+    max-width: 100%;
+  }
+  .about-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .about-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #B83228; margin-bottom: 20px;
+  }
+  .about-headline {
+    font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12;
+    margin-bottom: 24px;
+  }
+  .about-body {
+    font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8;
+    max-width: 520px;
+  }
+
+  /* ── A: Founders ── */
+  .founders-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .founder-cards {
+    display: flex; gap: 24px;
+  }
+  .founder-card {
+    flex: 1; background: #EDD9C8; border-radius: 14px; padding: 32px 24px;
+    text-align: center; border: 1px solid rgba(26,16,8,0.06);
+  }
+  .founder-photo {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(26,16,8,0.08), rgba(26,16,8,0.14));
+    margin: 0 auto 16px; position: relative; overflow: hidden;
+  }
+  .founder-photo::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid rgba(26,16,8,0.06);
+  }
+  .founder-name {
+    font-size: 18px; font-weight: 700; color: #1A1008; margin-bottom: 4px;
+  }
+  .founder-role {
+    font-size: 13px; font-weight: 400; color: #5A4E44; margin-bottom: 12px;
+  }
+  .founder-bio {
+    font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.7;
+  }
+
+  /* ── B: Philosophy ── */
+  .philosophy-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+  }
+  .philosophy-points {
+    display: flex; flex-direction: column; gap: 32px; padding-top: 8px;
+  }
+  .phil-point {
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .phil-number {
+    min-width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid rgba(26,16,8,0.12); display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0;
+  }
+  .phil-text h3 {
+    font-size: 18px; font-weight: 600; color: #1A1008; margin-bottom: 4px;
+  }
+  .phil-text p {
+    font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7;
+  }
+  .phil-founders {
+    margin-top: 32px; padding-top: 24px;
+    border-top: 1px solid rgba(26,16,8,0.08);
+    font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7;
+  }
+  .phil-founders strong { font-weight: 600; color: #1A1008; }
+
+  /* ── C: Value Prop ── */
+  .value-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+  }
+  .service-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .service-card {
+    background: #EDD9C8; border-radius: 12px; padding: 24px;
+    border: 1px solid rgba(26,16,8,0.06);
+  }
+  .service-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(184,50,40,0.1); margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: #B83228; font-size: 16px; font-weight: 800;
+  }
+  .service-card h3 {
+    font-size: 15px; font-weight: 600; color: #1A1008; margin-bottom: 6px;
+  }
+  .service-card p {
+    font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.6;
+  }
+  .stat-row {
+    display: flex; gap: 40px; margin-top: 32px; padding-top: 24px;
+    border-top: 1px solid rgba(26,16,8,0.08);
+  }
+  .stat-num {
+    font-size: 36px; font-weight: 800; color: #B83228; line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; font-weight: 400; color: #5A4E44; margin-top: 4px;
+  }
+
+  /* ── Spacer ── */
+  .spacer { height: 20px; background: #F2E4D8; }
+  .divider { height: 60px; background: #1a1008; display: flex; align-items: center; justify-content: center; }
+  .divider-line { width: 40px; height: 1px; background: rgba(242,228,216,0.15); }
+</style>
+</head>
+<body>
+
+<!-- ═══════ DIRECTION A — THE FOUNDERS ═══════ -->
+<div class="direction-label">
+  <div class="direction-letter">A</div>
+  <div>
+    <div class="direction-title">The Founders</div>
+    <div class="direction-desc">Personal and human — David & Colin front and center</div>
+  </div>
+</div>
+
+<div class="logo-section">
+  <div style="overflow:hidden;">
+    <div class="logo-track">
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="founders-grid">
+      <div>
+        <div class="about-label">Who We Are</div>
+        <div class="about-headline">Two designers who<br>got tired of the<br>agency grind.</div>
+        <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+      </div>
+      <div class="founder-cards">
+        <div class="founder-card">
+          <div class="founder-photo"></div>
+          <div class="founder-name">David</div>
+          <div class="founder-role">Design & Strategy</div>
+          <div class="founder-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-photo"></div>
+          <div class="founder-name">Colin</div>
+          <div class="founder-role">Development & Growth</div>
+          <div class="founder-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ DIRECTION B — THE PHILOSOPHY ═══════ -->
+<div class="direction-label">
+  <div class="direction-letter">B</div>
+  <div>
+    <div class="direction-title">The Philosophy</div>
+    <div class="direction-desc">Leads with how you work — the cohort model and intentional process</div>
+  </div>
+</div>
+
+<div class="logo-section">
+  <div style="overflow:hidden;">
+    <div class="logo-track" style="animation-delay: -5s;">
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="philosophy-grid">
+      <div>
+        <div class="about-label">Our Approach</div>
+        <div class="about-headline">Small batches.<br>Big attention.</div>
+        <div class="about-body">Most agencies juggle dozens of clients at once. We take three per cohort — because great brands aren't built on divided attention.</div>
+        <div class="phil-founders">Founded by <strong>David</strong> (design & strategy) and <strong>Colin</strong> (development & growth) — two creatives who believe the best work comes from focus, not volume.</div>
+      </div>
+      <div class="philosophy-points">
+        <div class="phil-point">
+          <div class="phil-number">3</div>
+          <div class="phil-text">
+            <h3>Clients per cohort</h3>
+            <p>So nobody gets lost in the shuffle. Your project isn't one of forty — it's one of three.</p>
+          </div>
+        </div>
+        <div class="phil-point">
+          <div class="phil-number">1</div>
+          <div class="phil-text">
+            <h3>Focus at a time</h3>
+            <p>Your project gets our full creative energy. No context-switching, no half-attention.</p>
+          </div>
+        </div>
+        <div class="phil-point">
+          <div class="phil-number">∞</div>
+          <div class="phil-text">
+            <h3>Intention in every detail</h3>
+            <p>Nothing ships until it feels right. We sweat the details so your brand doesn't have to.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ DIRECTION C — THE VALUE PROPOSITION ═══════ -->
+<div class="direction-label">
+  <div class="direction-letter">C</div>
+  <div>
+    <div class="direction-title">The Value Proposition</div>
+    <div class="direction-desc">Leads with services and stats — practical "why hire us"</div>
+  </div>
+</div>
+
+<div class="logo-section">
+  <div style="overflow:hidden;">
+    <div class="logo-track" style="animation-delay: -10s;">
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+      <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+      <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+      <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+      <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="value-grid">
+      <div>
+        <div class="about-label">Full-Service Creative</div>
+        <div class="about-headline">Everything your<br>brand needs.<br>One studio.</div>
+        <div class="about-body">From your website to your social presence to your search rankings — we handle the full picture so your brand shows up consistently everywhere it matters.</div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-num">3</div>
+            <div class="stat-label">Clients per cohort</div>
+          </div>
+          <div>
+            <div class="stat-num">4</div>
+            <div class="stat-label">Core services</div>
+          </div>
+          <div>
+            <div class="stat-num">1</div>
+            <div class="stat-label">Dedicated team</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon">W</div>
+          <h3>Website Design</h3>
+          <p>Custom sites built with intention — no templates, no shortcuts.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">S</div>
+          <h3>Social Media</h3>
+          <p>Content strategy and management that builds real community.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">↑</div>
+          <h3>SEO</h3>
+          <p>Search visibility that compounds — technical + content optimization.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">AI</div>
+          <h3>GenAI Marketing</h3>
+          <p>AI-powered content and workflows that scale your reach.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+</body>
+</html>

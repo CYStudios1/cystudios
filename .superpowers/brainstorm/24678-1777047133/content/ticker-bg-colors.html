@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Ticker BG Colors</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .section-label {
+    text-align: center;
+    padding: 20px 0 0;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    background: #1a1008;
+  }
+
+  /* Hero stub */
+  .hero-stub {
+    height: 64px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 64px; border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .hero-stub-logo { font-size: 16px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+  .hero-stub-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: #b83228; color: #fff; padding: 9px 22px; border-radius: 5px; }
+
+  /* Ticker */
+  .ticker-section {
+    padding: 44px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-section::before,
+  .ticker-section::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 10; pointer-events: none;
+  }
+  .ticker-section::before { left: 0; }
+  .ticker-section::after  { right: 0; }
+
+  .logo-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 100px;
+    animation: logoScroll 28s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes logoScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-25%); }
+  }
+
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.55; flex-shrink: 0; transition: opacity 0.3s; }
+  .logo-item:hover { opacity: 0.9; }
+
+  /* Logo shapes — color set via CSS var --logo-color */
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--logo-color); }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; }
+  .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: var(--logo-color); }
+  .logo-b-text { font-size: 18px; font-weight: 700; color: var(--logo-color); }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; }
+  .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--logo-color); }
+  .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--logo-color); }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid var(--logo-color); display: flex; align-items: center; justify-content: center; }
+  .logo-d-inner { width: 12px; height: 12px; background: var(--logo-color); border-radius: 50%; }
+  .logo-d-text { font-size: 18px; font-weight: 700; color: var(--logo-color); }
+
+  /* Below stub */
+  .below-stub { height: 80px; display: flex; align-items: center; justify-content: center; border-top: 1px solid rgba(0,0,0,0.06); }
+  .below-hint { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.25; }
+
+  .divider { height: 3px; background: #1a1008; }
+</style>
+</head>
+<body>
+
+<script>
+const set = (logoColor) => `
+  <div class="logo-item"><div class="logo-a" style="color:${logoColor}">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark" style="background:${logoColor}"></div><div class="logo-b-text" style="color:${logoColor}">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top" style="color:${logoColor}">The</div><div class="logo-c-bot" style="color:${logoColor}">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark" style="border-color:${logoColor}"><div class="logo-d-inner" style="background:${logoColor}"></div></div><div class="logo-d-text" style="color:${logoColor}">Venture</div></div></div>
+`;
+
+const configs = [
+  {
+    id: 'current',
+    label: 'Current — Warm Terracotta (same as hero)',
+    bg: '#F2E4D8',
+    logoBorder: 'rgba(26,16,8,0.07)',
+    fadeTo: '#F2E4D8',
+    heroBg: '#F2E4D8',
+    heroColor: '#1a1008',
+    belowBg: '#F2E4D8',
+    belowColor: '#1a1008',
+    logoColor: '#1a1008',
+  },
+  {
+    id: 'ink',
+    label: 'Option 1 — Deep Ink (dark, high contrast)',
+    bg: '#1a1008',
+    logoBorder: 'rgba(255,255,255,0.08)',
+    fadeTo: '#1a1008',
+    heroBg: '#F2E4D8',
+    heroColor: '#1a1008',
+    belowBg: '#F2E4D8',
+    belowColor: '#1a1008',
+    logoColor: '#FAF3EC',
+  },
+  {
+    id: 'cream',
+    label: 'Option 2 — Ivory Cream (lighter, airy)',
+    bg: '#FBF6EF',
+    logoBorder: 'rgba(26,16,8,0.07)',
+    fadeTo: '#FBF6EF',
+    heroBg: '#F2E4D8',
+    heroColor: '#1a1008',
+    belowBg: '#F2E4D8',
+    belowColor: '#1a1008',
+    logoColor: '#1a1008',
+  },
+  {
+    id: 'surface',
+    label: 'Option 3 — Warm Sand (deeper, earthy)',
+    bg: '#E4CDB5',
+    logoBorder: 'rgba(26,16,8,0.08)',
+    fadeTo: '#E4CDB5',
+    heroBg: '#F2E4D8',
+    heroColor: '#1a1008',
+    belowBg: '#F2E4D8',
+    belowColor: '#1a1008',
+    logoColor: '#1a1008',
+  },
+  {
+    id: 'charcoal',
+    label: 'Option 4 — Warm Charcoal (moody mid-tone)',
+    bg: '#2E2118',
+    logoBorder: 'rgba(255,255,255,0.06)',
+    fadeTo: '#2E2118',
+    heroBg: '#F2E4D8',
+    heroColor: '#1a1008',
+    belowBg: '#F2E4D8',
+    belowColor: '#1a1008',
+    logoColor: '#E8D5BB',
+  },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  configs.forEach((c, i) => {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div style="background:#1a1008; padding: 16px 0 0; font-family:'Raleway',sans-serif;">
+        <div style="text-align:center; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.45); padding-bottom:16px;">${c.label}</div>
+      </div>
+
+      <!-- Hero stub -->
+      <div class="hero-stub" style="background:${c.heroBg};">
+        <div class="hero-stub-logo" style="color:${c.heroColor};">CY Studios</div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5a4e44;">↑ Hero above</div>
+        <div class="hero-stub-cta">Book a Consultation</div>
+      </div>
+
+      <!-- Ticker section -->
+      <div class="ticker-section" style="background:${c.bg}; border-top:1px solid ${c.logoBorder}; border-bottom:1px solid ${c.logoBorder};">
+        <div style="position:absolute;top:0;bottom:0;left:0;width:120px;background:linear-gradient(to right,${c.fadeTo},transparent);z-index:10;pointer-events:none;"></div>
+        <div style="position:absolute;top:0;bottom:0;right:0;width:120px;background:linear-gradient(to left,${c.fadeTo},transparent);z-index:10;pointer-events:none;"></div>
+        <div style="overflow:hidden;">
+          <div class="logo-track">
+            ${set(c.logoColor)}${set(c.logoColor)}${set(c.logoColor)}${set(c.logoColor)}
+          </div>
+        </div>
+      </div>
+
+      <!-- Below stub -->
+      <div class="below-stub" style="background:${c.belowBg}; border-top:1px solid ${c.logoBorder};">
+        <div class="below-hint" style="color:${c.belowColor};">↓ About section below</div>
+      </div>
+
+      ${i < configs.length - 1 ? '<div class="divider"></div>' : ''}
+    `);
+  });
+});
+</script>
+
+</body>
+</html>

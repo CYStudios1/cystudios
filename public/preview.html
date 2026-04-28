@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Hero + Logo Ticker</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&family=Inter:wght@900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #F2E4D8; }
+
+  /* ── Page wrapper — arcs live here, span hero + ticker ── */
+  .page-wrapper {
+    position: relative;
+    overflow-x: clip;
+  }
+
+  /* ── Arc background ── */
+  .bg-layer {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 100%;
+    z-index: 1; pointer-events: none;
+    perspective: 1100px;
+    perspective-origin: 68% 35%;
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%);
+    mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%);
+  }
+  .arcs-svg {
+    position: absolute; top: -5%; right: -6%; width: 80%; height: 80%;
+    transform-origin: right center;
+    animation: planeBreath 10s ease-in-out infinite;
+  }
+  @keyframes planeBreath {
+    0%, 100% { transform: rotateX(0deg) translateY(0px); }
+    50%       { transform: rotateX(5deg) translateY(-8px); }
+  }
+  .ring {
+    transform-box: view-box;
+    transform-origin: 600px 350px;
+    animation: ringWave ease-in-out infinite;
+  }
+  @keyframes ringWave {
+    0%, 100% { transform: scale(1);     opacity: var(--op); }
+    50%       { transform: scale(1.022); opacity: calc(var(--op) * 1.7); }
+  }
+  .ring-red {
+    transform-box: view-box;
+    transform-origin: 600px 350px;
+    animation: ringRedWave ease-in-out infinite;
+  }
+  @keyframes ringRedWave {
+    0%, 100% { transform: scale(1);     opacity: 0.06; }
+    50%       { transform: scale(1.015); opacity: 0.13; }
+  }
+  .crosshair { animation: crossFade 9s ease-in-out infinite; }
+  @keyframes crossFade { 0%,100%{opacity:0.18} 50%{opacity:0.35} }
+  .mark { position: absolute; border-radius: 50%; background: #b83228; animation: mpulse 4s ease-in-out infinite; }
+  @keyframes mpulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.45;transform:scale(1.4)} }
+
+  /* ── Hero section ── */
+  .hero-section {
+    min-height: 100vh; background: transparent;
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+
+  /* Nav */
+  .nav {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 64px; height: 64px;
+    background: transparent;
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 36px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; text-decoration: none; transition: color 0.2s ease; }
+  .nav-links a:hover { color: #1a1008; }
+  .lang-toggle { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #5a4e44; cursor: pointer; padding: 6px 12px; border: 1px solid rgba(26,16,8,0.12); border-radius: 4px; background: transparent; font-family: 'Raleway', sans-serif; transition: border-color 0.2s ease, color 0.2s ease; }
+  .lang-toggle:hover { border-color: #B83228; color: #B83228; }
+
+  /* Hero body */
+  .hero-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 10; }
+  .hero-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 48px 48px 64px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(40px, 4.5vw, 68px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 380px; margin-bottom: 32px; }
+
+  /* Button */
+  .btn {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 14px 30px; border-radius: 6px;
+    display: inline-block; cursor: pointer; border: none; color: #fff;
+    background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%);
+    background-size: 200% 100%; background-position: 100% 0;
+    box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18);
+    transition: background-position 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42), 0 3px 6px rgba(184,50,40,0.22); }
+  .btn:active { transform: translateY(0); box-shadow: 0 4px 12px rgba(184,50,40,0.3); transition: background-position 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.15s ease, transform 0.15s ease; }
+  .btn-sm { font-size: 11px; padding: 9px 22px; border-radius: 5px; }
+
+  /* Device */
+  .device-side { display: flex; align-items: center; justify-content: center; padding: 30px 40px 30px 16px; }
+  .device-wrapper { position: relative; perspective: 1200px; }
+  .laptop-3d { width: clamp(400px, 38vw, 600px); transform: rotateY(-20deg) rotateX(5deg); transform-style: preserve-3d; position: relative; animation: shadowPulse 6s ease-in-out infinite; }
+  @keyframes shadowPulse {
+    0%, 100% { filter: drop-shadow(20px 28px 45px rgba(184,50,40,0.2)) drop-shadow(0 10px 22px rgba(184,50,40,0.1)) drop-shadow(0 4px 10px rgba(0,0,0,0.12)); }
+    50% { filter: drop-shadow(20px 28px 60px rgba(184,50,40,0.32)) drop-shadow(0 10px 30px rgba(184,50,40,0.18)) drop-shadow(0 4px 10px rgba(0,0,0,0.12)); }
+  }
+  .screen-glow { position: absolute; inset: -20px; border-radius: 12px; background: radial-gradient(ellipse at 50% 25%, rgba(242,228,216,0.3) 0%, rgba(184,50,40,0.05) 40%, transparent 65%); pointer-events: none; z-index: 0; }
+  .laptop-lid {
+    background: linear-gradient(175deg, #3a3028 0%, #1e1409 15%, #2a2018 30%, #1a1008 50%, #252015 70%, #1e1409 85%, #2c2218 100%);
+    border-radius: 10px 10px 2px 2px; padding: 3px 3px 0; position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .laptop-lid::before { content: ''; position: absolute; top: 0; left: 6px; right: 6px; height: 1px; background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.05) 70%, transparent 90%); border-radius: 10px 10px 0 0; z-index: 1; }
+  .laptop-lid::after { content:''; position:absolute; bottom:0; left:4px; right:4px; height:3px; background: linear-gradient(180deg, #111 0%, #2a2218 50%, #0a0a08 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 1px 2px rgba(0,0,0,0.4); border-radius: 0 0 2px 2px; }
+  .laptop-bezel { background: #0a0806; border-radius: 6px 6px 2px 2px; padding: 3px 3px 12px; position: relative; box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.04), inset 0 0 6px rgba(0,0,0,0.4); }
+  .laptop-screen { background: #F2E4D8; border-radius: 3px; overflow: hidden; aspect-ratio: 16/10; position: relative; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.3); }
+  .screen-glare { position:absolute; inset:0; z-index:50; pointer-events:none; border-radius:3px; background: linear-gradient(125deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 20%, transparent 45%, rgba(255,255,255,0.01) 80%, rgba(255,255,255,0.03) 100%), linear-gradient(220deg, transparent 60%, rgba(255,255,255,0.04) 80%, rgba(255,255,255,0.08) 100%); }
+  .laptop-screen::after { content: ''; position: absolute; inset: 0; z-index: 45; pointer-events: none; border-radius: 3px; box-shadow: inset 0 0 30px rgba(0,0,0,0.04), inset 0 0 4px rgba(0,0,0,0.06); }
+  .camera-dot { position:absolute; bottom:4px; left:50%; transform:translateX(-50%); width:4px; height:4px; background: #0a0806; border-radius:50%; box-shadow: 0 0 0 1.5px #1a1008, 0 0 0 2.5px #0a0806, inset 0 0 1px rgba(255,255,255,0.15); }
+  .camera-dot::after { content: ''; position: absolute; top: 0.5px; left: 1px; width: 1.5px; height: 1px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+  .laptop-base { display: none; }
+  .trackpad-hint { display: none; }
+  .laptop-foot { display: none; }
+  .foot-rubber-l { display: none; }
+  .foot-rubber-r { display: none; }
+
+  /* ── iPhone ── */
+  .iphone {
+    position: absolute;
+    right: -30px; bottom: -8px; z-index: 20;
+    width: clamp(80px, 7.5vw, 120px);
+    transform: rotateY(-20deg) rotateX(5deg);
+    transform-style: preserve-3d;
+    filter: drop-shadow(8px 12px 20px rgba(0,0,0,0.25));
+  }
+  .iphone-frame {
+    background: linear-gradient(175deg, #3a3028 0%, #1e1409 20%, #2a2018 40%, #1a1008 60%, #252015 80%, #2c2218 100%);
+    border-radius: 14px; padding: 1.5px; position: relative;
+    box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 0.5px rgba(0,0,0,0.3);
+  }
+  .iphone-frame::before {
+    content: ''; position: absolute; left: -1px; top: 50px;
+    width: 1px; height: 20px; background: linear-gradient(180deg, rgba(44,34,24,0.6), rgba(26,16,8,0.6), rgba(44,34,24,0.6));
+    border-radius: 0.5px 0 0 0.5px;
+  }
+  .iphone-frame::after {
+    content: ''; position: absolute; right: -1px; top: 40px;
+    width: 1px; height: 26px; background: linear-gradient(180deg, rgba(44,34,24,0.6), rgba(26,16,8,0.6), rgba(44,34,24,0.6));
+    border-radius: 0 0.5px 0.5px 0;
+  }
+  .iphone-bezel { background: #0a0806; border-radius: 13px; padding: 2px 1.5px; position: relative; box-shadow: inset 0 0 3px rgba(0,0,0,0.4); }
+  .iphone-screen { background: #F2E4D8; border-radius: 10px; overflow: hidden; aspect-ratio: 9/19.5; position: relative; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.2); }
+  .iphone-notch { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); width: 28px; height: 8px; background: #0a0806; border-radius: 10px; z-index: 55; box-shadow: inset 0 0 1px rgba(255,255,255,0.05); }
+  .iphone-notch::after { content: ''; position: absolute; right: 5px; top: 2.5px; width: 3px; height: 3px; background: #1a1510; border-radius: 50%; box-shadow: inset 0 0 0.5px rgba(255,255,255,0.1); }
+  .iphone-glare { position: absolute; inset: 0; z-index: 50; pointer-events: none; border-radius: 10px; background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 25%, transparent 50%); }
+  .iphone-home { position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 32px; height: 2.5px; background: rgba(26,16,8,0.2); border-radius: 2px; z-index: 55; }
+  .iphone-content { width: 100%; height: 100%; padding: 16px 6px 6px; display: flex; flex-direction: column; gap: 3px; position: relative; z-index: 2; }
+  .iphone-content .m-logo { font-size: 4px; font-weight: 800; color: #1a1008; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .iphone-content .m-h { font-size: 7px; font-weight: 800; color: #1a1008; line-height: 1.1; margin-bottom: 3px; }
+  .iphone-content .m-p { font-size: 2.5px; font-weight: 300; color: #5a4e44; line-height: 1.5; margin-bottom: 3px; }
+  .iphone-content .m-btn { font-size: 2.5px; font-weight: 700; background: #b83228; color: #fff; padding: 2px 5px; border-radius: 1.5px; display: inline-block; }
+
+  /* Mini site */
+  .mini-site { width:100%; height:100%; background:#F2E4D8; display:flex; flex-direction:column; font-family:'Raleway',sans-serif; overflow:hidden; position:relative; }
+
+  /* ── Screen image crossfade ── */
+  .screen-slides { position: absolute; inset: 0; z-index: 1; }
+  .screen-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease-in-out; }
+  .screen-slides img.active { opacity: 1; }
+  .phone-slides { position: absolute; inset: 0; z-index: 1; }
+  .phone-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease-in-out; }
+  .phone-slides img.active { opacity: 1; }
+  .mini-arcs { position:absolute; top:-5%; right:-3%; width:55%; height:110%; pointer-events:none; z-index:0; }
+  .mini-nav { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:0 12px; height:24px; border-bottom:1px solid rgba(26,16,8,0.08); flex-shrink:0; }
+  .mini-logo { font-size:5.5px; font-weight:800; color:#1a1008; letter-spacing:0.04em; text-transform:uppercase; }
+  .mini-links { display:flex; gap:7px; }
+  .mini-link-txt { font-size:4px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:#5a4e44; }
+  .mini-cta-btn { font-size:4px; font-weight:700; background:#b83228; color:#fff; padding:3px 7px; border-radius:2px; }
+  .mini-hero { flex:1; display:flex; align-items:center; padding:8px 14px 6px; position:relative; z-index:2; }
+  .mini-text { flex:1; display:flex; flex-direction:column; gap:3px; }
+  .mini-pill { display:inline-flex; align-items:center; gap:3px; font-size:3.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#b83228; background:rgba(184,50,40,0.1); border:0.5px solid rgba(184,50,40,0.25); padding:2px 6px; border-radius:99px; margin-bottom:4px; width:fit-content; }
+  .mini-pill-dot { width:2.5px; height:2.5px; background:#b83228; border-radius:50%; }
+  .mini-h1 { font-size:12px; font-weight:800; line-height:1.05; color:#1a1008; margin-bottom:3px; }
+  .mini-body { font-size:4px; font-weight:300; color:#5a4e44; line-height:1.7; max-width:120px; margin-bottom:5px; }
+  .mini-btn { font-size:4px; font-weight:700; background:#b83228; color:#fff; padding:4px 9px; border-radius:2px; display:inline-block; }
+  .mini-ticker { flex-shrink:0; border-top:0.5px solid rgba(26,16,8,0.1); background:rgba(26,16,8,0.03); padding:4px 0; overflow:hidden; white-space:nowrap; font-size:3.5px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#5a4e44; display:flex; align-items:center; position:relative; z-index:5; }
+  .mini-tick-track { display:inline-flex; gap:12px; animation:minitick 12s linear infinite; white-space:nowrap; padding:0 8px; }
+  @keyframes minitick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .mini-tdot { display:inline-block; width:2px; height:2px; background:#b83228; border-radius:50%; margin:0 3px; vertical-align:middle; }
+
+  /* Hero ticker */
+  .hero-ticker { position:relative; z-index:10; border-top:1px solid rgba(26,16,8,0.1); background:rgba(26,16,8,0.04); padding:13px 0; overflow:hidden; white-space:nowrap; }
+  .hero-ticker-track { display:inline-flex; animation:tick 20s linear infinite; }
+  .ticker-item { display:inline-flex; align-items:center; gap:16px; font-size:11px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:#5a4e44; padding-right:40px; }
+  .tdot { width:4px; height:4px; background:#b83228; border-radius:50%; flex-shrink:0; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ── Logo ticker section ── */
+  .logo-section {
+    background: rgba(26,16,8,0.04);
+    padding: 48px 0;
+    overflow: visible;
+    position: relative; z-index: 2;
+    border-top: 1px solid rgba(26,16,8,0.1);
+    border-bottom: 1px solid rgba(26,16,8,0.1);
+  }
+  .logo-section::before,
+  .logo-section::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 10; pointer-events: none;
+  }
+  .logo-section::before { left: 0; background: linear-gradient(to right, #EEE0D2, transparent); }
+  .logo-section::after  { right: 0; background: linear-gradient(to left, #EEE0D2, transparent); }
+
+  .logo-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 100px;
+    animation: logoScroll 28s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes logoScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-25%); }
+  }
+
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.55; flex-shrink: 0; transition: opacity 0.3s; }
+  .logo-item:hover { opacity: 0.85; }
+  .logo-item img { height: 50px; width: auto; object-fit: contain; filter: brightness(0) opacity(0.7); }
+  .logo-item:hover img { filter: brightness(0) opacity(0.9); }
+
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; }
+  .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: #1a1008; }
+  .logo-b-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; }
+  .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1008; }
+  .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid #1a1008; display: flex; align-items: center; justify-content: center; }
+  .logo-d-inner { width: 12px; height: 12px; background: #1a1008; border-radius: 50%; }
+  .logo-d-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+
+  /* ── About V2: Centered Editorial ── */
+  .about { background: transparent; padding: 80px 64px; position: relative; z-index: 2; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .about-inner { max-width: 1100px; margin: 0 auto; }
+  .about-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .about-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 16px; }
+  .about-body { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 560px; margin: 0 auto 56px; }
+  .v2-center { text-align: center; }
+  .v2-founders { display: flex; gap: 48px; justify-content: center; align-items: flex-start; }
+  .v2-founder { text-align: center; max-width: 280px; }
+  .v2-photo { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, rgba(26,16,8,0.07), rgba(26,16,8,0.13)); margin: 0 auto 20px; position: relative; }
+  .v2-photo::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid rgba(184,50,40,0.15); }
+  .v2-name { font-size: 20px; font-weight: 700; color: #1A1008; margin-bottom: 4px; }
+  .v2-role { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 14px; }
+  .v2-bio { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.75; }
+  .v2-divider { width: 1px; background: rgba(26,16,8,0.1); align-self: stretch; margin: 20px 0; }
+
+  /* ── Cohort showcase ── */
+  .cohort-header-outer { background: #F2E4D8; }
+  .cohort-header { padding: 80px 64px 48px; max-width: 1228px; margin: 0 auto; }
+  .cohort-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .cohort-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; }
+  .cohort-wrap { padding: 0 64px 80px; background: #F2E4D8; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .accordion {
+    display: flex; gap: 12px; height: 480px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .acc-item {
+    flex: 1; position: relative; border-radius: 14px; overflow: hidden; cursor: pointer;
+    transition: flex 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .accordion:hover .acc-item { flex: 0.6; }
+  .accordion:hover .acc-item:hover { flex: 3; }
+  .acc-bg { position: absolute; inset: 0; }
+  .bg-1 { background: linear-gradient(160deg, #0a0a0a 0%, #1a1a1a 40%, #222222 100%); }
+  .bg-2 { background: linear-gradient(160deg, #0d0d0d 0%, #1e1e1e 40%, #282828 100%); }
+  .bg-3 { background: linear-gradient(160deg, #111111 0%, #222222 40%, #2e2e2e 100%); }
+  .acc-screen {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 80%; max-width: 500px; aspect-ratio: 16/10;
+    background: #F2E4D8; border-radius: 6px; opacity: 0.85;
+    transition: opacity 0.4s ease; overflow: hidden;
+  }
+  .acc-item:hover .acc-screen { opacity: 1; }
+  .acc-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .acc-info {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;
+    background: linear-gradient(to top, rgba(26,16,8,0.92) 0%, rgba(26,16,8,0.6) 60%, transparent 100%);
+  }
+  .acc-num { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 6px; }
+  .acc-name { font-size: 22px; font-weight: 700; color: #F2E4D8; margin-bottom: 4px; white-space: nowrap; }
+  .acc-desc {
+    font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.7); line-height: 1.6;
+    max-width: 360px; opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  }
+  .acc-item:hover .acc-desc { opacity: 1; transform: translateY(0); }
+  .acc-label-vert {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
+    font-size: 14px; font-weight: 700; color: rgba(242,228,216,0.8);
+    white-space: nowrap; letter-spacing: 0.08em;
+    opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+  }
+  /* When any item is hovered, show vertical labels on non-hovered items */
+  .accordion:hover .acc-item:not(:hover) .acc-label-vert { opacity: 1; }
+  /* Hide horizontal info on non-hovered items when accordion is hovered */
+  .accordion:hover .acc-item:not(:hover) .acc-info { opacity: 0; transition: opacity 0.3s ease; }
+  .acc-info { transition: opacity 0.3s ease; }
+
+  .mock-site { width: 100%; height: 100%; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .mock-site-nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .mock-site-logo { font-size: 7px; font-weight: 800; color: #1a1008; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mock-site-links { display: flex; gap: 8px; }
+  .mock-site-link { font-size: 4px; font-weight: 500; color: #5a4e44; text-transform: uppercase; letter-spacing: 0.1em; }
+  .mock-site-hero { flex: 1; display: flex; align-items: center; padding: 8px 0; }
+  .mock-site-h1 { font-size: 14px; font-weight: 800; color: #1a1008; line-height: 1.1; }
+  .mock-site-body { font-size: 5px; font-weight: 300; color: #5a4e44; line-height: 1.6; max-width: 60%; margin-top: 6px; }
+  .mock-site-btn { font-size: 4px; font-weight: 700; background: #b83228; color: #fff; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-top: 8px; }
+
+  /* ── Summer Cohort: Three Open Slots ── */
+  .summer { background: #F2E4D8; padding: 80px 64px; }
+  .summer-inner { max-width: 1100px; margin: 0 auto; }
+  .summer-header { text-align: left; margin-bottom: 56px; }
+  .summer-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .summer-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 16px; }
+  .summer-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+  .summer-slots { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+  .summer-slot {
+    background: #EDD9C8; border-radius: 14px; padding: 36px 28px; text-align: center;
+    border: 2px dashed rgba(26,16,8,0.12);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .summer-slot:hover { border-color: rgba(184,50,40,0.3); transform: translateY(-4px); }
+  .summer-slot-num { font-size: 48px; font-weight: 900; color: rgba(184,50,40,0.1); line-height: 1; margin-bottom: 8px; }
+  .summer-slot-status {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #B83228; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .summer-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  .summer-slot-text { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+  .summer-cta { text-align: left; }
+
+  /* ── Pricing V3: Comparison Table ── */
+  .pricing { background: #F2E4D8; padding: 80px 64px; border-top: 1px solid rgba(26,16,8,0.08); }
+  .pricing-inner { max-width: 1100px; margin: 0 auto; }
+  .pricing-header { margin-bottom: 48px; }
+  .p-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .p-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 12px; }
+  .p-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+  .v3-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .v3-table thead th { padding: 24px 20px; text-align: center; vertical-align: bottom; border-bottom: 2px solid rgba(26,16,8,0.08); }
+  .v3-table thead th:first-child { text-align: left; width: 280px; }
+  .v3-th-tier { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5A4E44; margin-bottom: 8px; }
+  .v3-th-price { font-size: 32px; font-weight: 900; color: #1A1008; line-height: 1; font-family: 'Inter', sans-serif; }
+  .v3-th-period { font-size: 12px; font-weight: 400; color: #5A4E44; margin-top: 4px; }
+  .v3-th-label { font-size: 16px; font-weight: 600; color: #1A1008; }
+  .v3-table tbody td { padding: 16px 20px; text-align: center; border-bottom: 1px solid rgba(26,16,8,0.06); font-size: 14px; font-weight: 400; color: #5A4E44; }
+  .v3-table tbody td:first-child { text-align: left; font-weight: 500; color: #1A1008; }
+  .v3-table tbody tr:last-child td { border-bottom: none; }
+  .v3-yes { font-size: 16px; font-weight: 800; color: #B83228; }
+  .v3-no { font-size: 14px; color: rgba(26,16,8,0.2); }
+  .v3-table tfoot td { padding: 28px 20px; text-align: center; border-top: 2px solid rgba(26,16,8,0.08); }
+  .v3-table tfoot td:first-child { text-align: left; }
+  .v3-featured-col { background: rgba(184,50,40,0.03); }
+  .btn-outline { background: transparent; color: #1A1008; border: 1.5px solid rgba(26,16,8,0.2); box-shadow: none; }
+  .btn-outline:hover { border-color: #B83228; color: #B83228; background: rgba(184,50,40,0.05); box-shadow: none; transform: translateY(-2px); }
+
+  /* ── FAQ V2: Two Column Split ── */
+  .faq { background: #F2E4D8; padding: 80px 64px; }
+  .faq-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: start; }
+  .faq-left { position: sticky; top: 80px; }
+  .faq-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .faq-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; }
+  .faq-cta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(26,16,8,0.08); }
+  .faq-cta-text { font-size: 14px; font-weight: 400; color: #5A4E44; margin-bottom: 16px; }
+  .faq-cta-link { font-size: 13px; font-weight: 700; color: #B83228; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; }
+  .faq-items { display: flex; flex-direction: column; }
+  .faq-item { border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; gap: 16px; }
+  .faq-q-text { font-size: 16px; font-weight: 600; color: #1A1008; line-height: 1.4; }
+  .faq-toggle {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    border: 1.5px solid rgba(26,16,8,0.15); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 300; color: #5A4E44;
+    transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .faq-item:hover .faq-toggle { border-color: #B83228; color: #B83228; }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); border-color: #B83228; color: #B83228; }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,0.1,0.25,1), padding 0.4s ease; }
+  .faq-item.open .faq-answer { max-height: 200px; padding: 0 0 24px 0; }
+  .faq-a-text { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.8; }
+
+  /* ── Footer ── */
+  .footer { background: #F2E4D8; border-top: 1px solid rgba(26,16,8,0.08); }
+  .footer-cta-banner { padding: 64px 64px; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .footer-cta-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .footer-cta-text { font-size: 32px; font-weight: 700; color: #1A1008; line-height: 1.2; }
+  .footer-cta-sub { font-size: 15px; font-weight: 300; color: #5A4E44; margin-top: 8px; }
+  .footer-cols { max-width: 1100px; margin: 0 auto; padding: 56px 0; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; }
+  .footer-logo { font-size: 18px; font-weight: 800; color: #1A1008; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-brand-text { font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.7; max-width: 260px; }
+  .footer-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .footer-col-links { display: flex; flex-direction: column; gap: 12px; }
+  .footer-col-link { font-size: 13px; font-weight: 400; color: #5A4E44; text-decoration: none; transition: color 0.2s ease; }
+  .footer-col-link:hover { color: #1A1008; }
+  .footer-bottom { max-width: 1100px; margin: 0 auto; padding: 24px 0; border-top: 1px solid rgba(26,16,8,0.08); display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 12px; font-weight: 400; color: rgba(26,16,8,0.35); }
+  .footer-socials { display: flex; gap: 16px; }
+  .footer-social { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(26,16,8,0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #5A4E44; transition: border-color 0.2s ease, color 0.2s ease; text-decoration: none; }
+  .footer-social:hover { border-color: #B83228; color: #B83228; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="page-wrapper">
+  <div class="bg-layer">
+    <svg class="arcs-svg" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle class="ring" cx="600" cy="350" r="80"  stroke="#1a1008" stroke-width="1" style="--op:0.07;  animation-duration:4.5s;  animation-delay:0s;"/>
+      <circle class="ring" cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" style="--op:0.065; animation-duration:4.8s;  animation-delay:-0.35s;"/>
+      <circle class="ring" cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" style="--op:0.06;  animation-duration:5.1s;  animation-delay:-0.7s;"/>
+      <circle class="ring" cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" style="--op:0.055; animation-duration:5.4s;  animation-delay:-1.05s;"/>
+      <circle class="ring" cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" style="--op:0.05;  animation-duration:5.7s;  animation-delay:-1.4s;"/>
+      <circle class="ring" cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" style="--op:0.045; animation-duration:6.0s;  animation-delay:-1.75s;"/>
+      <circle class="ring" cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" style="--op:0.04;  animation-duration:6.3s;  animation-delay:-2.1s;"/>
+      <circle class="ring-red" cx="600" cy="350" r="575" stroke="#b83228" stroke-width="0.75" style="animation-duration:7s; animation-delay:-2.8s;"/>
+      <line class="crosshair" x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75"/>
+      <line class="crosshair" x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" style="animation-delay:-1.5s;"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+    </svg>
+    <div class="mark" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+    <div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div>
+    <div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div>
+  </div>
+
+<div class="hero-section">
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-right">
+      <div class="nav-links"><a href="#services">Services</a><a href="#about">About</a><a href="#cohorts">Cohorts</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+      <button class="lang-toggle" onclick="toggleLang()">KR</button>
+      <button class="btn btn-sm" data-en="Book a Consultation" data-kr="상담 예약하기">Book a Consultation</button>
+    </div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-content">
+      <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+      <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+      <button class="btn">Book a Consultation →</button>
+    </div>
+
+    <div class="device-side">
+      <div class="device-wrapper">
+      <div class="laptop-3d">
+        <div class="screen-glow"></div>
+        <div class="laptop-lid">
+          <div class="laptop-bezel">
+            <div class="laptop-screen">
+              <div class="screen-slides" id="desktopSlides">
+                <img src="./desktop-1.png" class="active" alt="David Yang">
+                <img src="./desktop-2.png" alt="Burg & Shaw">
+                <img src="./desktop-3.png" alt="Colorbridge">
+              </div>
+              <div class="screen-glare"></div>
+            </div>
+            <div class="camera-dot"></div>
+          </div>
+        </div>
+        <div class="laptop-base">
+          <div class="trackpad-hint"></div>
+          <div class="foot-rubber-l"></div>
+          <div class="foot-rubber-r"></div>
+        </div>
+        <div class="laptop-foot"></div>
+      </div>
+
+      <!-- iPhone -->
+      <div class="iphone">
+        <div class="iphone-frame">
+          <div class="iphone-bezel">
+            <div class="iphone-screen">
+              <div class="iphone-notch"></div>
+              <div class="phone-slides" id="mobileSlides">
+                <img src="./mobile-1.png" class="active" alt="David Yang mobile">
+                <img src="./mobile-2.png" alt="Burg & Shaw mobile">
+                <img src="./mobile-3.png" alt="Colorbridge mobile">
+              </div>
+              <div class="iphone-home"></div>
+              <div class="iphone-glare"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- end device-wrapper -->
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ LOGO TICKER ══ -->
+<div id="services" class="logo-section">
+  <div style="overflow:hidden; position:relative; z-index:1;">
+    <div class="logo-track">
+      <!-- 4 sets for seamless fill -->
+      <div class="logo-item"><img src="./logo-nakwon.png" alt="Nak Won Catering"></div>
+      <div class="logo-item"><img src="./logo-burgshaw.png" alt="Burg & Shaw"></div>
+      <div class="logo-item"><img src="./logo-colorbridge.png" alt="Colorbridge"></div>
+
+      <div class="logo-item"><img src="./logo-nakwon.png" alt="Nak Won Catering"></div>
+      <div class="logo-item"><img src="./logo-burgshaw.png" alt="Burg & Shaw"></div>
+      <div class="logo-item"><img src="./logo-colorbridge.png" alt="Colorbridge"></div>
+
+      <div class="logo-item"><img src="./logo-nakwon.png" alt="Nak Won Catering"></div>
+      <div class="logo-item"><img src="./logo-burgshaw.png" alt="Burg & Shaw"></div>
+      <div class="logo-item"><img src="./logo-colorbridge.png" alt="Colorbridge"></div>
+
+      <div class="logo-item"><img src="./logo-nakwon.png" alt="Nak Won Catering"></div>
+      <div class="logo-item"><img src="./logo-burgshaw.png" alt="Burg & Shaw"></div>
+      <div class="logo-item"><img src="./logo-colorbridge.png" alt="Colorbridge"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div id="about" class="about">
+  <div class="about-inner v2-center">
+    <div class="about-label">Who We Are</div>
+    <div class="about-headline">Two designers who got tired<br>of the agency grind.</div>
+    <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+    <div class="v2-founders">
+      <div class="v2-founder">
+        <div class="v2-photo"></div>
+        <div class="v2-name">David</div>
+        <div class="v2-role">Design & Strategy</div>
+        <div class="v2-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div>
+      </div>
+      <div class="v2-divider"></div>
+      <div class="v2-founder">
+        <div class="v2-photo"></div>
+        <div class="v2-name">Colin</div>
+        <div class="v2-role">Development & Growth</div>
+        <div class="v2-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- end page-wrapper -->
+
+<!-- ══ COHORT SHOWCASE ══ -->
+<div id="cohorts" class="cohort-header-outer"><div class="cohort-header">
+  <div class="cohort-label">Spring Cohort</div>
+  <div class="cohort-headline">Work that speaks for itself.</div>
+</div></div>
+<div class="cohort-wrap">
+  <div class="accordion">
+    <div class="acc-item"><div class="acc-bg bg-1"></div><div class="acc-screen"><img src="./desktop-2.png" alt="Burg & Shaw"></div><div class="acc-label-vert">Burg&Shaw</div><div class="acc-info"><div class="acc-num">01</div><div class="acc-name">Burg&Shaw</div><div class="acc-desc">Premium barbershop rebrand & website — a full identity overhaul that matches their craft.</div></div></div>
+    <div class="acc-item"><div class="acc-bg bg-2"></div><div class="acc-screen"><img src="./desktop-3.png" alt="Colorbridge"></div><div class="acc-label-vert">Nakwon Catering</div><div class="acc-info"><div class="acc-num">02</div><div class="acc-name">Nakwon Catering</div><div class="acc-desc">Korean catering service — site & branding that honors tradition while feeling fresh.</div></div></div>
+    <div class="acc-item"><div class="acc-bg bg-3"></div><div class="acc-screen"><img src="./desktop-1.png" alt="David Yang"></div><div class="acc-label-vert">PJ Beauty Supply</div><div class="acc-info"><div class="acc-num">03</div><div class="acc-name">PJ Beauty Supply</div><div class="acc-desc">Beauty supply e-commerce & digital presence — bringing a local favorite online.</div></div></div>
+  </div>
+</div>
+
+<!-- ══ SUMMER COHORT ══ -->
+<div class="summer">
+  <div class="summer-inner">
+    <div class="summer-header">
+      <div class="summer-label">Summer Cohort — Now Booking</div>
+      <div class="summer-headline">Three spots. Three brands.<br>Fully locked in.</div>
+      <div class="summer-sub">We take on three clients per cohort so every project gets our full attention. Summer spots are open — here's who we're looking for.</div>
+    </div>
+    <div class="summer-slots">
+      <div class="summer-slot"><div class="summer-slot-num">1</div><div class="summer-slot-status"><span class="summer-dot"></span> Open</div><div class="summer-slot-text">Looking for a brand ready to invest in a website that actually converts.</div></div>
+      <div class="summer-slot"><div class="summer-slot-num">2</div><div class="summer-slot-status"><span class="summer-dot"></span> Open</div><div class="summer-slot-text">Looking for a business that needs a complete digital presence — site, social, SEO.</div></div>
+      <div class="summer-slot"><div class="summer-slot-num">3</div><div class="summer-slot-status"><span class="summer-dot"></span> Open</div><div class="summer-slot-text">Looking for a founder who wants to build something intentional from the ground up.</div></div>
+    </div>
+    <div class="summer-cta"><button class="btn">Book a Consultation →</button></div>
+  </div>
+</div>
+
+<!-- ══ PRICING ══ -->
+<div id="pricing" class="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <table class="v3-table">
+      <thead>
+        <tr>
+          <th><div class="v3-th-label">What's included</div></th>
+          <th><div class="v3-th-tier">Standard</div><div class="v3-th-price">$2,500</div><div class="v3-th-period">/project</div></th>
+          <th class="v3-featured-col"><div class="v3-th-tier" style="color:#B83228;">Growth ★</div><div class="v3-th-price">$5,000</div><div class="v3-th-period">/project</div></th>
+          <th><div class="v3-th-tier">Scale</div><div class="v3-th-price">$8,500</div><div class="v3-th-period">/project</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Custom website design</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Mobile responsive</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Pages included</td><td>5</td><td class="v3-featured-col">10</td><td>Unlimited</td></tr>
+        <tr><td>Rounds of revisions</td><td>2</td><td class="v3-featured-col">4</td><td>Unlimited</td></tr>
+        <tr><td>Brand identity package</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Social media templates</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>SEO optimization</td><td>Basic</td><td class="v3-featured-col">Advanced</td><td>Advanced</td></tr>
+        <tr><td>Analytics setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>E-commerce integration</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Content strategy</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>GenAI marketing setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Post-launch support</td><td>30 days</td><td class="v3-featured-col">60 days</td><td>90 days</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+          <td class="v3-featured-col"><button class="btn" style="font-size:11px;padding:10px 20px;">Get Started →</button></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- ══ FAQ ══ -->
+<div id="faq" class="faq">
+  <div class="faq-inner">
+    <div class="faq-left">
+      <div class="faq-label">FAQ</div>
+      <div class="faq-headline">Questions we<br>get asked a lot.</div>
+      <div class="faq-cta">
+        <div class="faq-cta-text">Still have questions?</div>
+        <a href="#" class="faq-cta-link">Book a Consultation →</a>
+      </div>
+    </div>
+    <div class="faq-items">
+      <div class="faq-item open" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">What does the cohort model mean for my project?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">It means we only take on three clients at a time. Your project gets our full creative energy — no context-switching, no waiting in a queue.</div></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">How long does a typical project take?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">Most projects run 4–8 weeks depending on scope. Standard packages are typically 4–5 weeks, Growth runs 6–7 weeks, and Scale projects can take up to 8 weeks.</div></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">Do you work with clients outside your area?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">Absolutely. Everything we do is remote-friendly. We've worked with brands across the country.</div></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">What if I need changes after launch?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">Every package includes post-launch support (30–90 days depending on your plan). After that, we offer maintenance retainers.</div></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">Can I upgrade my package after we start?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">Yes — we can adjust scope and pricing mid-project. We're flexible.</div></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question"><div class="faq-q-text">What do I need to have ready before we start?</div><div class="faq-toggle">+</div></div><div class="faq-answer"><div class="faq-a-text">Just a clear idea of what your brand does and who it serves. We handle the rest — content strategy, copy direction, design, and development.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div class="footer-cta-banner"><div class="footer-cta-inner">
+    <div><div class="footer-cta-text">Ready to build something intentional?</div><div class="footer-cta-sub">Book a free consultation — no pressure, just a conversation about your brand.</div></div>
+    <button class="btn">Book a Consultation →</button>
+  </div></div>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-logo">CY Studios</div>
+      <div class="footer-brand-text">A boutique creative agency building brands with intention — one cohort at a time.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <div class="footer-col-links">
+        <a href="#" class="footer-col-link">Services</a>
+        <a href="#" class="footer-col-link">About</a>
+        <a href="#" class="footer-col-link">Cohorts</a>
+        <a href="#" class="footer-col-link">Pricing</a>
+        <a href="#" class="footer-col-link">FAQ</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <div class="footer-col-links">
+        <a href="#" class="footer-col-link">Website Design</a>
+        <a href="#" class="footer-col-link">Social Media</a>
+        <a href="#" class="footer-col-link">SEO</a>
+        <a href="#" class="footer-col-link">GenAI Marketing</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-col-links">
+        <a href="mailto:design@cy-studios.com" class="footer-col-link">design@cy-studios.com</a>
+        <a href="#" class="footer-col-link">Instagram</a>
+        <a href="#" class="footer-col-link">LinkedIn</a>
+        <a href="#" class="footer-col-link">Twitter / X</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 CY Studios. All rights reserved.</div>
+    <div class="footer-socials">
+      <a href="#" class="footer-social">IG</a>
+      <a href="#" class="footer-social">LI</a>
+      <a href="#" class="footer-social">X</a>
+    </div>
+  </div>
+</div>
+
+<script>
+let isKorean = false;
+
+const translations = {
+  // Nav
+  'Services': '서비스',
+  'About': '소개',
+  'Cohorts': '코호트',
+  'Pricing': '요금',
+  'FAQ': '자주 묻는 질문',
+  'Book a Consultation': '상담 예약하기',
+
+  // Hero
+  'Now Booking — Summer Cohort': '여름 코호트 — 모집 중',
+  'Your brand,<br>built with<br>intention.': '당신의 브랜드,<br>의도를 담아<br>만듭니다.',
+  'CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.': 'CY Studios는 소수의 클라이언트만 받는 부티크 크리에이티브 에이전시입니다 — 모든 브랜드가 마땅히 받아야 할 관심을 드리기 위해.',
+  'Book a Consultation →': '상담 예약하기 →',
+
+  // About
+  'Who We Are': '우리에 대해',
+  'Two designers who got tired<br>of the agency grind.': '에이전시의 매너리즘에서<br>벗어난 두 디자이너.',
+  'We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that\'s fully locked in.': 'CY Studios를 시작한 이유는 간단합니다 — 재능 있는 브랜드들이 40명이 넘는 대기열에 묻혀 템플릿 같은 결과물을 받는 걸 봤기 때문입니다. 모든 브랜드는 온전히 집중하는 팀을 만날 자격이 있습니다.',
+  'David': 'David',
+  'Design & Strategy': '디자인 & 전략',
+  'Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.': '디테일에 집착합니다. 모든 픽셀이 이야기를 전한다고 믿으며 — 당신의 이야기가 제대로 전달되도록 합니다.',
+  'Colin': 'Colin',
+  'Development & Growth': '개발 & 성장',
+  'Turns vision into performance. Builds brands that don\'t just look good — they grow.': '비전을 성과로 바꿉니다. 보기만 좋은 게 아니라 — 실제로 성장하는 브랜드를 만듭니다.',
+
+  // Spring Cohort
+  'Spring Cohort': '봄 코호트',
+  'Work that speaks for itself.': '결과물이 증명합니다.',
+
+  // Accordion descriptions
+  'Premium barbershop rebrand & website — a full identity overhaul that matches their craft.': '프리미엄 바버샵의 리브랜딩 & 웹사이트 — 그들의 장인 정신에 걸맞은 완전한 아이덴티티 재구성.',
+  'Korean catering service — site & branding that honors tradition while feeling fresh.': '한식 케이터링 서비스 — 전통을 존중하면서도 신선한 느낌의 사이트 & 브랜딩.',
+  'Beauty supply e-commerce & digital presence — bringing a local favorite online.': '뷰티 서플라이 이커머스 & 디지털 프레즌스 — 동네 인기 매장을 온라인으로.',
+
+  // Summer Cohort
+  'Summer Cohort — Now Booking': '여름 코호트 — 모집 중',
+  'Three spots. Three brands.<br>Fully locked in.': '세 자리. 세 브랜드.<br>온전한 집중.',
+  'We take on three clients per cohort so every project gets our full attention. Summer spots are open — here\'s who we\'re looking for.': '코호트당 세 팀만 받습니다. 모든 프로젝트에 온전히 집중하기 위해서입니다. 여름 자리가 열렸습니다.',
+  'Open': '모집 중',
+  'Looking for a brand ready to invest in a website that actually converts.': '실제로 전환을 만들어내는 웹사이트에 투자할 준비가 된 브랜드를 찾습니다.',
+  'Looking for a business that needs a complete digital presence — site, social, SEO.': '웹사이트, 소셜 미디어, SEO까지 — 완전한 디지털 프레즌스가 필요한 비즈니스를 찾습니다.',
+  'Looking for a founder who wants to build something intentional from the ground up.': '처음부터 의도를 담아 무언가를 만들고 싶은 창업자를 찾습니다.',
+
+  // Pricing
+  'Invest in your brand.': '브랜드에 투자하세요.',
+  'Every package includes direct access to our team. No middlemen, no runaround.': '모든 패키지에는 저희 팀과의 직접 소통이 포함됩니다. 중간 과정 없이, 바로.',
+  'What\'s included': '포함 내역',
+  'Standard': '스탠다드',
+  'Growth': '그로스',
+  'Scale': '스케일',
+  '/project': '/프로젝트',
+  'Get Started': '시작하기',
+  'Get Started →': '시작하기 →',
+  'Custom website design': '맞춤형 웹사이트 디자인',
+  'Mobile responsive': '모바일 반응형',
+  'Pages included': '포함 페이지 수',
+  'Unlimited': '무제한',
+  'Rounds of revisions': '수정 횟수',
+  'Brand identity package': '브랜드 아이덴티티 패키지',
+  'Social media templates': '소셜 미디어 템플릿',
+  'SEO optimization': 'SEO 최적화',
+  'Basic': '기본',
+  'Advanced': '심화',
+  'Analytics setup': '애널리틱스 설정',
+  'E-commerce integration': '이커머스 연동',
+  'Content strategy': '콘텐츠 전략',
+  'GenAI marketing setup': 'GenAI 마케팅 설정',
+  'Post-launch support': '런칭 후 지원',
+  '30 days': '30일',
+  '60 days': '60일',
+  '90 days': '90일',
+
+  // FAQ
+  'Questions we<br>get asked a lot.': '자주 받는<br>질문들.',
+  'Still have questions?': '더 궁금한 점이 있으신가요?',
+  'Book a Consultation →': '상담 예약하기 →',
+  'What does the cohort model mean for my project?': '코호트 모델이 제 프로젝트에 어떤 의미인가요?',
+  'It means we only take on three clients at a time. Your project gets our full creative energy — no context-switching, no waiting in a queue.': '한 번에 세 팀만 받는다는 뜻입니다. 당신의 프로젝트에 저희의 모든 창의적 에너지가 집중됩니다 — 다른 일에 신경 쓰거나, 대기할 필요 없이.',
+  'How long does a typical project take?': '일반적으로 프로젝트 기간이 얼마나 걸리나요?',
+  'Most projects run 4–8 weeks depending on scope. Standard packages are typically 4–5 weeks, Growth runs 6–7 weeks, and Scale projects can take up to 8 weeks.': '대부분의 프로젝트는 범위에 따라 4~8주가 소요됩니다. 스탠다드는 보통 4~5주, 그로스는 6~7주, 스케일은 최대 8주까지 걸릴 수 있습니다.',
+  'Do you work with clients outside your area?': '지역 외 클라이언트와도 작업하시나요?',
+  'Absolutely. Everything we do is remote-friendly. We\'ve worked with brands across the country.': '물론입니다. 모든 작업은 원격으로 진행 가능합니다. 전국의 브랜드들과 함께해 왔습니다.',
+  'What if I need changes after launch?': '런칭 후에 수정이 필요하면 어떻게 하나요?',
+  'Every package includes post-launch support (30–90 days depending on your plan). After that, we offer maintenance retainers.': '모든 패키지에는 런칭 후 지원이 포함됩니다 (플랜에 따라 30~90일). 이후에는 유지보수 리테이너를 제공합니다.',
+  'Can I upgrade my package after we start?': '시작한 후에 패키지를 업그레이드할 수 있나요?',
+  'Yes — we can adjust scope and pricing mid-project. We\'re flexible.': '네 — 프로젝트 중간에 범위와 요금을 조정할 수 있습니다. 유연하게 대응합니다.',
+  'What do I need to have ready before we start?': '시작 전에 무엇을 준비해야 하나요?',
+  'Just a clear idea of what your brand does and who it serves. We handle the rest — content strategy, copy direction, design, and development.': '브랜드가 무엇을 하고 누구를 위한 것인지 명확한 아이디어만 있으면 됩니다. 나머지는 저희가 — 콘텐츠 전략, 카피 방향, 디자인, 개발까지 모두 담당합니다.',
+
+  // Footer
+  'Ready to build something intentional?': '의도를 담은 무언가를 만들 준비가 되셨나요?',
+  'Book a free consultation — no pressure, just a conversation about your brand.': '부담 없이 상담을 예약하세요 — 브랜드에 대한 대화부터 시작합니다.',
+  'A boutique creative agency building brands with intention — one cohort at a time.': '의도를 담아 브랜드를 만드는 부티크 크리에이티브 에이전시 — 한 코호트씩.',
+  'Navigate': '메뉴',
+  'Contact': '연락처',
+  'Website Design': '웹사이트 디자인',
+  'Social Media': '소셜 미디어',
+  'SEO': 'SEO',
+  'GenAI Marketing': 'GenAI 마케팅',
+  'Instagram': 'Instagram',
+  'LinkedIn': 'LinkedIn',
+  'Twitter / X': 'Twitter / X',
+  '© 2026 CY Studios. All rights reserved.': '© 2026 CY Studios. All rights reserved.',
+};
+
+// Stores original English text
+const originals = new Map();
+
+function collectTextNodes(el) {
+  const nodes = [];
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+  while (walker.nextNode()) {
+    if (walker.currentNode.textContent.trim()) nodes.push(walker.currentNode);
+  }
+  return nodes;
+}
+
+function toggleLang() {
+  isKorean = !isKorean;
+  const btn = document.querySelector('.lang-toggle');
+  btn.textContent = isKorean ? 'EN' : 'KR';
+
+  // Translate all elements with innerHTML that match
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = isKorean ? el.dataset.kr : el.dataset.en;
+  });
+
+  // Walk through translatable elements
+  const selectors = '.hero-headline, .hero-sub, .hero-pill, .about-label, .about-headline, .about-body, .v2-name, .v2-role, .v2-bio, .cohort-label, .cohort-headline, .summer-label, .summer-headline, .summer-sub, .summer-slot-status, .summer-slot-text, .p-label, .p-headline, .p-sub, .v3-th-label, .v3-th-tier, .v3-th-period, .faq-label, .faq-headline, .faq-cta-text, .faq-cta-link, .faq-q-text, .faq-a-text, .footer-cta-text, .footer-cta-sub, .footer-brand-text, .footer-col-title, .footer-col-link, .footer-copy, .acc-name, .acc-desc, .acc-num, .nav-links a, .btn:not([data-en]):not(.lang-toggle), .btn-outline';
+
+  document.querySelectorAll(selectors).forEach(el => {
+    if (el.classList.contains('lang-toggle')) return;
+    if (!originals.has(el)) {
+      originals.set(el, el.innerHTML);
+    }
+    if (isKorean) {
+      const original = originals.get(el);
+      const translated = translations[original] || translations[el.textContent.trim()];
+      if (translated) el.innerHTML = translated;
+    } else {
+      el.innerHTML = originals.get(el);
+    }
+  });
+
+  // Table cells
+  document.querySelectorAll('.v3-table tbody td, .v3-table tfoot .btn, .v3-table tfoot .btn-outline').forEach(el => {
+    if (!originals.has(el)) originals.set(el, el.innerHTML);
+    if (isKorean) {
+      const original = originals.get(el);
+      const text = el.textContent.trim();
+      const translated = translations[text];
+      if (translated && !el.querySelector('span')) el.innerHTML = translated;
+    } else {
+      el.innerHTML = originals.get(el);
+    }
+  });
+}
+
+// ── Image crossfade rotation ──
+let currentSlide = 0;
+const desktopImgs = document.querySelectorAll('#desktopSlides img');
+const mobileImgs = document.querySelectorAll('#mobileSlides img');
+const totalSlides = desktopImgs.length;
+
+setInterval(() => {
+  desktopImgs[currentSlide].classList.remove('active');
+  mobileImgs[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % totalSlides;
+  desktopImgs[currentSlide].classList.add('active');
+  mobileImgs[currentSlide].classList.add('active');
+}, 4000);
+</script>
+
+</body>
+</html>

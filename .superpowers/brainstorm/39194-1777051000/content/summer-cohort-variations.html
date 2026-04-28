@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Cohort — 3 Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+  .spacer { height: 20px; background: #F2E4D8; }
+
+  .btn {
+    font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 14px 30px; border-radius: 6px; display: inline-block; cursor: pointer; border: none; color: #fff;
+    background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%);
+    background-size: 200% 100%; background-position: 100% 0;
+    box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18);
+    transition: background-position 0.6s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.4s cubic-bezier(0.25,0.1,0.25,1), transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42), 0 3px 6px rgba(184,50,40,0.22); }
+
+
+  /* ══════════════════════════════════════
+     V1 — Three Open Slots
+     ══════════════════════════════════════ */
+  .v1 { background: #F2E4D8; padding: 80px 64px; }
+  .v1-inner { max-width: 1100px; margin: 0 auto; }
+  .v1-header { text-align: center; margin-bottom: 56px; }
+  .v1-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .v1-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 16px; }
+  .v1-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; margin: 0 auto; }
+  .v1-slots { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+  .v1-slot {
+    background: #EDD9C8; border-radius: 14px; padding: 36px 28px; text-align: center;
+    border: 2px dashed rgba(26,16,8,0.12); position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .v1-slot:hover { border-color: rgba(184,50,40,0.3); transform: translateY(-4px); }
+  .v1-slot-num { font-size: 48px; font-weight: 900; color: rgba(184,50,40,0.1); line-height: 1; margin-bottom: 8px; }
+  .v1-slot-status { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .v1-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: v1pulse 2s infinite; }
+  @keyframes v1pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .v1-slot-text { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+  .v1-cta { text-align: center; }
+
+
+  /* ══════════════════════════════════════
+     V2 — Dark Banner with Counter
+     ══════════════════════════════════════ */
+  .v2 { background: #1a1008; padding: 80px 64px; position: relative; overflow: hidden; }
+  .v2-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .v2-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .v2-headline { font-size: 40px; font-weight: 700; color: #F2E4D8; line-height: 1.12; margin-bottom: 16px; }
+  .v2-sub { font-size: 16px; font-weight: 300; color: rgba(242,228,216,0.6); line-height: 1.8; margin-bottom: 32px; }
+  .v2-counter { display: flex; gap: 20px; }
+  .v2-count-item { text-align: center; }
+  .v2-count-num { font-size: 64px; font-weight: 900; color: #B83228; line-height: 1; }
+  .v2-count-label { font-size: 11px; font-weight: 500; color: rgba(242,228,216,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; }
+  .v2-count-divider { width: 1px; background: rgba(242,228,216,0.1); margin: 8px 12px; }
+  .v2-slots-visual { display: flex; flex-direction: column; gap: 16px; }
+  .v2-slot-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px; border-radius: 12px;
+    border: 1px solid rgba(242,228,216,0.08);
+    transition: border-color 0.3s ease;
+  }
+  .v2-slot-row:hover { border-color: rgba(184,50,40,0.3); }
+  .v2-slot-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px dashed rgba(242,228,216,0.2); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: rgba(242,228,216,0.3);
+  }
+  .v2-slot-info { flex: 1; }
+  .v2-slot-title { font-size: 16px; font-weight: 600; color: #F2E4D8; margin-bottom: 2px; }
+  .v2-slot-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); }
+  .v2-slot-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #B83228; background: rgba(184,50,40,0.12); padding: 5px 12px; border-radius: 99px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .v2-badge-dot { width: 5px; height: 5px; background: #b83228; border-radius: 50%; animation: v1pulse 2s infinite; }
+  .v2-arcs {
+    position: absolute; top: -20%; right: -10%; width: 60%; height: 140%;
+    pointer-events: none; opacity: 0.06;
+  }
+
+
+  /* ══════════════════════════════════════
+     V3 — Minimal CTA Strip
+     ══════════════════════════════════════ */
+  .v3 { background: #F2E4D8; padding: 64px; border-top: 1px solid rgba(26,16,8,0.08); border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .v3-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 48px;
+  }
+  .v3-left { flex: 1; }
+  .v3-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .v3-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: v1pulse 2s infinite; }
+  .v3-headline { font-size: 32px; font-weight: 700; color: #1A1008; line-height: 1.15; margin-bottom: 8px; }
+  .v3-sub { font-size: 15px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+  .v3-right { display: flex; align-items: center; gap: 32px; flex-shrink: 0; }
+  .v3-spots { text-align: center; }
+  .v3-spots-num { font-size: 48px; font-weight: 900; color: #B83228; line-height: 1; }
+  .v3-spots-label { font-size: 11px; font-weight: 600; color: #5A4E44; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .v3-divider { width: 1px; height: 60px; background: rgba(26,16,8,0.1); }
+</style>
+</head>
+<body>
+
+<!-- ═══ V1 — Three Open Slots ═══ -->
+<div class="var-label">
+  <div class="var-num">1</div>
+  <div><div class="var-title">Three Open Slots</div><div class="var-desc">Centered layout, three dashed-border cards representing open spots, each with a pulsing dot</div></div>
+</div>
+<div class="v1">
+  <div class="v1-inner">
+    <div class="v1-header">
+      <div class="v1-label">Summer Cohort — Now Booking</div>
+      <div class="v1-headline">Three spots. Three brands.<br>Fully locked in.</div>
+      <div class="v1-sub">We take on three clients per cohort so every project gets our full attention. Summer spots are open — here's who we're looking for.</div>
+    </div>
+    <div class="v1-slots">
+      <div class="v1-slot">
+        <div class="v1-slot-num">1</div>
+        <div class="v1-slot-status"><span class="v1-dot"></span> Open</div>
+        <div class="v1-slot-text">Looking for a brand ready to invest in a website that actually converts.</div>
+      </div>
+      <div class="v1-slot">
+        <div class="v1-slot-num">2</div>
+        <div class="v1-slot-status"><span class="v1-dot"></span> Open</div>
+        <div class="v1-slot-text">Looking for a business that needs a complete digital presence — site, social, SEO.</div>
+      </div>
+      <div class="v1-slot">
+        <div class="v1-slot-num">3</div>
+        <div class="v1-slot-status"><span class="v1-dot"></span> Open</div>
+        <div class="v1-slot-text">Looking for a founder who wants to build something intentional from the ground up.</div>
+      </div>
+    </div>
+    <div class="v1-cta">
+      <button class="btn">Book a Consultation →</button>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V2 — Dark Banner with Counter ═══ -->
+<div class="var-label">
+  <div class="var-num">2</div>
+  <div><div class="var-title">Dark Banner — Split Layout</div><div class="var-desc">Dark background, counter on the left, three slot rows on the right — creates visual contrast with surrounding sections</div></div>
+</div>
+<div class="v2">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet">
+    <circle cx="600" cy="350" r="200" stroke="#F2E4D8" stroke-width="1"/>
+    <circle cx="600" cy="350" r="300" stroke="#F2E4D8" stroke-width="1"/>
+    <circle cx="600" cy="350" r="420" stroke="#F2E4D8" stroke-width="1"/>
+    <circle cx="600" cy="350" r="560" stroke="#F2E4D8" stroke-width="1"/>
+  </svg>
+  <div class="v2-inner">
+    <div>
+      <div class="v2-label">Summer Cohort</div>
+      <div class="v2-headline">We're booking<br>three brands<br>this summer.</div>
+      <div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div>
+      <div class="v2-counter">
+        <div class="v2-count-item">
+          <div class="v2-count-num">3</div>
+          <div class="v2-count-label">Spots</div>
+        </div>
+        <div class="v2-count-divider"></div>
+        <div class="v2-count-item">
+          <div class="v2-count-num">0</div>
+          <div class="v2-count-label">Filled</div>
+        </div>
+      </div>
+    </div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row">
+        <div class="v2-slot-circle">1</div>
+        <div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div>
+        <div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div>
+      </div>
+      <div class="v2-slot-row">
+        <div class="v2-slot-circle">2</div>
+        <div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div>
+        <div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div>
+      </div>
+      <div class="v2-slot-row">
+        <div class="v2-slot-circle">3</div>
+        <div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div>
+        <div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V3 — Minimal CTA Strip ═══ -->
+<div class="var-label">
+  <div class="var-num">3</div>
+  <div><div class="var-title">Minimal CTA Strip</div><div class="var-desc">Compact, horizontal — headline, spot count, and CTA all in one row. Less a section, more a banner.</div></div>
+</div>
+<div class="v3">
+  <div class="v3-inner">
+    <div class="v3-left">
+      <div class="v3-label"><span class="v3-dot"></span> Now Booking</div>
+      <div class="v3-headline">Summer Cohort is open.</div>
+      <div class="v3-sub">Three spots for brands that want focused, intentional creative work — not a spot in a queue.</div>
+    </div>
+    <div class="v3-right">
+      <div class="v3-spots">
+        <div class="v3-spots-num">3</div>
+        <div class="v3-spots-label">Spots left</div>
+      </div>
+      <div class="v3-divider"></div>
+      <button class="btn">Book a Consultation →</button>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accordion — Light Background Colors</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .label { background: #1a1008; padding: 28px 64px; display: flex; align-items: center; gap: 16px; }
+  .label-num { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .label-title { font-size: 16px; font-weight: 700; color: #F2E4D8; }
+  .label-desc { font-size: 11px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 2px; }
+  .label-hex { font-size: 11px; font-weight: 600; color: rgba(242,228,216,0.35); font-family: monospace; }
+
+  .wrap { background: #F2E4D8; padding: 24px 64px 40px; }
+  .accordion { display: flex; gap: 12px; height: 360px; max-width: 1100px; margin: 0 auto; }
+  .acc-item { flex: 1; position: relative; border-radius: 14px; overflow: hidden; cursor: pointer; transition: flex 0.6s cubic-bezier(0.25,0.1,0.25,1); }
+  .accordion:hover .acc-item { flex: 0.6; }
+  .accordion:hover .acc-item:hover { flex: 3; }
+  .acc-bg { position: absolute; inset: 0; }
+  .acc-screen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; aspect-ratio: 16/10; border-radius: 6px; opacity: 0.9; transition: opacity 0.4s ease; overflow: hidden; }
+  .acc-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .acc-item:hover .acc-screen { opacity: 1; }
+  .acc-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 22px; }
+  .acc-name { font-size: 16px; font-weight: 700; color: #1A1008; white-space: nowrap; }
+
+  /* A: Pure White */
+  .bg-a { background: #ffffff; }
+  .info-a { background: linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 60%, transparent 100%); }
+
+  /* B: Cream */
+  .bg-b { background: #FAF3EB; }
+  .info-b { background: linear-gradient(to top, rgba(250,243,235,0.95) 0%, rgba(250,243,235,0.5) 60%, transparent 100%); }
+
+  /* C: Warm Linen */
+  .bg-c { background: #F0E6DA; }
+  .info-c { background: linear-gradient(to top, rgba(240,230,218,0.95) 0%, rgba(240,230,218,0.5) 60%, transparent 100%); }
+
+  /* D: Soft Blush */
+  .bg-d { background: #F5E8E2; }
+  .info-d { background: linear-gradient(to top, rgba(245,232,226,0.95) 0%, rgba(245,232,226,0.5) 60%, transparent 100%); }
+
+  /* E: Cool Pearl */
+  .bg-e { background: #F0F0EC; }
+  .info-e { background: linear-gradient(to top, rgba(240,240,236,0.95) 0%, rgba(240,240,236,0.5) 60%, transparent 100%); }
+
+  /* F: Light Sand */
+  .bg-f { background: #EDE4D4; }
+  .info-f { background: linear-gradient(to top, rgba(237,228,212,0.95) 0%, rgba(237,228,212,0.5) 60%, transparent 100%); }
+</style>
+</head>
+<body>
+
+<!-- A: Pure White -->
+<div class="label"><div class="label-num">A</div><div><div class="label-title">Pure White</div><div class="label-desc">Clean, stark, maximum contrast</div><div class="label-hex">#FFFFFF</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-a"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-a"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-a"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-a"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-a"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-a"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+<!-- B: Cream -->
+<div class="label"><div class="label-num">B</div><div><div class="label-title">Cream</div><div class="label-desc">Warm, soft, inviting — classic editorial feel</div><div class="label-hex">#FAF3EB</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-b"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-b"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-b"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-b"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-b"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-b"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+<!-- C: Warm Linen -->
+<div class="label"><div class="label-num">C</div><div><div class="label-title">Warm Linen</div><div class="label-desc">Close to your terracotta but lighter — subtle card lift</div><div class="label-hex">#F0E6DA</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-c"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-c"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-c"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-c"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-c"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-c"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+<!-- D: Soft Blush -->
+<div class="label"><div class="label-num">D</div><div><div class="label-title">Soft Blush</div><div class="label-desc">Warm pink-beige undertone — gentle and refined</div><div class="label-hex">#F5E8E2</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-d"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-d"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-d"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-d"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-d"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-d"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+<!-- E: Cool Pearl -->
+<div class="label"><div class="label-num">E</div><div><div class="label-title">Cool Pearl</div><div class="label-desc">Slightly cool gray-white — modern, no warmth</div><div class="label-hex">#F0F0EC</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-e"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-e"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-e"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-e"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-e"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-e"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+<!-- F: Light Sand -->
+<div class="label"><div class="label-num">F</div><div><div class="label-title">Light Sand</div><div class="label-desc">Warm golden beige — matches your surface color (#EDD9C8) territory</div><div class="label-hex">#EDE4D4</div></div></div>
+<div class="wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-f"></div><div class="acc-screen"><img src="./desktop-2.png"></div><div class="acc-info info-f"><div class="acc-name">Burg&Shaw</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-f"></div><div class="acc-screen"><img src="./desktop-3.png"></div><div class="acc-info info-f"><div class="acc-name">Nakwon Catering</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-f"></div><div class="acc-screen"><img src="./desktop-1.png"></div><div class="acc-info info-f"><div class="acc-name">PJ Beauty Supply</div></div></div>
+</div></div>
+
+</body>
+</html>

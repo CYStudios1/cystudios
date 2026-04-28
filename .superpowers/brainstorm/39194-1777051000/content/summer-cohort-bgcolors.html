@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Cohort V2 — Background Color Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+
+  /* ── Shared V2 structure ── */
+  .v2 { padding: 80px 64px; position: relative; overflow: hidden; }
+  .v2-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .v2-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; }
+  .v2-headline { font-size: 40px; font-weight: 700; line-height: 1.12; margin-bottom: 16px; }
+  .v2-sub { font-size: 16px; font-weight: 300; line-height: 1.8; margin-bottom: 32px; }
+  .v2-counter { display: flex; gap: 20px; }
+  .v2-count-item { text-align: center; }
+  .v2-count-num { font-size: 64px; font-weight: 900; line-height: 1; }
+  .v2-count-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; }
+  .v2-count-divider { width: 1px; margin: 8px 12px; }
+  .v2-slots-visual { display: flex; flex-direction: column; gap: 16px; }
+  .v2-slot-row { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-radius: 12px; transition: border-color 0.3s ease; }
+  .v2-slot-circle { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; }
+  .v2-slot-info { flex: 1; }
+  .v2-slot-title { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+  .v2-slot-desc { font-size: 13px; font-weight: 300; }
+  .v2-slot-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: 99px; display: flex; align-items: center; gap: 6px; }
+  .v2-badge-dot { width: 5px; height: 5px; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .v2-arcs { position: absolute; top: -20%; right: -10%; width: 60%; height: 140%; pointer-events: none; }
+
+  /* ── A: Dark Ink (original) ── */
+  .bg-a { background: #1a1008; }
+  .bg-a .v2-label { color: #B83228; }
+  .bg-a .v2-headline { color: #F2E4D8; }
+  .bg-a .v2-sub { color: rgba(242,228,216,0.6); }
+  .bg-a .v2-count-num { color: #B83228; }
+  .bg-a .v2-count-label { color: rgba(242,228,216,0.5); }
+  .bg-a .v2-count-divider { background: rgba(242,228,216,0.1); }
+  .bg-a .v2-slot-row { border: 1px solid rgba(242,228,216,0.08); }
+  .bg-a .v2-slot-row:hover { border-color: rgba(184,50,40,0.3); }
+  .bg-a .v2-slot-circle { border: 2px dashed rgba(242,228,216,0.2); color: rgba(242,228,216,0.3); }
+  .bg-a .v2-slot-title { color: #F2E4D8; }
+  .bg-a .v2-slot-desc { color: rgba(242,228,216,0.5); }
+  .bg-a .v2-slot-badge { color: #B83228; background: rgba(184,50,40,0.12); }
+  .bg-a .v2-badge-dot { background: #b83228; }
+  .bg-a .v2-arcs { opacity: 0.06; }
+  .bg-a .v2-arcs circle { stroke: #F2E4D8; }
+
+  /* ── B: Deep Navy ── */
+  .bg-b { background: #0C1420; }
+  .bg-b .v2-label { color: #B83228; }
+  .bg-b .v2-headline { color: #F2E4D8; }
+  .bg-b .v2-sub { color: rgba(242,228,216,0.55); }
+  .bg-b .v2-count-num { color: #B83228; }
+  .bg-b .v2-count-label { color: rgba(242,228,216,0.45); }
+  .bg-b .v2-count-divider { background: rgba(242,228,216,0.1); }
+  .bg-b .v2-slot-row { border: 1px solid rgba(242,228,216,0.08); }
+  .bg-b .v2-slot-row:hover { border-color: rgba(184,50,40,0.3); }
+  .bg-b .v2-slot-circle { border: 2px dashed rgba(242,228,216,0.18); color: rgba(242,228,216,0.25); }
+  .bg-b .v2-slot-title { color: #F2E4D8; }
+  .bg-b .v2-slot-desc { color: rgba(242,228,216,0.45); }
+  .bg-b .v2-slot-badge { color: #B83228; background: rgba(184,50,40,0.12); }
+  .bg-b .v2-badge-dot { background: #b83228; }
+  .bg-b .v2-arcs { opacity: 0.05; }
+  .bg-b .v2-arcs circle { stroke: #F2E4D8; }
+
+  /* ── C: Charcoal Warm ── */
+  .bg-c { background: #2A2420; }
+  .bg-c .v2-label { color: #B83228; }
+  .bg-c .v2-headline { color: #F2E4D8; }
+  .bg-c .v2-sub { color: rgba(242,228,216,0.55); }
+  .bg-c .v2-count-num { color: #D44A28; }
+  .bg-c .v2-count-label { color: rgba(242,228,216,0.45); }
+  .bg-c .v2-count-divider { background: rgba(242,228,216,0.1); }
+  .bg-c .v2-slot-row { border: 1px solid rgba(242,228,216,0.07); }
+  .bg-c .v2-slot-row:hover { border-color: rgba(212,74,40,0.3); }
+  .bg-c .v2-slot-circle { border: 2px dashed rgba(242,228,216,0.15); color: rgba(242,228,216,0.25); }
+  .bg-c .v2-slot-title { color: #F2E4D8; }
+  .bg-c .v2-slot-desc { color: rgba(242,228,216,0.45); }
+  .bg-c .v2-slot-badge { color: #D44A28; background: rgba(212,74,40,0.12); }
+  .bg-c .v2-badge-dot { background: #D44A28; }
+  .bg-c .v2-arcs { opacity: 0.05; }
+  .bg-c .v2-arcs circle { stroke: #F2E4D8; }
+
+  /* ── D: Deep Burgundy ── */
+  .bg-d { background: #1E0E0C; }
+  .bg-d .v2-label { color: #D44A28; }
+  .bg-d .v2-headline { color: #F2E4D8; }
+  .bg-d .v2-sub { color: rgba(242,228,216,0.55); }
+  .bg-d .v2-count-num { color: #B83228; }
+  .bg-d .v2-count-label { color: rgba(242,228,216,0.45); }
+  .bg-d .v2-count-divider { background: rgba(242,228,216,0.1); }
+  .bg-d .v2-slot-row { border: 1px solid rgba(242,228,216,0.07); }
+  .bg-d .v2-slot-row:hover { border-color: rgba(184,50,40,0.35); }
+  .bg-d .v2-slot-circle { border: 2px dashed rgba(184,50,40,0.2); color: rgba(184,50,40,0.3); }
+  .bg-d .v2-slot-title { color: #F2E4D8; }
+  .bg-d .v2-slot-desc { color: rgba(242,228,216,0.45); }
+  .bg-d .v2-slot-badge { color: #B83228; background: rgba(184,50,40,0.15); }
+  .bg-d .v2-badge-dot { background: #b83228; }
+  .bg-d .v2-arcs { opacity: 0.07; }
+  .bg-d .v2-arcs circle { stroke: #B83228; }
+
+  /* ── E: Slate Green ── */
+  .bg-e { background: #141E1A; }
+  .bg-e .v2-label { color: #B83228; }
+  .bg-e .v2-headline { color: #F2E4D8; }
+  .bg-e .v2-sub { color: rgba(242,228,216,0.55); }
+  .bg-e .v2-count-num { color: #B83228; }
+  .bg-e .v2-count-label { color: rgba(242,228,216,0.45); }
+  .bg-e .v2-count-divider { background: rgba(242,228,216,0.1); }
+  .bg-e .v2-slot-row { border: 1px solid rgba(242,228,216,0.07); }
+  .bg-e .v2-slot-row:hover { border-color: rgba(184,50,40,0.3); }
+  .bg-e .v2-slot-circle { border: 2px dashed rgba(242,228,216,0.15); color: rgba(242,228,216,0.25); }
+  .bg-e .v2-slot-title { color: #F2E4D8; }
+  .bg-e .v2-slot-desc { color: rgba(242,228,216,0.45); }
+  .bg-e .v2-slot-badge { color: #B83228; background: rgba(184,50,40,0.12); }
+  .bg-e .v2-badge-dot { background: #b83228; }
+  .bg-e .v2-arcs { opacity: 0.05; }
+  .bg-e .v2-arcs circle { stroke: #F2E4D8; }
+</style>
+</head>
+<body>
+
+<!-- ═══ A: Dark Ink (original) #1a1008 ═══ -->
+<div class="var-label"><div class="var-num">A</div><div><div class="var-title">Dark Ink</div><div class="var-desc">#1A1008 — the original, warm dark brown from your ink color</div></div></div>
+<div class="v2 bg-a">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="200" stroke-width="1"/><circle cx="600" cy="350" r="300" stroke-width="1"/><circle cx="600" cy="350" r="420" stroke-width="1"/><circle cx="600" cy="350" r="560" stroke-width="1"/></svg>
+  <div class="v2-inner">
+    <div><div class="v2-label">Summer Cohort</div><div class="v2-headline">We're booking<br>three brands<br>this summer.</div><div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div><div class="v2-counter"><div class="v2-count-item"><div class="v2-count-num">3</div><div class="v2-count-label">Spots</div></div><div class="v2-count-divider"></div><div class="v2-count-item"><div class="v2-count-num">0</div><div class="v2-count-label">Filled</div></div></div></div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row"><div class="v2-slot-circle">1</div><div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">2</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">3</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ B: Deep Navy #0C1420 ═══ -->
+<div class="var-label"><div class="var-num">B</div><div><div class="var-title">Deep Navy</div><div class="var-desc">#0C1420 — cool and professional, strong contrast with terracotta</div></div></div>
+<div class="v2 bg-b">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="200" stroke-width="1"/><circle cx="600" cy="350" r="300" stroke-width="1"/><circle cx="600" cy="350" r="420" stroke-width="1"/><circle cx="600" cy="350" r="560" stroke-width="1"/></svg>
+  <div class="v2-inner">
+    <div><div class="v2-label">Summer Cohort</div><div class="v2-headline">We're booking<br>three brands<br>this summer.</div><div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div><div class="v2-counter"><div class="v2-count-item"><div class="v2-count-num">3</div><div class="v2-count-label">Spots</div></div><div class="v2-count-divider"></div><div class="v2-count-item"><div class="v2-count-num">0</div><div class="v2-count-label">Filled</div></div></div></div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row"><div class="v2-slot-circle">1</div><div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">2</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">3</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C: Charcoal Warm #2A2420 ═══ -->
+<div class="var-label"><div class="var-num">C</div><div><div class="var-title">Charcoal Warm</div><div class="var-desc">#2A2420 — lighter than ink, still dark but with visible warmth</div></div></div>
+<div class="v2 bg-c">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="200" stroke-width="1"/><circle cx="600" cy="350" r="300" stroke-width="1"/><circle cx="600" cy="350" r="420" stroke-width="1"/><circle cx="600" cy="350" r="560" stroke-width="1"/></svg>
+  <div class="v2-inner">
+    <div><div class="v2-label">Summer Cohort</div><div class="v2-headline">We're booking<br>three brands<br>this summer.</div><div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div><div class="v2-counter"><div class="v2-count-item"><div class="v2-count-num">3</div><div class="v2-count-label">Spots</div></div><div class="v2-count-divider"></div><div class="v2-count-item"><div class="v2-count-num">0</div><div class="v2-count-label">Filled</div></div></div></div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row"><div class="v2-slot-circle">1</div><div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">2</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">3</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ D: Deep Burgundy #1E0E0C ═══ -->
+<div class="var-label"><div class="var-num">D</div><div><div class="var-title">Deep Burgundy</div><div class="var-desc">#1E0E0C — dark with a red undertone, ties into the accent color</div></div></div>
+<div class="v2 bg-d">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="200" stroke-width="1"/><circle cx="600" cy="350" r="300" stroke-width="1"/><circle cx="600" cy="350" r="420" stroke-width="1"/><circle cx="600" cy="350" r="560" stroke-width="1"/></svg>
+  <div class="v2-inner">
+    <div><div class="v2-label">Summer Cohort</div><div class="v2-headline">We're booking<br>three brands<br>this summer.</div><div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div><div class="v2-counter"><div class="v2-count-item"><div class="v2-count-num">3</div><div class="v2-count-label">Spots</div></div><div class="v2-count-divider"></div><div class="v2-count-item"><div class="v2-count-num">0</div><div class="v2-count-label">Filled</div></div></div></div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row"><div class="v2-slot-circle">1</div><div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">2</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">3</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ E: Slate Green #141E1A ═══ -->
+<div class="var-label"><div class="var-num">E</div><div><div class="var-title">Slate Green</div><div class="var-desc">#141E1A — cool green undertone, unexpected but sophisticated against terracotta</div></div></div>
+<div class="v2 bg-e">
+  <svg class="v2-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="200" stroke-width="1"/><circle cx="600" cy="350" r="300" stroke-width="1"/><circle cx="600" cy="350" r="420" stroke-width="1"/><circle cx="600" cy="350" r="560" stroke-width="1"/></svg>
+  <div class="v2-inner">
+    <div><div class="v2-label">Summer Cohort</div><div class="v2-headline">We're booking<br>three brands<br>this summer.</div><div class="v2-sub">Each cohort is intentionally small so we can go deep — not wide. Three clients, full attention, real results.</div><div class="v2-counter"><div class="v2-count-item"><div class="v2-count-num">3</div><div class="v2-count-label">Spots</div></div><div class="v2-count-divider"></div><div class="v2-count-item"><div class="v2-count-num">0</div><div class="v2-count-label">Filled</div></div></div></div>
+    <div class="v2-slots-visual">
+      <div class="v2-slot-row"><div class="v2-slot-circle">1</div><div class="v2-slot-info"><div class="v2-slot-title">Slot One</div><div class="v2-slot-desc">Website design + brand identity</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">2</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Two</div><div class="v2-slot-desc">Full digital presence package</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+      <div class="v2-slot-row"><div class="v2-slot-circle">3</div><div class="v2-slot-info"><div class="v2-slot-title">Slot Three</div><div class="v2-slot-desc">Website + social + SEO</div></div><div class="v2-slot-badge"><span class="v2-badge-dot"></span> Open</div></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

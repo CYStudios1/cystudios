@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — 3 Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+  .spacer { height: 20px; background: #F2E4D8; }
+
+  .btn { font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 30px; border-radius: 6px; display: inline-block; cursor: pointer; border: none; color: #fff; background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%); background-size: 200% 100%; background-position: 100% 0; box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18); transition: background-position 0.6s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.4s cubic-bezier(0.25,0.1,0.25,1), transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42), 0 3px 6px rgba(184,50,40,0.22); }
+  .btn-outline { background: transparent; color: #1A1008; border: 1.5px solid rgba(26,16,8,0.2); box-shadow: none; }
+  .btn-outline:hover { border-color: #B83228; color: #B83228; background: rgba(184,50,40,0.05); box-shadow: none; transform: translateY(-2px); }
+  .btn-outline-light { background: transparent; color: #F2E4D8; border: 1.5px solid rgba(242,228,216,0.2); box-shadow: none; }
+  .btn-outline-light:hover { border-color: #B83228; color: #B83228; background: rgba(184,50,40,0.1); box-shadow: none; transform: translateY(-2px); }
+
+
+  /* ══════════════════════════════════════
+     V1 — Classic Three Cards
+     ══════════════════════════════════════ */
+  .v1 { background: #F2E4D8; padding: 80px 64px; }
+  .v1-inner { max-width: 1100px; margin: 0 auto; }
+  .v1-header { margin-bottom: 56px; }
+  .p-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .p-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 12px; }
+  .p-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+
+  .v1-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .v1-card {
+    background: #EDD9C8; border-radius: 16px; padding: 40px 32px;
+    border: 1px solid rgba(26,16,8,0.06); position: relative;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .v1-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,16,8,0.1); }
+  .v1-card.featured {
+    background: #1A1008; border-color: transparent;
+  }
+  .v1-card.featured .v1-tier, .v1-card.featured .v1-price, .v1-card.featured .v1-period { color: #F2E4D8; }
+  .v1-card.featured .v1-desc { color: rgba(242,228,216,0.6); }
+  .v1-card.featured .v1-feature { color: rgba(242,228,216,0.7); border-color: rgba(242,228,216,0.08); }
+  .v1-card.featured .v1-check { color: #B83228; }
+  .v1-popular {
+    position: absolute; top: -12px; right: 24px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    background: #B83228; color: #fff; padding: 6px 14px; border-radius: 99px;
+  }
+  .v1-tier { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5A4E44; margin-bottom: 16px; }
+  .v1-price { font-size: 48px; font-weight: 900; color: #1A1008; line-height: 1; }
+  .v1-period { font-size: 14px; font-weight: 400; color: #5A4E44; margin-bottom: 20px; }
+  .v1-desc { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7; margin-bottom: 28px; }
+  .v1-features { list-style: none; margin-bottom: 32px; flex: 1; }
+  .v1-feature {
+    font-size: 14px; font-weight: 400; color: #5A4E44;
+    padding: 12px 0; border-bottom: 1px solid rgba(26,16,8,0.06);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .v1-check { font-size: 14px; font-weight: 800; color: #B83228; }
+
+
+  /* ══════════════════════════════════════
+     V2 — Dark Section, Horizontal Rows
+     ══════════════════════════════════════ */
+  .v2 { background: #1a1008; padding: 80px 64px; }
+  .v2-inner { max-width: 1100px; margin: 0 auto; }
+  .v2-header { margin-bottom: 56px; }
+  .v2 .p-headline { color: #F2E4D8; }
+  .v2 .p-sub { color: rgba(242,228,216,0.6); }
+
+  .v2-tiers { display: flex; flex-direction: column; gap: 16px; }
+  .v2-tier {
+    display: grid; grid-template-columns: 200px 1fr 160px; gap: 32px; align-items: center;
+    padding: 32px 36px; border-radius: 14px;
+    border: 1px solid rgba(242,228,216,0.08);
+    transition: border-color 0.3s ease;
+  }
+  .v2-tier:hover { border-color: rgba(184,50,40,0.3); }
+  .v2-tier.featured { border-color: rgba(184,50,40,0.3); background: rgba(184,50,40,0.05); }
+  .v2-tier-left {}
+  .v2-tier-name { font-size: 22px; font-weight: 700; color: #F2E4D8; margin-bottom: 4px; }
+  .v2-tier-price { font-size: 36px; font-weight: 900; color: #B83228; line-height: 1; }
+  .v2-tier-period { font-size: 13px; font-weight: 400; color: rgba(242,228,216,0.4); margin-top: 4px; }
+  .v2-tier-features {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+  }
+  .v2-feat {
+    font-size: 13px; font-weight: 400; color: rgba(242,228,216,0.65);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .v2-feat-dot { width: 4px; height: 4px; background: #B83228; border-radius: 50%; flex-shrink: 0; }
+  .v2-tier-cta { text-align: right; }
+  .v2-popular-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #B83228; margin-bottom: 8px;
+  }
+  .v2-pop-dot { width: 5px; height: 5px; background: #b83228; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+
+  /* ══════════════════════════════════════
+     V3 — Tabbed / Comparison Table
+     ══════════════════════════════════════ */
+  .v3 { background: #F2E4D8; padding: 80px 64px; }
+  .v3-inner { max-width: 1100px; margin: 0 auto; }
+  .v3-header { margin-bottom: 48px; }
+
+  .v3-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .v3-table thead th {
+    padding: 24px 20px; text-align: center; vertical-align: bottom;
+    border-bottom: 2px solid rgba(26,16,8,0.08);
+  }
+  .v3-table thead th:first-child { text-align: left; width: 280px; }
+  .v3-th-tier { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5A4E44; margin-bottom: 8px; }
+  .v3-th-price { font-size: 32px; font-weight: 900; color: #1A1008; line-height: 1; }
+  .v3-th-period { font-size: 12px; font-weight: 400; color: #5A4E44; margin-top: 4px; }
+  .v3-th-featured .v3-th-tier { color: #B83228; }
+  .v3-th-label { font-size: 16px; font-weight: 600; color: #1A1008; }
+
+  .v3-table tbody td {
+    padding: 16px 20px; text-align: center;
+    border-bottom: 1px solid rgba(26,16,8,0.06);
+    font-size: 14px; font-weight: 400; color: #5A4E44;
+  }
+  .v3-table tbody td:first-child { text-align: left; font-weight: 500; color: #1A1008; }
+  .v3-table tbody tr:last-child td { border-bottom: none; }
+  .v3-yes { font-size: 16px; font-weight: 800; color: #B83228; }
+  .v3-no { font-size: 14px; color: rgba(26,16,8,0.2); }
+  .v3-table tfoot td {
+    padding: 28px 20px; text-align: center;
+    border-top: 2px solid rgba(26,16,8,0.08);
+  }
+  .v3-table tfoot td:first-child { text-align: left; }
+  .v3-featured-col { background: rgba(184,50,40,0.03); }
+</style>
+</head>
+<body>
+
+<!-- ═══ V1 — Classic Three Cards ═══ -->
+<div class="var-label"><div class="var-num">1</div><div><div class="var-title">Classic Three Cards</div><div class="var-desc">Vertical cards, middle one featured (dark), popular badge, feature lists</div></div></div>
+<div class="v1">
+  <div class="v1-inner">
+    <div class="v1-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <div class="v1-cards">
+      <!-- Standard -->
+      <div class="v1-card">
+        <div class="v1-tier">Standard</div>
+        <div class="v1-price">$2,500</div>
+        <div class="v1-period">/project</div>
+        <div class="v1-desc">A focused website build for brands that know what they need.</div>
+        <ul class="v1-features">
+          <li class="v1-feature"><span class="v1-check">✓</span> Custom website design</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Mobile responsive</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> 5 pages</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> 2 rounds of revisions</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Basic SEO setup</li>
+        </ul>
+        <button class="btn btn-outline">Get Started</button>
+      </div>
+      <!-- Growth (featured) -->
+      <div class="v1-card featured">
+        <div class="v1-popular">Most Popular</div>
+        <div class="v1-tier">Growth</div>
+        <div class="v1-price">$5,000</div>
+        <div class="v1-period">/project</div>
+        <div class="v1-desc">Full digital presence — website, brand identity, and launch strategy.</div>
+        <ul class="v1-features">
+          <li class="v1-feature"><span class="v1-check">✓</span> Everything in Standard</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Brand identity package</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> 10 pages</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Social media templates</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Advanced SEO</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Analytics setup</li>
+        </ul>
+        <button class="btn">Get Started →</button>
+      </div>
+      <!-- Scale -->
+      <div class="v1-card">
+        <div class="v1-tier">Scale</div>
+        <div class="v1-price">$8,500</div>
+        <div class="v1-period">/project</div>
+        <div class="v1-desc">The full CY Studios experience — every touchpoint, fully dialed in.</div>
+        <ul class="v1-features">
+          <li class="v1-feature"><span class="v1-check">✓</span> Everything in Growth</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Unlimited pages</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> E-commerce integration</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> Content strategy</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> GenAI marketing setup</li>
+          <li class="v1-feature"><span class="v1-check">✓</span> 90-day post-launch support</li>
+        </ul>
+        <button class="btn btn-outline">Get Started</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V2 — Dark Section, Horizontal Rows ═══ -->
+<div class="var-label"><div class="var-num">2</div><div><div class="var-title">Dark Horizontal Rows</div><div class="var-desc">Dark background, each tier is a horizontal row — name/price left, features center, CTA right</div></div></div>
+<div class="v2">
+  <div class="v2-inner">
+    <div class="v2-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <div class="v2-tiers">
+      <!-- Standard -->
+      <div class="v2-tier">
+        <div class="v2-tier-left">
+          <div class="v2-tier-name">Standard</div>
+          <div class="v2-tier-price">$2,500</div>
+          <div class="v2-tier-period">/project</div>
+        </div>
+        <div class="v2-tier-features">
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Custom website</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Mobile responsive</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> 5 pages</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> 2 revisions</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Basic SEO</div>
+        </div>
+        <div class="v2-tier-cta"><button class="btn btn-outline-light">Get Started</button></div>
+      </div>
+      <!-- Growth (featured) -->
+      <div class="v2-tier featured">
+        <div class="v2-tier-left">
+          <div class="v2-popular-badge"><span class="v2-pop-dot"></span> Most Popular</div>
+          <div class="v2-tier-name">Growth</div>
+          <div class="v2-tier-price">$5,000</div>
+          <div class="v2-tier-period">/project</div>
+        </div>
+        <div class="v2-tier-features">
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Everything in Standard</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Brand identity</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> 10 pages</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Social templates</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Advanced SEO</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Analytics</div>
+        </div>
+        <div class="v2-tier-cta"><button class="btn">Get Started →</button></div>
+      </div>
+      <!-- Scale -->
+      <div class="v2-tier">
+        <div class="v2-tier-left">
+          <div class="v2-tier-name">Scale</div>
+          <div class="v2-tier-price">$8,500</div>
+          <div class="v2-tier-period">/project</div>
+        </div>
+        <div class="v2-tier-features">
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Everything in Growth</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Unlimited pages</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> E-commerce</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> Content strategy</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> GenAI marketing</div>
+          <div class="v2-feat"><span class="v2-feat-dot"></span> 90-day support</div>
+        </div>
+        <div class="v2-tier-cta"><button class="btn btn-outline-light">Get Started</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V3 — Comparison Table ═══ -->
+<div class="var-label"><div class="var-num">3</div><div><div class="var-title">Comparison Table</div><div class="var-desc">Feature comparison grid — tiers across the top, features down the side, checkmarks</div></div></div>
+<div class="v3">
+  <div class="v3-inner">
+    <div class="v3-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <table class="v3-table">
+      <thead>
+        <tr>
+          <th><div class="v3-th-label">What's included</div></th>
+          <th>
+            <div class="v3-th-tier">Standard</div>
+            <div class="v3-th-price">$2,500</div>
+            <div class="v3-th-period">/project</div>
+          </th>
+          <th class="v3-featured-col">
+            <div class="v3-th-featured">
+              <div class="v3-th-tier" style="color:#B83228;">Growth ★</div>
+              <div class="v3-th-price">$5,000</div>
+              <div class="v3-th-period">/project</div>
+            </div>
+          </th>
+          <th>
+            <div class="v3-th-tier">Scale</div>
+            <div class="v3-th-price">$8,500</div>
+            <div class="v3-th-period">/project</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Custom website design</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Mobile responsive</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Pages included</td><td>5</td><td class="v3-featured-col">10</td><td>Unlimited</td></tr>
+        <tr><td>Rounds of revisions</td><td>2</td><td class="v3-featured-col">4</td><td>Unlimited</td></tr>
+        <tr><td>Brand identity package</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Social media templates</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>SEO optimization</td><td>Basic</td><td class="v3-featured-col">Advanced</td><td>Advanced</td></tr>
+        <tr><td>Analytics setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>E-commerce integration</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Content strategy</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>GenAI marketing setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Post-launch support</td><td>30 days</td><td class="v3-featured-col">60 days</td><td>90 days</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td><button class="btn btn-outline" style="font-size:11px; padding:10px 20px;">Get Started</button></td>
+          <td class="v3-featured-col"><button class="btn" style="font-size:11px; padding:10px 20px;">Get Started →</button></td>
+          <td><button class="btn btn-outline" style="font-size:11px; padding:10px 20px;">Get Started</button></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>

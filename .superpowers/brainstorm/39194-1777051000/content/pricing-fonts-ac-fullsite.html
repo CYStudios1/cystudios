@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Pricing Font A vs C</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&family=Inter:wght@900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #F2E4D8; }
+
+  .page-wrapper { position: relative; overflow-x: clip; background: #F2E4D8; }
+  .bg-layer { position: absolute; top: 0; left: 0; right: 0; height: 100%; z-index: 1; pointer-events: none; perspective: 1100px; perspective-origin: 68% 35%; -webkit-mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%); mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%); }
+  .arcs-svg { position: absolute; top: -5%; right: -6%; width: 80%; height: 80%; transform-origin: right center; animation: planeBreath 10s ease-in-out infinite; }
+  @keyframes planeBreath { 0%, 100% { transform: rotateX(0deg) translateY(0px); } 50% { transform: rotateX(5deg) translateY(-8px); } }
+  .ring { transform-box: view-box; transform-origin: 600px 350px; animation: ringWave ease-in-out infinite; }
+  @keyframes ringWave { 0%, 100% { transform: scale(1); opacity: var(--op); } 50% { transform: scale(1.022); opacity: calc(var(--op) * 1.7); } }
+  .ring-red { transform-box: view-box; transform-origin: 600px 350px; animation: ringRedWave ease-in-out infinite; }
+  @keyframes ringRedWave { 0%, 100% { transform: scale(1); opacity: 0.06; } 50% { transform: scale(1.015); opacity: 0.13; } }
+  .crosshair { animation: crossFade 9s ease-in-out infinite; }
+  @keyframes crossFade { 0%,100%{opacity:0.18} 50%{opacity:0.35} }
+  .mark { position: absolute; border-radius: 50%; background: #b83228; animation: mpulse 4s ease-in-out infinite; }
+  @keyframes mpulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.45;transform:scale(1.4)} }
+  .hero-section { min-height: 100vh; background: transparent; position: relative; display: flex; flex-direction: column; }
+  .nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 64px; height: 64px; background: transparent; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 36px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links span { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; }
+  .hero-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 10; }
+  .hero-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 48px 48px 64px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(40px, 4.5vw, 68px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 380px; margin-bottom: 32px; }
+  .btn { font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 30px; border-radius: 6px; display: inline-block; cursor: pointer; border: none; color: #fff; background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%); background-size: 200% 100%; background-position: 100% 0; box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18); transition: background-position 0.6s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.4s cubic-bezier(0.25,0.1,0.25,1), transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42), 0 3px 6px rgba(184,50,40,0.22); }
+  .btn-sm { font-size: 11px; padding: 9px 22px; border-radius: 5px; }
+  .btn-outline { background: transparent; color: #1A1008; border: 1.5px solid rgba(26,16,8,0.2); box-shadow: none; }
+  .btn-outline:hover { border-color: #B83228; color: #B83228; background: rgba(184,50,40,0.05); box-shadow: none; transform: translateY(-2px); }
+  .device-side { display: flex; align-items: center; justify-content: center; padding: 30px 40px 30px 16px; }
+  .laptop-3d { width: 460px; transform: rotateY(-20deg) rotateX(5deg); transform-style: preserve-3d; filter: drop-shadow(40px 50px 80px rgba(184,50,40,0.3)) drop-shadow(0 20px 40px rgba(184,50,40,0.18)); position: relative; }
+  .screen-glow { position: absolute; inset: -20px; border-radius: 12px; background: radial-gradient(ellipse at 50% 30%, rgba(242,228,216,0.4) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+  .laptop-lid { background: linear-gradient(160deg, #2c2218, #1a1008, #221508); border-radius: 12px 12px 3px 3px; padding: 11px 11px 0; position: relative; }
+  .laptop-lid::after { content:''; position:absolute; bottom:0; left:8px; right:8px; height:2px; background:linear-gradient(90deg,#333,#555,#333); border-radius:0 0 2px 2px; }
+  .laptop-bezel { background: #0e0906; border-radius: 6px 6px 3px 3px; padding: 8px 8px 24px; position: relative; }
+  .laptop-screen { background: #fff; border-radius: 4px; overflow: hidden; aspect-ratio: 16/10; position: relative; }
+  .screen-glare { position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.06) 30%,transparent 55%,rgba(255,255,255,0.02) 100%); z-index:50; pointer-events:none; border-radius:4px; }
+  .camera-dot { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); width:5px; height:5px; background:#1a1008; border-radius:50%; box-shadow:0 0 0 1px #333; }
+  .laptop-base { background:linear-gradient(180deg,#2a1e10,#1e1409); height:14px; border-radius:0 0 3px 3px; position:relative; display:flex; justify-content:center; align-items:center; }
+  .trackpad-hint { width:52px; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; }
+  .laptop-foot { height:5px; background:linear-gradient(180deg,#111,#222); margin:0 28px; border-radius:0 0 6px 6px; }
+  .foot-rubber-l { position:absolute; left:32px; bottom:0; width:20px; height:5px; background:#333; border-radius:0 0 4px 4px; }
+  .foot-rubber-r { position:absolute; right:32px; bottom:0; width:20px; height:5px; background:#333; border-radius:0 0 4px 4px; }
+  .mini-site { width:100%; height:100%; background:#F2E4D8; display:flex; flex-direction:column; overflow:hidden; position:relative; }
+  .mini-arcs { position:absolute; top:-5%; right:-3%; width:55%; height:110%; pointer-events:none; z-index:0; }
+  .mini-nav { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:0 12px; height:24px; border-bottom:1px solid rgba(26,16,8,0.08); flex-shrink:0; }
+  .mini-logo { font-size:5.5px; font-weight:800; color:#1a1008; letter-spacing:0.04em; text-transform:uppercase; }
+  .mini-links { display:flex; gap:7px; } .mini-link-txt { font-size:4px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:#5a4e44; }
+  .mini-cta-btn { font-size:4px; font-weight:700; background:#b83228; color:#fff; padding:3px 7px; border-radius:2px; }
+  .mini-hero { flex:1; display:flex; align-items:center; padding:8px 14px 6px; position:relative; z-index:2; }
+  .mini-text { flex:1; display:flex; flex-direction:column; gap:3px; }
+  .mini-pill { display:inline-flex; align-items:center; gap:3px; font-size:3.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#b83228; background:rgba(184,50,40,0.1); border:0.5px solid rgba(184,50,40,0.25); padding:2px 6px; border-radius:99px; margin-bottom:4px; width:fit-content; }
+  .mini-pill-dot { width:2.5px; height:2.5px; background:#b83228; border-radius:50%; }
+  .mini-h1 { font-size:12px; font-weight:800; line-height:1.05; color:#1a1008; margin-bottom:3px; }
+  .mini-body { font-size:4px; font-weight:300; color:#5a4e44; line-height:1.7; max-width:120px; margin-bottom:5px; }
+  .mini-btn { font-size:4px; font-weight:700; background:#b83228; color:#fff; padding:4px 9px; border-radius:2px; display:inline-block; }
+  .mini-ticker { flex-shrink:0; border-top:0.5px solid rgba(26,16,8,0.1); background:rgba(26,16,8,0.03); padding:4px 0; overflow:hidden; white-space:nowrap; }
+  .mini-tick-track { display:inline-flex; gap:12px; animation:minitick 12s linear infinite; white-space:nowrap; padding:0 8px; font-size:3.5px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#5a4e44; }
+  @keyframes minitick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .mini-tdot { display:inline-block; width:2px; height:2px; background:#b83228; border-radius:50%; margin:0 3px; vertical-align:middle; }
+  .logo-section { background: rgba(26,16,8,0.04); padding: 48px 0; overflow: visible; position: relative; z-index: 2; border-top: 1px solid rgba(26,16,8,0.1); border-bottom: 1px solid rgba(26,16,8,0.1); }
+  .logo-section::before, .logo-section::after { content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 10; pointer-events: none; }
+  .logo-section::before { left: 0; background: linear-gradient(to right, #EEE0D2, transparent); }
+  .logo-section::after  { right: 0; background: linear-gradient(to left, #EEE0D2, transparent); }
+  .logo-track { display: inline-flex; align-items: center; gap: 100px; animation: logoScroll 28s linear infinite; white-space: nowrap; }
+  @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.45; flex-shrink: 0; }
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; } .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: #1a1008; } .logo-b-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; } .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1008; } .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; } .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid #1a1008; display: flex; align-items: center; justify-content: center; } .logo-d-inner { width: 12px; height: 12px; background: #1a1008; border-radius: 50%; } .logo-d-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .about { background: transparent; padding: 80px 64px; position: relative; z-index: 2; }
+  .about-inner { max-width: 1100px; margin: 0 auto; }
+  .about-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .about-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 16px; }
+  .about-body { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 560px; margin: 0 auto 56px; }
+  .v2-center { text-align: center; }
+  .v2-founders { display: flex; gap: 48px; justify-content: center; align-items: flex-start; }
+  .v2-founder { text-align: center; max-width: 280px; }
+  .v2-photo { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, rgba(26,16,8,0.07), rgba(26,16,8,0.13)); margin: 0 auto 20px; position: relative; }
+  .v2-photo::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid rgba(184,50,40,0.15); }
+  .v2-name { font-size: 20px; font-weight: 700; color: #1A1008; margin-bottom: 4px; }
+  .v2-role { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 14px; }
+  .v2-bio { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.75; }
+  .v2-divider { width: 1px; background: rgba(26,16,8,0.1); align-self: stretch; margin: 20px 0; }
+
+  /* Spring cohort */
+  .cohort-header-outer { background: #F2E4D8; }
+  .cohort-header { padding: 80px 64px 48px; max-width: 1228px; margin: 0 auto; }
+  .cohort-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .cohort-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; }
+  .cohort-wrap { padding: 0 64px 80px; background: #F2E4D8; }
+  .accordion { display: flex; gap: 12px; height: 480px; max-width: 1100px; margin: 0 auto; }
+  .acc-item { flex: 1; position: relative; border-radius: 14px; overflow: hidden; cursor: pointer; transition: flex 0.6s cubic-bezier(0.25,0.1,0.25,1); }
+  .accordion:hover .acc-item { flex: 0.6; }
+  .accordion:hover .acc-item:hover { flex: 3; }
+  .acc-bg { position: absolute; inset: 0; }
+  .bg-1 { background: linear-gradient(160deg, #1a1008, #2c2218 40%, #3a2e22); }
+  .bg-2 { background: linear-gradient(160deg, #1e1409, #352a1e 40%, #4a3c2e); }
+  .bg-3 { background: linear-gradient(160deg, #221810, #3e3028 40%, #503e30); }
+  .acc-screen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; aspect-ratio: 16/10; background: #F2E4D8; border-radius: 6px; opacity: 0.85; transition: opacity 0.4s ease; overflow: hidden; }
+  .acc-item:hover .acc-screen { opacity: 1; }
+  .acc-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px; background: linear-gradient(to top, rgba(26,16,8,0.92), rgba(26,16,8,0.6) 60%, transparent); transition: opacity 0.3s ease; }
+  .acc-num { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 6px; }
+  .acc-name { font-size: 22px; font-weight: 700; color: #F2E4D8; margin-bottom: 4px; white-space: nowrap; }
+  .acc-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.7); line-height: 1.6; max-width: 360px; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s; }
+  .acc-item:hover .acc-desc { opacity: 1; transform: translateY(0); }
+  .acc-label-vert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); font-size: 14px; font-weight: 700; color: rgba(242,228,216,0.8); white-space: nowrap; letter-spacing: 0.08em; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+  .accordion:hover .acc-item:not(:hover) .acc-label-vert { opacity: 1; }
+  .accordion:hover .acc-item:not(:hover) .acc-info { opacity: 0; }
+  .mock-site { width: 100%; height: 100%; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .mock-site-nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .mock-site-logo { font-size: 7px; font-weight: 800; color: #1a1008; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mock-site-links { display: flex; gap: 8px; } .mock-site-link { font-size: 4px; font-weight: 500; color: #5a4e44; text-transform: uppercase; letter-spacing: 0.1em; }
+  .mock-site-hero { flex: 1; display: flex; align-items: center; padding: 8px 0; }
+  .mock-site-h1 { font-size: 14px; font-weight: 800; color: #1a1008; line-height: 1.1; }
+  .mock-site-body { font-size: 5px; font-weight: 300; color: #5a4e44; line-height: 1.6; max-width: 60%; margin-top: 6px; }
+  .mock-site-btn { font-size: 4px; font-weight: 700; background: #b83228; color: #fff; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-top: 8px; }
+
+  /* Summer cohort (V1 three slots) */
+  .summer-v1 { background: #F2E4D8; padding: 80px 64px; }
+  .summer-v1-inner { max-width: 1100px; margin: 0 auto; }
+  .summer-v1-header { text-align: left; margin-bottom: 56px; }
+  .s-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .s-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 16px; }
+  .s-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+  .v1-slots { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+  .v1-slot { background: #EDD9C8; border-radius: 14px; padding: 36px 28px; text-align: center; border: 2px dashed rgba(26,16,8,0.12); transition: border-color 0.3s ease, transform 0.3s ease; }
+  .v1-slot:hover { border-color: rgba(184,50,40,0.3); transform: translateY(-4px); }
+  .v1-slot-num { font-size: 48px; font-weight: 900; color: rgba(184,50,40,0.1); line-height: 1; margin-bottom: 8px; }
+  .v1-slot-status { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .v1-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  .v1-slot-text { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+  .v1-cta { text-align: left; }
+
+  /* ── Pricing V3: Comparison Table ── */
+  .pricing { background: #F2E4D8; padding: 80px 64px; }
+  .pricing-inner { max-width: 1100px; margin: 0 auto; }
+  .pricing-header { margin-bottom: 48px; }
+  .p-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .p-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 12px; }
+  .p-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+
+  .v3-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .v3-table thead th { padding: 24px 20px; text-align: center; vertical-align: bottom; border-bottom: 2px solid rgba(26,16,8,0.08); }
+  .v3-table thead th:first-child { text-align: left; width: 280px; }
+  .v3-th-tier { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5A4E44; margin-bottom: 8px; }
+  .v3-th-price { font-size: 32px; font-weight: 900; color: #1A1008; line-height: 1; }
+  .v3-th-period { font-size: 12px; font-weight: 400; color: #5A4E44; margin-top: 4px; }
+  .v3-th-label { font-size: 16px; font-weight: 600; color: #1A1008; }
+  .v3-table tbody td { padding: 16px 20px; text-align: center; border-bottom: 1px solid rgba(26,16,8,0.06); font-size: 14px; font-weight: 400; color: #5A4E44; }
+  .v3-table tbody td:first-child { text-align: left; font-weight: 500; color: #1A1008; }
+  .v3-table tbody tr:last-child td { border-bottom: none; }
+  .v3-yes { font-size: 16px; font-weight: 800; color: #B83228; }
+  .v3-no { font-size: 14px; color: rgba(26,16,8,0.2); }
+  .v3-table tfoot td { padding: 28px 20px; text-align: center; border-top: 2px solid rgba(26,16,8,0.08); }
+  .v3-table tfoot td:first-child { text-align: left; }
+  .v3-featured-col { background: rgba(184,50,40,0.03); }
+
+  .next-stub { height: 80px; background: #F2E4D8; display: flex; align-items: center; justify-content: center; }
+  .next-hint { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,16,8,0.2); }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="page-wrapper">
+  <div class="bg-layer"><svg class="arcs-svg" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle class="ring" cx="600" cy="350" r="80" stroke="#1a1008" stroke-width="1" style="--op:0.07;animation-duration:4.5s;animation-delay:0s;"/><circle class="ring" cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" style="--op:0.065;animation-duration:4.8s;animation-delay:-0.35s;"/><circle class="ring" cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" style="--op:0.06;animation-duration:5.1s;animation-delay:-0.7s;"/><circle class="ring" cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" style="--op:0.055;animation-duration:5.4s;animation-delay:-1.05s;"/><circle class="ring" cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" style="--op:0.05;animation-duration:5.7s;animation-delay:-1.4s;"/><circle class="ring" cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" style="--op:0.045;animation-duration:6.0s;animation-delay:-1.75s;"/><circle class="ring" cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" style="--op:0.04;animation-duration:6.3s;animation-delay:-2.1s;"/><circle class="ring-red" cx="600" cy="350" r="575" stroke="#b83228" stroke-width="0.75" style="animation-duration:7s;animation-delay:-2.8s;"/><line class="crosshair" x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75"/><line class="crosshair" x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" style="animation-delay:-1.5s;"/><circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/></svg><div class="mark" style="width:5px;height:5px;top:28%;left:68%"></div><div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div><div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div></div>
+  <div class="hero-section"><div class="nav"><div class="nav-logo">CY Studios</div><div class="nav-right"><div class="nav-links"><span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span></div><button class="btn btn-sm">Book a Consultation</button></div></div><div class="hero-body"><div class="hero-content"><div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div><div class="hero-headline">Your brand,<br>built with<br>intention.</div><div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div><button class="btn">Book a Consultation →</button></div><div class="device-side" style="perspective:1200px;"><div class="laptop-3d"><div class="screen-glow"></div><div class="laptop-lid"><div class="laptop-bezel"><div class="laptop-screen"><div class="mini-site"><svg class="mini-arcs" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet"><circle cx="600" cy="350" r="120" stroke="#1a1008" stroke-width="2" opacity="0.07"/><circle cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="2" opacity="0.065"/><circle cx="600" cy="350" r="290" stroke="#1a1008" stroke-width="2" opacity="0.06"/><circle cx="600" cy="350" r="390" stroke="#1a1008" stroke-width="2" opacity="0.055"/><circle cx="600" cy="350" r="500" stroke="#1a1008" stroke-width="2" opacity="0.045"/><circle cx="600" cy="350" r="620" stroke="#b83228" stroke-width="1.5" opacity="0.06"/></svg><div class="mini-nav"><div class="mini-logo">CY Studios</div><div class="mini-links"><div class="mini-link-txt">Services</div><div class="mini-link-txt">About</div><div class="mini-link-txt">Pricing</div></div><div class="mini-cta-btn">Book a Call</div></div><div class="mini-hero"><div class="mini-text"><div class="mini-pill"><span class="mini-pill-dot"></span>Now Booking</div><div class="mini-h1">Your brand,<br>built with<br>intention.</div><div class="mini-body">CY Studios is a boutique creative agency.</div><div class="mini-btn">Book a Consultation →</div></div></div><div class="mini-ticker"><div class="mini-tick-track"><span>Spring Cohort</span><span class="mini-tdot"></span><span>Fully Booked</span><span class="mini-tdot"></span><span>Summer Cohort</span><span class="mini-tdot"></span><span>Now Booking</span><span class="mini-tdot"></span><span>Spring Cohort</span><span class="mini-tdot"></span><span>Fully Booked</span><span class="mini-tdot"></span><span>Summer Cohort</span><span class="mini-tdot"></span><span>Now Booking</span><span class="mini-tdot"></span></div></div></div><div class="screen-glare"></div></div><div class="camera-dot"></div></div></div><div class="laptop-base"><div class="trackpad-hint"></div><div class="foot-rubber-l"></div><div class="foot-rubber-r"></div></div><div class="laptop-foot"></div></div></div></div></div>
+  <div class="logo-section"><div style="overflow:hidden;position:relative;z-index:1;"><div class="logo-track"><div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div><div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div><div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div><div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div></div></div></div>
+  <div class="about"><div class="about-inner v2-center"><div class="about-label">Who We Are</div><div class="about-headline">Two designers who got tired<br>of the agency grind.</div><div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div><div class="v2-founders"><div class="v2-founder"><div class="v2-photo"></div><div class="v2-name">David</div><div class="v2-role">Design & Strategy</div><div class="v2-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div></div><div class="v2-divider"></div><div class="v2-founder"><div class="v2-photo"></div><div class="v2-name">Colin</div><div class="v2-role">Development & Growth</div><div class="v2-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div></div></div></div></div>
+</div>
+
+<!-- ══ SPRING COHORT ══ -->
+<div class="cohort-header-outer"><div class="cohort-header"><div class="cohort-label">Spring Cohort</div><div class="cohort-headline">Work that speaks for itself.</div></div></div>
+<div class="cohort-wrap"><div class="accordion">
+  <div class="acc-item"><div class="acc-bg bg-1"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Burg&Shaw</div><div class="mock-site-links"><div class="mock-site-link">Services</div><div class="mock-site-link">Book</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Premium<br>grooming,<br>redefined.</div><div class="mock-site-body">A modern barbershop experience.</div><div class="mock-site-btn">Book Now</div></div></div></div></div><div class="acc-label-vert">Burg&Shaw</div><div class="acc-info"><div class="acc-num">01</div><div class="acc-name">Burg&Shaw</div><div class="acc-desc">Premium barbershop rebrand & website.</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-2"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">Nakwon</div><div class="mock-site-links"><div class="mock-site-link">Menu</div><div class="mock-site-link">Catering</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Authentic<br>Korean<br>catering.</div><div class="mock-site-body">Traditional flavors, modern presentation.</div><div class="mock-site-btn">View Menu</div></div></div></div></div><div class="acc-label-vert">Nakwon Catering</div><div class="acc-info"><div class="acc-num">02</div><div class="acc-name">Nakwon Catering</div><div class="acc-desc">Korean catering — site & branding.</div></div></div>
+  <div class="acc-item"><div class="acc-bg bg-3"></div><div class="acc-screen"><div class="mock-site"><div class="mock-site-nav"><div class="mock-site-logo">PJ Beauty</div><div class="mock-site-links"><div class="mock-site-link">Shop</div><div class="mock-site-link">Brands</div></div></div><div class="mock-site-hero"><div><div class="mock-site-h1">Beauty,<br>supplied<br>right.</div><div class="mock-site-body">Your neighborhood beauty supply.</div><div class="mock-site-btn">Shop Now</div></div></div></div></div><div class="acc-label-vert">PJ Beauty Supply</div><div class="acc-info"><div class="acc-num">03</div><div class="acc-name">PJ Beauty Supply</div><div class="acc-desc">Beauty supply e-commerce & digital presence.</div></div></div>
+</div></div>
+
+<!-- ══ SUMMER COHORT ══ -->
+<div class="summer-v1">
+  <div class="summer-v1-inner">
+    <div class="summer-v1-header">
+      <div class="s-label">Summer Cohort — Now Booking</div>
+      <div class="s-headline">Three spots. Three brands.<br>Fully locked in.</div>
+      <div class="s-sub">We take on three clients per cohort so every project gets our full attention. Summer spots are open.</div>
+    </div>
+    <div class="v1-slots">
+      <div class="v1-slot"><div class="v1-slot-num">1</div><div class="v1-slot-status"><span class="v1-dot"></span> Open</div><div class="v1-slot-text">Looking for a brand ready to invest in a website that actually converts.</div></div>
+      <div class="v1-slot"><div class="v1-slot-num">2</div><div class="v1-slot-status"><span class="v1-dot"></span> Open</div><div class="v1-slot-text">Looking for a business that needs a complete digital presence.</div></div>
+      <div class="v1-slot"><div class="v1-slot-num">3</div><div class="v1-slot-status"><span class="v1-dot"></span> Open</div><div class="v1-slot-text">Looking for a founder who wants to build something intentional.</div></div>
+    </div>
+    <div class="v1-cta"><button class="btn">Book a Consultation →</button></div>
+  </div>
+</div>
+
+<!-- ══ PRICING — FONT A: Inter ══ -->
+<div style="background:#1a1008; padding:40px 64px; display:flex; align-items:center; gap:20px;">
+  <div style="width:48px;height:48px;border-radius:50%;border:2.5px solid #B83228;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#B83228;flex-shrink:0;">A</div>
+  <div><div style="font-size:20px;font-weight:700;color:#F2E4D8;">Inter 900</div><div style="font-size:13px;font-weight:300;color:rgba(242,228,216,0.5);margin-top:3px;">Clean, neutral, geometric</div></div>
+</div>
+<div class="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <table class="v3-table">
+      <thead>
+        <tr>
+          <th><div class="v3-th-label">What's included</div></th>
+          <th><div class="v3-th-tier">Standard</div><div class="v3-th-price" style="font-family:'Inter',sans-serif;">$2,500</div><div class="v3-th-period">/project</div></th>
+          <th class="v3-featured-col"><div class="v3-th-tier" style="color:#B83228;">Growth ★</div><div class="v3-th-price" style="font-family:'Inter',sans-serif;">$5,000</div><div class="v3-th-period">/project</div></th>
+          <th><div class="v3-th-tier">Scale</div><div class="v3-th-price" style="font-family:'Inter',sans-serif;">$8,500</div><div class="v3-th-period">/project</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Custom website design</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Mobile responsive</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Pages included</td><td>5</td><td class="v3-featured-col">10</td><td>Unlimited</td></tr>
+        <tr><td>Rounds of revisions</td><td>2</td><td class="v3-featured-col">4</td><td>Unlimited</td></tr>
+        <tr><td>Brand identity package</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Social media templates</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>SEO optimization</td><td>Basic</td><td class="v3-featured-col">Advanced</td><td>Advanced</td></tr>
+        <tr><td>Analytics setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>E-commerce integration</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Content strategy</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>GenAI marketing setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Post-launch support</td><td>30 days</td><td class="v3-featured-col">60 days</td><td>90 days</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+          <td class="v3-featured-col"><button class="btn" style="font-size:11px;padding:10px 20px;">Get Started →</button></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- ══ PRICING — FONT C: Space Grotesk ══ -->
+<div style="background:#1a1008; padding:40px 64px; display:flex; align-items:center; gap:20px;">
+  <div style="width:48px;height:48px;border-radius:50%;border:2.5px solid #B83228;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#B83228;flex-shrink:0;">C</div>
+  <div><div style="font-size:20px;font-weight:700;color:#F2E4D8;">Space Grotesk 700</div><div style="font-size:13px;font-weight:300;color:rgba(242,228,216,0.5);margin-top:3px;">Technical, monospaced feel</div></div>
+</div>
+<div class="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="p-label">Pricing</div>
+      <div class="p-headline">Invest in your brand.</div>
+      <div class="p-sub">Every package includes direct access to our team. No middlemen, no runaround.</div>
+    </div>
+    <table class="v3-table">
+      <thead>
+        <tr>
+          <th><div class="v3-th-label">What's included</div></th>
+          <th><div class="v3-th-tier">Standard</div><div class="v3-th-price" style="font-family:'Space Grotesk',sans-serif;font-weight:700;">$2,500</div><div class="v3-th-period">/project</div></th>
+          <th class="v3-featured-col"><div class="v3-th-tier" style="color:#B83228;">Growth ★</div><div class="v3-th-price" style="font-family:'Space Grotesk',sans-serif;font-weight:700;">$5,000</div><div class="v3-th-period">/project</div></th>
+          <th><div class="v3-th-tier">Scale</div><div class="v3-th-price" style="font-family:'Space Grotesk',sans-serif;font-weight:700;">$8,500</div><div class="v3-th-period">/project</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Custom website design</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Mobile responsive</td><td><span class="v3-yes">✓</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Pages included</td><td>5</td><td class="v3-featured-col">10</td><td>Unlimited</td></tr>
+        <tr><td>Rounds of revisions</td><td>2</td><td class="v3-featured-col">4</td><td>Unlimited</td></tr>
+        <tr><td>Brand identity package</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Social media templates</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>SEO optimization</td><td>Basic</td><td class="v3-featured-col">Advanced</td><td>Advanced</td></tr>
+        <tr><td>Analytics setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-yes">✓</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>E-commerce integration</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Content strategy</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>GenAI marketing setup</td><td><span class="v3-no">—</span></td><td class="v3-featured-col"><span class="v3-no">—</span></td><td><span class="v3-yes">✓</span></td></tr>
+        <tr><td>Post-launch support</td><td>30 days</td><td class="v3-featured-col">60 days</td><td>90 days</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+          <td class="v3-featured-col"><button class="btn" style="font-size:11px;padding:10px 20px;">Get Started →</button></td>
+          <td><button class="btn btn-outline" style="font-size:11px;padding:10px 20px;">Get Started</button></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="next-stub"><div class="next-hint">↓ FAQ section</div></div>
+
+</body>
+</html>

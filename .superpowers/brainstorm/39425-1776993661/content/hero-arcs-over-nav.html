@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Arcs Over Nav</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    min-height: 100vh;
+    background: #F2E4D8;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Background sits behind EVERYTHING — full viewport */
+  .bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .arcs-svg {
+    position: absolute;
+    /* Shifted up so the rings cross through the nav area */
+    top: -8%;
+    right: -6%;
+    width: 80%;
+    height: 120%;
+  }
+
+  .mark {
+    position: absolute;
+    border-radius: 50%;
+    background: #b83228;
+    animation: mpulse 4s ease-in-out infinite;
+  }
+  @keyframes mpulse { 0%,100%{opacity:0.25;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  /* Nav sits ON TOP of the background with glass effect */
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 64px;
+    height: 64px;
+    /* Translucent so arcs show through */
+    background: rgba(242, 228, 216, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+
+  .nav-logo {
+    font-size: 16px; font-weight: 800; color: #1a1008;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 36px;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
+  .nav-links span {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #5a4e44;
+  }
+  .nav-cta {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; background: #b83228; color: #fff;
+    padding: 9px 22px; border-radius: 5px; white-space: nowrap;
+  }
+
+  /* Hero content */
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 64px 48px;
+    position: relative;
+    z-index: 10;
+    max-width: 680px;
+  }
+
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2);
+    padding: 6px 16px; border-radius: 99px; margin-bottom: 28px;
+  }
+  .pill-dot {
+    width: 6px; height: 6px; background: #b83228; border-radius: 50%;
+    animation: pdot 2s infinite;
+  }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-headline {
+    font-size: clamp(52px, 6.5vw, 86px); font-weight: 800;
+    line-height: 1.02; color: #1a1008; margin-bottom: 22px;
+  }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; color: #5a4e44;
+    line-height: 1.85; max-width: 440px; margin-bottom: 36px;
+  }
+  .btn {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; background: #b83228; color: #fff;
+    padding: 14px 30px; border-radius: 6px; display: inline-block;
+  }
+
+  /* Ticker */
+  .ticker {
+    position: relative; z-index: 10;
+    border-top: 1px solid rgba(26,16,8,0.1);
+    background: rgba(26,16,8,0.04);
+    padding: 13px 0; overflow: hidden; white-space: nowrap;
+  }
+  .ticker-track { display: inline-flex; animation: tick 20s linear infinite; }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 16px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #5a4e44; padding-right: 40px;
+  }
+  .tdot { width: 4px; height: 4px; background: #b83228; border-radius: 50%; flex-shrink: 0; }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  .note {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: #1a1008; color: rgba(255,255,255,0.65);
+    font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; padding: 10px 20px; border-radius: 99px;
+    white-space: nowrap; z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+
+  <!-- Background — full height including behind nav -->
+  <div class="bg-layer">
+    <svg class="arcs-svg" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle cx="600" cy="350" r="80"  stroke="#1a1008" stroke-width="1" opacity="0.07"/>
+      <circle cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" opacity="0.065"/>
+      <circle cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" opacity="0.06"/>
+      <circle cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" opacity="0.055"/>
+      <circle cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" opacity="0.05"/>
+      <circle cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" opacity="0.045"/>
+      <circle cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" opacity="0.04"/>
+      <circle cx="600" cy="350" r="575" stroke="#1a1008" stroke-width="1" opacity="0.035"/>
+      <circle cx="600" cy="350" r="665" stroke="#b83228" stroke-width="0.75" opacity="0.06"/>
+      <circle cx="600" cy="350" r="760" stroke="#1a1008" stroke-width="1" opacity="0.025"/>
+      <line x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+      <line x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" opacity="0.18"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+    </svg>
+
+    <!-- Dots in the arc field, some now in the nav zone -->
+    <div class="mark" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+    <div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div>
+    <div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div>
+    <div class="mark" style="width:3px;height:3px;top:72%;left:60%;animation-delay:0.8s"></div>
+    <div class="mark" style="width:5px;height:5px;top:7%;left:76%;animation-delay:1.8s"></div>
+    <div class="mark" style="width:4px;height:4px;top:4%;left:62%;animation-delay:3s"></div>
+  </div>
+
+  <!-- Nav — frosted, arcs visible through it -->
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-links">
+      <span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span><span>FAQ</span>
+    </div>
+    <div class="nav-cta">Book a Consultation</div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+    <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+    <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="btn">Book a Consultation →</div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+      <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+      <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+      <span class="ticker-item">Spring Cohort <span class="tdot"></span> Fully Booked</span>
+      <span class="ticker-item">Summer Cohort <span class="tdot"></span> Now Booking</span>
+      <span class="ticker-item">Website Design <span class="tdot"></span> Social Media <span class="tdot"></span> SEO <span class="tdot"></span> GenAI Marketing</span>
+    </div>
+  </div>
+</div>
+
+<div class="note">Arcs extend behind the frosted nav — scroll down on the real site will keep them visible</div>
+
+</body>
+</html>

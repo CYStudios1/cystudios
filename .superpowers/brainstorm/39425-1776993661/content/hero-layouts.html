@@ -1,0 +1,195 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap');
+
+  .preview-label {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;color:#b83228;margin-bottom:16px;
+  }
+
+  /* ── LAYOUT 1: Centered editorial ── */
+  .hero-a {
+    background:#f2e4d8;border-radius:14px;padding:0;overflow:hidden;
+    margin:20px 0 28px;
+  }
+  .hero-a-nav {
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 40px;border-bottom:1px solid rgba(26,16,8,0.08);
+  }
+  .hero-a-logo {
+    font-family:'Raleway',sans-serif;font-size:16px;font-weight:800;
+    color:#1a1008;letter-spacing:0.05em;
+  }
+  .hero-a-links {
+    display:flex;gap:28px;
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;color:#5a4e44;
+  }
+  .hero-a-cta-nav {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:0.1em;text-transform:uppercase;
+    background:#b83228;color:#fff;padding:9px 20px;border-radius:5px;
+  }
+  .hero-a-body {
+    padding:80px 40px 72px;text-align:center;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .hero-a-pill {
+    display:inline-block;font-family:'Raleway',sans-serif;font-size:10px;
+    font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    background:rgba(184,50,40,0.1);color:#b83228;
+    padding:5px 14px;border-radius:99px;margin-bottom:22px;
+    border:1px solid rgba(184,50,40,0.2);
+  }
+  .hero-a-headline {
+    font-family:'Raleway',sans-serif;font-size:64px;font-weight:800;
+    line-height:1.04;color:#1a1008;margin:0 0 20px;max-width:700px;
+  }
+  .hero-a-sub {
+    font-family:'Raleway',sans-serif;font-size:16px;font-weight:300;
+    color:#5a4e44;line-height:1.8;max-width:480px;margin-bottom:32px;
+  }
+  .hero-a-btns { display:flex;gap:12px;align-items:center; }
+  .hero-a-btn-primary {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:0.1em;text-transform:uppercase;
+    background:#b83228;color:#fff;padding:14px 30px;border-radius:6px;
+  }
+  .hero-a-btn-ghost {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:500;
+    letter-spacing:0.1em;text-transform:uppercase;color:#5a4e44;
+  }
+  .hero-a-ticker {
+    background:rgba(26,16,8,0.06);border-top:1px solid rgba(26,16,8,0.08);
+    padding:14px 40px;font-family:'Raleway',sans-serif;font-size:11px;
+    font-weight:500;letter-spacing:0.12em;color:#5a4e44;text-align:center;
+  }
+
+  /* ── LAYOUT 2: Split left-aligned ── */
+  .hero-b {
+    background:#f2e4d8;border-radius:14px;overflow:hidden;margin:0 0 8px;
+  }
+  .hero-b-nav {
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 44px;border-bottom:1px solid rgba(26,16,8,0.08);
+  }
+  .hero-b-logo {
+    font-family:'Raleway',sans-serif;font-size:16px;font-weight:800;
+    color:#1a1008;letter-spacing:0.05em;
+  }
+  .hero-b-links {
+    display:flex;gap:28px;
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;color:#5a4e44;
+  }
+  .hero-b-cta-nav {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:0.1em;text-transform:uppercase;
+    background:#b83228;color:#fff;padding:9px 20px;border-radius:5px;
+  }
+  .hero-b-body {
+    display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:380px;
+  }
+  .hero-b-left {
+    padding:60px 44px;display:flex;flex-direction:column;justify-content:center;
+    border-right:1px solid rgba(26,16,8,0.08);
+  }
+  .hero-b-pill {
+    display:inline-block;font-family:'Raleway',sans-serif;font-size:10px;
+    font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    background:rgba(184,50,40,0.1);color:#b83228;
+    padding:5px 14px;border-radius:99px;margin-bottom:20px;
+    border:1px solid rgba(184,50,40,0.2);width:fit-content;
+  }
+  .hero-b-headline {
+    font-family:'Raleway',sans-serif;font-size:52px;font-weight:800;
+    line-height:1.05;color:#1a1008;margin:0 0 18px;
+  }
+  .hero-b-sub {
+    font-family:'Raleway',sans-serif;font-size:15px;font-weight:300;
+    color:#5a4e44;line-height:1.8;margin-bottom:28px;
+  }
+  .hero-b-btn-primary {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:0.1em;text-transform:uppercase;
+    background:#b83228;color:#fff;padding:13px 26px;border-radius:6px;
+    width:fit-content;
+  }
+  .hero-b-right {
+    padding:60px 44px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .hero-b-stat {
+    border-bottom:1px solid rgba(26,16,8,0.08);padding-bottom:24px;margin-bottom:24px;
+  }
+  .hero-b-stat:last-child { border-bottom:none;padding-bottom:0;margin-bottom:0; }
+  .hero-b-stat-num {
+    font-family:'Raleway',sans-serif;font-size:40px;font-weight:800;
+    color:#1a1008;line-height:1;margin-bottom:4px;
+  }
+  .hero-b-stat-label {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:400;
+    color:#5a4e44;letter-spacing:0.04em;
+  }
+  .hero-b-ticker {
+    background:rgba(26,16,8,0.06);border-top:1px solid rgba(26,16,8,0.08);
+    padding:14px 44px;font-family:'Raleway',sans-serif;font-size:11px;
+    font-weight:500;letter-spacing:0.12em;color:#5a4e44;
+  }
+</style>
+
+<h2>Hero layout options</h2>
+<p class="subtitle">Both use Raleway on terracotta. Same nav, different hero composition.</p>
+
+<div class="preview-label">Option 1 — Centered editorial (classic agency)</div>
+<div class="hero-a option" data-choice="1" onclick="toggleSelect(this)">
+  <div class="hero-a-nav">
+    <div class="hero-a-logo">CY Studios</div>
+    <div class="hero-a-links">
+      <span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span>
+    </div>
+    <div class="hero-a-cta-nav">Book a Call</div>
+  </div>
+  <div class="hero-a-body">
+    <div class="hero-a-pill">Now Booking — Summer Cohort</div>
+    <div class="hero-a-headline">Your brand,<br>built with intention.</div>
+    <div class="hero-a-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+    <div class="hero-a-btns">
+      <div class="hero-a-btn-primary">Apply for Summer Cohort →</div>
+      <div class="hero-a-btn-ghost">See our work ↓</div>
+    </div>
+  </div>
+  <div class="hero-a-ticker">Spring Cohort · Fully Booked &nbsp;·&nbsp; Summer Cohort · Now Booking &nbsp;·&nbsp; 3 spots remaining</div>
+</div>
+
+<div class="preview-label">Option 2 — Split left-aligned with stats panel</div>
+<div class="hero-b option" data-choice="2" onclick="toggleSelect(this)">
+  <div class="hero-b-nav">
+    <div class="hero-b-logo">CY Studios</div>
+    <div class="hero-b-links">
+      <span>Services</span><span>About</span><span>Cohorts</span><span>Pricing</span>
+    </div>
+    <div class="hero-b-cta-nav">Book a Call</div>
+  </div>
+  <div class="hero-b-body">
+    <div class="hero-b-left">
+      <div class="hero-b-pill">Now Booking — Summer Cohort</div>
+      <div class="hero-b-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-b-sub">Boutique creative agency. Web design, social, and GenAI marketing — cohort-model, so every client gets our full attention.</div>
+      <div class="hero-b-btn-primary">Apply for Summer Cohort →</div>
+    </div>
+    <div class="hero-b-right">
+      <div class="hero-b-stat">
+        <div class="hero-b-stat-num">3</div>
+        <div class="hero-b-stat-label">Services offered</div>
+      </div>
+      <div class="hero-b-stat">
+        <div class="hero-b-stat-num">2</div>
+        <div class="hero-b-stat-label">Founders, one vision</div>
+      </div>
+      <div class="hero-b-stat">
+        <div class="hero-b-stat-num">∞</div>
+        <div class="hero-b-stat-label">Brands we're ready to build</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-b-ticker">Spring Cohort · Fully Booked &nbsp;·&nbsp; Summer Cohort · Now Booking</div>
+</div>

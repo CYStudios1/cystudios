@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Hero Background Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .direction-break { background: #1a1008; padding: 48px 64px; display: flex; align-items: center; gap: 20px; }
+  .direction-letter { width: 52px; height: 52px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .direction-title { font-size: 22px; font-weight: 700; color: #F2E4D8; }
+  .direction-desc { font-size: 14px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 4px; }
+
+  /* ── Shared ── */
+  .hero {
+    min-height: 100vh; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    background-image: url('./cystdiosbg.png');
+    background-size: cover; background-position: center;
+  }
+  .nav {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 64px; height: 64px; background: transparent;
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 36px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; text-decoration: none; }
+  .btn {
+    font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 9px 22px; border-radius: 5px; border: none; color: #fff; cursor: pointer;
+    background: linear-gradient(110deg, #b83228 0%, #d44a28 55%, #b83228 100%);
+    background-size: 200% 100%; background-position: 100% 0;
+    box-shadow: 0 4px 14px rgba(184,50,40,0.32), 0 1px 3px rgba(184,50,40,0.18);
+    transition: background-position 0.6s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.4s cubic-bezier(0.25,0.1,0.25,1), transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .btn:hover { background-position: 0% 0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,50,40,0.42); }
+  .btn-lg { font-size: 12px; padding: 14px 30px; border-radius: 6px; }
+  .lang-toggle { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #5a4e44; cursor: pointer; padding: 6px 12px; border: 1px solid rgba(26,16,8,0.12); border-radius: 4px; background: transparent; font-family: 'Raleway', sans-serif; }
+
+  .hero-body {
+    flex: 1; display: flex; align-items: center;
+    padding: 60px 48px 80px 64px; position: relative; z-index: 5;
+  }
+  .hero-content { max-width: 480px; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2); padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; backdrop-filter: blur(8px); }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline { font-size: clamp(40px, 4.5vw, 68px); font-weight: 800; line-height: 1.02; color: #1a1008; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85; max-width: 380px; margin-bottom: 32px; }
+
+  /* ── Arc overlay for Option A ── */
+  .arc-overlay {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    perspective: 1100px; perspective-origin: 68% 55%;
+  }
+  .arc-overlay .arcs-svg {
+    position: absolute; top: -8%; right: -6%; width: 80%; height: 120%;
+    transform-origin: right center; animation: planeBreath 10s ease-in-out infinite;
+    opacity: 0.4;
+  }
+  @keyframes planeBreath { 0%, 100% { transform: rotateX(0deg) translateY(0px); } 50% { transform: rotateX(5deg) translateY(-8px); } }
+  .ring { transform-box: view-box; transform-origin: 600px 350px; animation: ringWave ease-in-out infinite; }
+  @keyframes ringWave { 0%, 100% { transform: scale(1); opacity: var(--op); } 50% { transform: scale(1.022); opacity: calc(var(--op) * 1.7); } }
+  .ring-red { transform-box: view-box; transform-origin: 600px 350px; animation: ringRedWave ease-in-out infinite; }
+  @keyframes ringRedWave { 0%, 100% { transform: scale(1); opacity: 0.06; } 50% { transform: scale(1.015); opacity: 0.13; } }
+  .crosshair { animation: crossFade 9s ease-in-out infinite; }
+  @keyframes crossFade { 0%,100%{opacity:0.18} 50%{opacity:0.35} }
+
+  /* ── Logo ticker ── */
+  .logo-section { background: rgba(26,16,8,0.04); padding: 48px 0; overflow: hidden; position: relative; border-top: 1px solid rgba(26,16,8,0.1); border-bottom: 1px solid rgba(26,16,8,0.1); }
+  .logo-section::before, .logo-section::after { content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 10; pointer-events: none; }
+  .logo-section::before { left: 0; background: linear-gradient(to right, #EEE0D2, transparent); }
+  .logo-section::after  { right: 0; background: linear-gradient(to left, #EEE0D2, transparent); }
+  .logo-track { display: inline-flex; align-items: center; gap: 100px; animation: logoScroll 28s linear infinite; white-space: nowrap; }
+  @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.45; flex-shrink: 0; }
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; } .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: #1a1008; } .logo-b-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; } .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1008; } .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; } .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid #1a1008; display: flex; align-items: center; justify-content: center; } .logo-d-inner { width: 12px; height: 12px; background: #1a1008; border-radius: 50%; } .logo-d-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+
+  .next-stub { height: 120px; background: #F2E4D8; display: flex; align-items: center; justify-content: center; }
+  .next-hint { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,16,8,0.2); }
+  .spacer { height: 20px; background: #F2E4D8; }
+</style>
+</head>
+<body>
+
+<!-- ═══ OPTION A — Arcs overlay on hero image ═══ -->
+<div class="direction-break"><div class="direction-letter">A</div><div><div class="direction-title">Arcs Over Image</div><div class="direction-desc">Background image + concentric arcs layered on top at low opacity</div></div></div>
+
+<div class="hero">
+  <div class="arc-overlay">
+    <svg class="arcs-svg" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+      <circle class="ring" cx="600" cy="350" r="80" stroke="#1a1008" stroke-width="1" style="--op:0.07;animation-duration:4.5s;animation-delay:0s;"/>
+      <circle class="ring" cx="600" cy="350" r="140" stroke="#1a1008" stroke-width="1" style="--op:0.065;animation-duration:4.8s;animation-delay:-0.35s;"/>
+      <circle class="ring" cx="600" cy="350" r="200" stroke="#1a1008" stroke-width="1" style="--op:0.06;animation-duration:5.1s;animation-delay:-0.7s;"/>
+      <circle class="ring" cx="600" cy="350" r="265" stroke="#1a1008" stroke-width="1" style="--op:0.055;animation-duration:5.4s;animation-delay:-1.05s;"/>
+      <circle class="ring" cx="600" cy="350" r="335" stroke="#1a1008" stroke-width="1" style="--op:0.05;animation-duration:5.7s;animation-delay:-1.4s;"/>
+      <circle class="ring" cx="600" cy="350" r="410" stroke="#1a1008" stroke-width="1" style="--op:0.045;animation-duration:6.0s;animation-delay:-1.75s;"/>
+      <circle class="ring" cx="600" cy="350" r="490" stroke="#1a1008" stroke-width="1" style="--op:0.04;animation-duration:6.3s;animation-delay:-2.1s;"/>
+      <circle class="ring-red" cx="600" cy="350" r="575" stroke="#b83228" stroke-width="0.75" style="animation-duration:7s;animation-delay:-2.8s;"/>
+      <line class="crosshair" x1="580" y1="350" x2="620" y2="350" stroke="#b83228" stroke-width="0.75"/>
+      <line class="crosshair" x1="600" y1="330" x2="600" y2="372" stroke="#b83228" stroke-width="0.75" style="animation-delay:-1.5s;"/>
+      <circle cx="600" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+    </svg>
+  </div>
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-right">
+      <div class="nav-links"><a href="#">Services</a><a href="#">About</a><a href="#">Cohorts</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+      <button class="lang-toggle">KR</button>
+      <button class="btn">Book a Consultation</button>
+    </div>
+  </div>
+  <div class="hero-body">
+    <div class="hero-content">
+      <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+      <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+      <button class="btn btn-lg">Book a Consultation →</button>
+    </div>
+  </div>
+</div>
+<div class="logo-section"><div style="overflow:hidden;position:relative;z-index:1;"><div class="logo-track">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+<div class="next-stub"><div class="next-hint">↓ About section</div></div>
+
+
+<!-- ═══ OPTION B — Image only, no arcs ═══ -->
+<div class="direction-break"><div class="direction-letter">B</div><div><div class="direction-title">Image Only — No Arcs</div><div class="direction-desc">Background image speaks for itself, arcs only appear in ticker/about below</div></div></div>
+
+<div class="hero">
+  <div class="nav">
+    <div class="nav-logo">CY Studios</div>
+    <div class="nav-right">
+      <div class="nav-links"><a href="#">Services</a><a href="#">About</a><a href="#">Cohorts</a><a href="#">Pricing</a><a href="#">FAQ</a></div>
+      <button class="lang-toggle">KR</button>
+      <button class="btn">Book a Consultation</button>
+    </div>
+  </div>
+  <div class="hero-body">
+    <div class="hero-content">
+      <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+      <div class="hero-headline">Your brand,<br>built with<br>intention.</div>
+      <div class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</div>
+      <button class="btn btn-lg">Book a Consultation →</button>
+    </div>
+  </div>
+</div>
+<div class="logo-section"><div style="overflow:hidden;position:relative;z-index:1;"><div class="logo-track">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div><div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div><div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div><div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+<div class="next-stub"><div class="next-hint">↓ About section</div></div>
+
+</body>
+</html>

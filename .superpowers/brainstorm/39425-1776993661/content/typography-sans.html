@@ -1,0 +1,211 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+  .preview-divider { border:none;border-top:1px solid rgba(0,0,0,0.08);margin:28px 0; }
+  .accent-pill {
+    display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.16em;
+    text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:14px;
+    background:#fdf0ed;color:#b83228;
+  }
+  .pricing-grid { display:flex;gap:16px; }
+  .pricing-card { flex:1;border-radius:10px;padding:20px 22px;border:1px solid rgba(0,0,0,0.1);background:rgba(255,255,255,0.45); }
+  .pricing-card.featured { background:#1a1008;border-color:#1a1008; }
+
+  /* ── Option M: Syne + Outfit ── */
+  .m { font-family:'Syne',sans-serif; }
+  .m-body { font-family:'Outfit',sans-serif; }
+  .m-nav { font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:28px; }
+  .m-logo { font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#1a1008;margin-right:auto;letter-spacing:-0.3px; }
+  .m-label { font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#b83228;margin-bottom:10px; }
+  .m-headline { font-family:'Syne',sans-serif;font-size:64px;font-weight:800;line-height:0.95;letter-spacing:-2px;color:#1a1008;margin:0 0 16px; }
+  .m-sub { font-family:'Outfit',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.75;margin-bottom:26px;max-width:500px; }
+  .m-cta { display:inline-block;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:5px; }
+  .m-section-head { font-family:'Syne',sans-serif;font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-1.5px;color:#1a1008;margin:0 0 12px; }
+  .m-price { font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;color:#1a1008;line-height:1;margin-bottom:2px; }
+  .m-price.light { color:#fff; }
+  .m-tier { font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#999;margin-bottom:4px; }
+  .m-tier.light { color:rgba(255,255,255,0.5); }
+  .m-price-desc { font-family:'Outfit',sans-serif;font-size:12px;font-weight:300;color:#888;margin-bottom:12px; }
+  .m-price-desc.light { color:rgba(255,255,255,0.4); }
+  .m-feat { font-family:'Outfit',sans-serif;font-size:13px;font-weight:400;color:#5a4e44;line-height:2.1; }
+  .m-feat.light { color:rgba(255,255,255,0.7); }
+  .m-quote { font-family:'Syne',sans-serif;font-size:26px;font-weight:600;line-height:1.35;letter-spacing:-0.5px;color:#1a1008;margin-bottom:12px; }
+  .m-attr { font-family:'Outfit',sans-serif;font-size:13px;font-weight:400;color:#888; }
+
+  /* ── Option N: Space Grotesk + DM Sans ── */
+  .n-nav { font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:28px; }
+  .n-logo { font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#1a1008;margin-right:auto;letter-spacing:-0.5px; }
+  .n-label { font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#b83228;margin-bottom:10px; }
+  .n-headline { font-family:'Space Grotesk',sans-serif;font-size:62px;font-weight:700;line-height:0.97;letter-spacing:-2.5px;color:#1a1008;margin:0 0 16px; }
+  .n-sub { font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.75;margin-bottom:26px;max-width:500px; }
+  .n-cta { display:inline-block;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:5px; }
+  .n-section-head { font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;line-height:1.05;letter-spacing:-1.5px;color:#1a1008;margin:0 0 12px; }
+  .n-price { font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1.5px;color:#1a1008;line-height:1;margin-bottom:2px; }
+  .n-price.light { color:#fff; }
+  .n-tier { font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#999;margin-bottom:4px; }
+  .n-tier.light { color:rgba(255,255,255,0.5); }
+  .n-price-desc { font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;color:#888;margin-bottom:12px; }
+  .n-price-desc.light { color:rgba(255,255,255,0.4); }
+  .n-feat { font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:#5a4e44;line-height:2.1; }
+  .n-feat.light { color:rgba(255,255,255,0.7); }
+  .n-quote { font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:500;line-height:1.35;letter-spacing:-0.8px;color:#1a1008;margin-bottom:12px; }
+  .n-attr { font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:#888; }
+
+  /* ── Option O: Urbanist ── */
+  .o-nav { font-family:'Urbanist',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#7a6e68;display:flex;gap:28px;margin-bottom:28px; }
+  .o-logo { font-family:'Urbanist',sans-serif;font-size:18px;font-weight:800;color:#1a1008;margin-right:auto;letter-spacing:-0.3px; }
+  .o-label { font-family:'Urbanist',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#b83228;margin-bottom:10px; }
+  .o-headline { font-family:'Urbanist',sans-serif;font-size:68px;font-weight:900;line-height:0.93;letter-spacing:-3px;color:#1a1008;margin:0 0 16px; }
+  .o-em { font-style:italic;font-weight:300; }
+  .o-sub { font-family:'Urbanist',sans-serif;font-size:16px;font-weight:300;color:#5a4e44;line-height:1.75;margin-bottom:26px;max-width:500px;letter-spacing:0.01em; }
+  .o-cta { display:inline-block;font-family:'Urbanist',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:#b83228;color:#fff;padding:13px 28px;border-radius:5px; }
+  .o-section-head { font-family:'Urbanist',sans-serif;font-size:42px;font-weight:800;line-height:1.0;letter-spacing:-2px;color:#1a1008;margin:0 0 12px; }
+  .o-price { font-family:'Urbanist',sans-serif;font-size:38px;font-weight:900;letter-spacing:-2px;color:#1a1008;line-height:1;margin-bottom:2px; }
+  .o-price.light { color:#fff; }
+  .o-tier { font-family:'Urbanist',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#999;margin-bottom:4px; }
+  .o-tier.light { color:rgba(255,255,255,0.5); }
+  .o-price-desc { font-family:'Urbanist',sans-serif;font-size:12px;font-weight:300;color:#888;margin-bottom:12px;letter-spacing:0.02em; }
+  .o-price-desc.light { color:rgba(255,255,255,0.4); }
+  .o-feat { font-family:'Urbanist',sans-serif;font-size:13px;font-weight:400;color:#5a4e44;line-height:2.1; }
+  .o-feat.light { color:rgba(255,255,255,0.7); }
+  .o-quote { font-family:'Urbanist',sans-serif;font-size:28px;font-weight:300;font-style:italic;line-height:1.4;letter-spacing:-0.5px;color:#1a1008;margin-bottom:12px; }
+  .o-attr { font-family:'Urbanist',sans-serif;font-size:13px;font-weight:500;color:#888;letter-spacing:0.05em; }
+</style>
+
+<h2>Sans-serif directions — full preview</h2>
+<p class="subtitle">Three clean, modern pairings across all four contexts.</p>
+
+<!-- ══ OPTION M ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:40px 48px;margin:20px 0 28px;">
+  <div style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#b83228;margin-bottom:18px;">Option M — Syne + Outfit</div>
+
+  <div class="m-nav">
+    <span class="m-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill">Now Booking — Summer Cohort</div>
+    <div class="m-headline">We build<br>brands that<br>actually work.</div>
+    <div class="m-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="m-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="m-label">Our Services</div>
+    <div class="m-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.8;max-width:520px;">From your first website to a full growth stack — we build the pieces that move together.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="pricing-grid" style="margin-bottom:28px;">
+    <div class="pricing-card">
+      <div class="m-tier">Starter</div><div class="m-price">$X,XXX</div>
+      <div class="m-price-desc">one-time</div><div class="m-feat">✦ Website design</div>
+    </div>
+    <div class="pricing-card featured">
+      <div style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:4px;">★ Most Popular</div>
+      <div class="m-tier light">Growth</div><div class="m-price light">$X,XXX</div>
+      <div class="m-price-desc light">one-time</div><div class="m-feat light">✦ Website design<br>✦ Social media</div>
+    </div>
+    <div class="pricing-card">
+      <div class="m-tier">Scale</div><div class="m-price">$X,XXX</div>
+      <div class="m-price-desc">one-time</div><div class="m-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="m-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="m-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>
+
+<!-- ══ OPTION N ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:40px 48px;margin:0 0 28px;">
+  <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#b83228;margin-bottom:18px;">Option N — Space Grotesk + DM Sans</div>
+
+  <div class="n-nav">
+    <span class="n-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill">Now Booking — Summer Cohort</div>
+    <div class="n-headline">We build<br>brands that<br>actually work.</div>
+    <div class="n-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="n-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="n-label">Our Services</div>
+    <div class="n-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.8;max-width:520px;">From your first website to a full growth stack — we build the pieces that move together.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="pricing-grid" style="margin-bottom:28px;">
+    <div class="pricing-card">
+      <div class="n-tier">Starter</div><div class="n-price">$X,XXX</div>
+      <div class="n-price-desc">one-time</div><div class="n-feat">✦ Website design</div>
+    </div>
+    <div class="pricing-card featured">
+      <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:4px;">★ Most Popular</div>
+      <div class="n-tier light">Growth</div><div class="n-price light">$X,XXX</div>
+      <div class="n-price-desc light">one-time</div><div class="n-feat light">✦ Website design<br>✦ Social media</div>
+    </div>
+    <div class="pricing-card">
+      <div class="n-tier">Scale</div><div class="n-price">$X,XXX</div>
+      <div class="n-price-desc">one-time</div><div class="n-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="n-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="n-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>
+
+<!-- ══ OPTION O ══ -->
+<div style="background:#f2e8df;border-radius:16px;padding:40px 48px;margin:0 0 8px;">
+  <div style="font-family:'Urbanist',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#b83228;margin-bottom:18px;">Option O — Urbanist (single family)</div>
+
+  <div class="o-nav">
+    <span class="o-logo">CY Studios</span>
+    <span>Services</span><span>About</span><span>Work</span><span>Contact</span>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <div class="accent-pill">Now Booking — Summer Cohort</div>
+    <div class="o-headline">We build<br>brands that<br><span class="o-em">actually work.</span></div>
+    <div class="o-sub">CY Studios is a boutique creative agency specializing in web design, social media, and GenAI marketing — taken in cohorts, not chaos.</div>
+    <span class="o-cta">Apply for Summer Cohort →</span>
+  </div>
+
+  <hr class="preview-divider">
+  <div style="margin-bottom:28px;">
+    <div class="o-label">Our Services</div>
+    <div class="o-section-head">Everything your brand needs<br>to show up and stand out.</div>
+    <div style="font-family:'Urbanist',sans-serif;font-size:15px;font-weight:300;color:#5a4e44;line-height:1.8;max-width:520px;letter-spacing:0.01em;">From your first website to a full growth stack — we build the pieces that move together.</div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="pricing-grid" style="margin-bottom:28px;">
+    <div class="pricing-card">
+      <div class="o-tier">Starter</div><div class="o-price">$X,XXX</div>
+      <div class="o-price-desc">one-time</div><div class="o-feat">✦ Website design</div>
+    </div>
+    <div class="pricing-card featured">
+      <div style="font-family:'Urbanist',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,160,80,0.9);margin-bottom:4px;">★ Most Popular</div>
+      <div class="o-tier light">Growth</div><div class="o-price light">$X,XXX</div>
+      <div class="o-price-desc light">one-time</div><div class="o-feat light">✦ Website design<br>✦ Social media</div>
+    </div>
+    <div class="pricing-card">
+      <div class="o-tier">Scale</div><div class="o-price">$X,XXX</div>
+      <div class="o-price-desc">one-time</div><div class="o-feat">✦ Website design<br>✦ Social media<br>✦ SEO + GenAI</div>
+    </div>
+  </div>
+
+  <hr class="preview-divider">
+  <div class="o-quote">"CY Studios didn't just build us a website — they built us a presence."</div>
+  <div class="o-attr">— Jamie Reyes, Founder, Bloom Co.</div>
+</div>

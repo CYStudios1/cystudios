@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Section — 5 Layout Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  /* ── Logo ticker (context) ── */
+  .logo-section {
+    background: #F2E4D8; padding: 48px 0; overflow: hidden; position: relative;
+    border-bottom: 1px solid rgba(26,16,8,0.07);
+  }
+  .logo-section::before, .logo-section::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 10; pointer-events: none;
+  }
+  .logo-section::before { left: 0; background: linear-gradient(to right, #F2E4D8, transparent); }
+  .logo-section::after  { right: 0; background: linear-gradient(to left, #F2E4D8, transparent); }
+  .logo-track { display: inline-flex; align-items: center; gap: 100px; animation: logoScroll 28s linear infinite; white-space: nowrap; }
+  @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+  .logo-item { display: inline-flex; align-items: center; justify-content: center; opacity: 0.45; flex-shrink: 0; }
+  .logo-a { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-b-wrap { display: flex; align-items: center; gap: 9px; }
+  .logo-b-mark { width: 28px; height: 28px; border-radius: 6px; background: #1a1008; }
+  .logo-b-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+  .logo-c { display: flex; flex-direction: column; line-height: 1; }
+  .logo-c-top { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1008; }
+  .logo-c-bot { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #1a1008; }
+  .logo-d-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-d-mark { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid #1a1008; display: flex; align-items: center; justify-content: center; }
+  .logo-d-inner { width: 12px; height: 12px; background: #1a1008; border-radius: 50%; }
+  .logo-d-text { font-size: 18px; font-weight: 700; color: #1a1008; }
+
+  /* ── Shared logo track markup ── */
+  .logos-inner { overflow: hidden; }
+
+  /* ── Variation labels ── */
+  .var-label {
+    background: #1a1008; padding: 40px 64px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .var-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0;
+  }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+
+  /* ── Shared about tokens ── */
+  .about { background: #F2E4D8; padding: 80px 64px; }
+  .about-inner { max-width: 1100px; margin: 0 auto; }
+  .about-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .about-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 24px; }
+  .about-body { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; }
+  .spacer { height: 20px; background: #F2E4D8; }
+
+
+  /* ══════════════════════════════════════
+     VARIATION 1 — Split Grid (baseline)
+     ══════════════════════════════════════ */
+  .v1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .v1-cards { display: flex; gap: 24px; }
+  .v1-card {
+    flex: 1; background: #EDD9C8; border-radius: 14px; padding: 32px 24px;
+    text-align: center; border: 1px solid rgba(26,16,8,0.06);
+  }
+  .v1-photo {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(26,16,8,0.08), rgba(26,16,8,0.14));
+    margin: 0 auto 16px;
+  }
+  .v1-name { font-size: 18px; font-weight: 700; color: #1A1008; margin-bottom: 4px; }
+  .v1-role { font-size: 13px; font-weight: 400; color: #5A4E44; margin-bottom: 12px; }
+  .v1-bio { font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+
+
+  /* ══════════════════════════════════════
+     VARIATION 2 — Centered Editorial
+     ══════════════════════════════════════ */
+  .v2-center { text-align: center; }
+  .v2-center .about-headline { margin-bottom: 16px; }
+  .v2-center .about-body { max-width: 560px; margin: 0 auto 56px; }
+  .v2-founders { display: flex; gap: 48px; justify-content: center; align-items: flex-start; }
+  .v2-founder { text-align: center; max-width: 280px; }
+  .v2-photo {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(26,16,8,0.07), rgba(26,16,8,0.13));
+    margin: 0 auto 20px; position: relative;
+  }
+  .v2-photo::after {
+    content: ''; position: absolute; inset: -6px; border-radius: 50%;
+    border: 1.5px solid rgba(184,50,40,0.15);
+  }
+  .v2-name { font-size: 20px; font-weight: 700; color: #1A1008; margin-bottom: 4px; }
+  .v2-role { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 14px; }
+  .v2-bio { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.75; }
+  .v2-divider { width: 1px; background: rgba(26,16,8,0.1); align-self: stretch; margin: 20px 0; }
+
+
+  /* ══════════════════════════════════════
+     VARIATION 3 — Horizontal Cards
+     ══════════════════════════════════════ */
+  .v3-headline-block { text-align: center; margin-bottom: 48px; }
+  .v3-headline-block .about-body { max-width: 520px; margin: 0 auto; }
+  .v3-cards { display: flex; flex-direction: column; gap: 20px; }
+  .v3-card {
+    display: flex; gap: 32px; align-items: center;
+    background: #EDD9C8; border-radius: 16px; padding: 28px 36px;
+    border: 1px solid rgba(26,16,8,0.06);
+  }
+  .v3-photo {
+    width: 80px; height: 80px; border-radius: 14px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(26,16,8,0.08), rgba(26,16,8,0.14));
+  }
+  .v3-info { flex: 1; }
+  .v3-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  .v3-name { font-size: 20px; font-weight: 700; color: #1A1008; }
+  .v3-role { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #B83228; }
+  .v3-bio { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.7; max-width: 480px; }
+  .v3-accent {
+    width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid rgba(26,16,8,0.08); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: rgba(26,16,8,0.15);
+  }
+
+
+  /* ══════════════════════════════════════
+     VARIATION 4 — Overlap / Staggered
+     ══════════════════════════════════════ */
+  .v4-layout { position: relative; min-height: 420px; }
+  .v4-text-block {
+    position: relative; z-index: 2; max-width: 440px;
+  }
+  .v4-text-block .about-body { margin-bottom: 0; }
+  .v4-founders {
+    position: absolute; right: 0; top: -20px; z-index: 1;
+    display: flex; gap: 0; align-items: flex-start;
+  }
+  .v4-founder {
+    width: 260px; background: #EDD9C8; border-radius: 16px;
+    border: 1px solid rgba(26,16,8,0.06); overflow: hidden;
+  }
+  .v4-founder:nth-child(2) { margin-top: 60px; margin-left: -24px; }
+  .v4-photo-area {
+    height: 160px;
+    background: linear-gradient(135deg, rgba(26,16,8,0.06), rgba(26,16,8,0.11));
+    position: relative;
+  }
+  .v4-photo-area::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+    background: linear-gradient(to top, #EDD9C8, transparent);
+  }
+  .v4-card-body { padding: 20px 24px 28px; }
+  .v4-name { font-size: 18px; font-weight: 700; color: #1A1008; margin-bottom: 2px; }
+  .v4-role { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #B83228; margin-bottom: 10px; }
+  .v4-bio { font-size: 13px; font-weight: 300; color: #5A4E44; line-height: 1.7; }
+  .v4-line {
+    position: absolute; left: 0; top: 160px; width: 100px; height: 1px;
+    background: linear-gradient(to right, rgba(184,50,40,0.3), transparent);
+  }
+
+
+  /* ══════════════════════════════════════
+     VARIATION 5 — Minimal / Typographic
+     ══════════════════════════════════════ */
+  .v5-layout { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .v5-hero-text {
+    text-align: left; padding-bottom: 48px;
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+    margin-bottom: 48px;
+  }
+  .v5-hero-text .about-headline { font-size: 52px; font-weight: 800; line-height: 1.06; margin-bottom: 20px; }
+  .v5-hero-text .about-body { max-width: 600px; }
+  .v5-founders-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+  .v5-founder {
+    padding: 0 40px;
+    position: relative;
+  }
+  .v5-founder:first-child {
+    padding-left: 0;
+    border-right: 1px solid rgba(26,16,8,0.08);
+  }
+  .v5-founder:last-child { padding-right: 0; }
+  .v5-initial {
+    font-size: 72px; font-weight: 900; color: rgba(184,50,40,0.08);
+    line-height: 1; margin-bottom: -8px;
+  }
+  .v5-name { font-size: 22px; font-weight: 700; color: #1A1008; margin-bottom: 4px; }
+  .v5-role { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #B83228; margin-bottom: 16px; }
+  .v5-bio { font-size: 15px; font-weight: 300; color: #5A4E44; line-height: 1.8; }
+</style>
+</head>
+<body>
+
+
+<!-- ════════════════════════════════════════════════
+     VARIATION 1 — Split Grid
+     ════════════════════════════════════════════════ -->
+<div class="var-label">
+  <div class="var-num">1</div>
+  <div>
+    <div class="var-title">Split Grid</div>
+    <div class="var-desc">Headline & copy left, two founder cards right — the original</div>
+  </div>
+</div>
+
+<div class="logo-section"><div class="logos-inner"><div class="logo-track">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="v1-grid">
+      <div>
+        <div class="about-label">Who We Are</div>
+        <div class="about-headline">Two designers who<br>got tired of the<br>agency grind.</div>
+        <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+      </div>
+      <div class="v1-cards">
+        <div class="v1-card">
+          <div class="v1-photo"></div>
+          <div class="v1-name">David</div>
+          <div class="v1-role">Design & Strategy</div>
+          <div class="v1-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div>
+        </div>
+        <div class="v1-card">
+          <div class="v1-photo"></div>
+          <div class="v1-name">Colin</div>
+          <div class="v1-role">Development & Growth</div>
+          <div class="v1-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ════════════════════════════════════════════════
+     VARIATION 2 — Centered Editorial
+     ════════════════════════════════════════════════ -->
+<div class="var-label">
+  <div class="var-num">2</div>
+  <div>
+    <div class="var-title">Centered Editorial</div>
+    <div class="var-desc">Everything centered — headline, copy, then founders side by side with ring accents</div>
+  </div>
+</div>
+
+<div class="logo-section"><div class="logos-inner"><div class="logo-track" style="animation-delay:-4s;">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+
+<div class="about">
+  <div class="about-inner v2-center">
+    <div class="about-label">Who We Are</div>
+    <div class="about-headline">Two designers who got tired<br>of the agency grind.</div>
+    <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+    <div class="v2-founders">
+      <div class="v2-founder">
+        <div class="v2-photo"></div>
+        <div class="v2-name">David</div>
+        <div class="v2-role">Design & Strategy</div>
+        <div class="v2-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div>
+      </div>
+      <div class="v2-divider"></div>
+      <div class="v2-founder">
+        <div class="v2-photo"></div>
+        <div class="v2-name">Colin</div>
+        <div class="v2-role">Development & Growth</div>
+        <div class="v2-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ════════════════════════════════════════════════
+     VARIATION 3 — Horizontal Cards
+     ════════════════════════════════════════════════ -->
+<div class="var-label">
+  <div class="var-num">3</div>
+  <div>
+    <div class="var-title">Horizontal Cards</div>
+    <div class="var-desc">Centered headline, then each founder in a wide horizontal card — photo, name, bio</div>
+  </div>
+</div>
+
+<div class="logo-section"><div class="logos-inner"><div class="logo-track" style="animation-delay:-8s;">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="v3-headline-block">
+      <div class="about-label">Who We Are</div>
+      <div class="about-headline">Two designers who got tired<br>of the agency grind.</div>
+      <div class="about-body">We started CY Studios because we saw the same story — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention.</div>
+    </div>
+    <div class="v3-cards">
+      <div class="v3-card">
+        <div class="v3-photo"></div>
+        <div class="v3-info">
+          <div class="v3-top">
+            <div class="v3-name">David</div>
+            <div class="v3-role">Design & Strategy</div>
+          </div>
+          <div class="v3-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one. Leads brand identity, visual direction, and the details that make a site feel intentional.</div>
+        </div>
+        <div class="v3-accent">D</div>
+      </div>
+      <div class="v3-card">
+        <div class="v3-photo"></div>
+        <div class="v3-info">
+          <div class="v3-top">
+            <div class="v3-name">Colin</div>
+            <div class="v3-role">Development & Growth</div>
+          </div>
+          <div class="v3-bio">Turns vision into performance. Builds brands that don't just look good — they grow. Handles development, SEO, analytics, and the systems that drive real results.</div>
+        </div>
+        <div class="v3-accent">C</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ════════════════════════════════════════════════
+     VARIATION 4 — Staggered Overlap
+     ════════════════════════════════════════════════ -->
+<div class="var-label">
+  <div class="var-num">4</div>
+  <div>
+    <div class="var-title">Staggered Overlap</div>
+    <div class="var-desc">Text anchored left, two tall founder cards staggered and overlapping on the right</div>
+  </div>
+</div>
+
+<div class="logo-section"><div class="logos-inner"><div class="logo-track" style="animation-delay:-12s;">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+
+<div class="about" style="padding-bottom:100px;">
+  <div class="about-inner">
+    <div class="v4-layout">
+      <div class="v4-text-block">
+        <div class="about-label">Who We Are</div>
+        <div class="about-headline">Two designers who<br>got tired of the<br>agency grind.</div>
+        <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+        <div class="v4-line"></div>
+      </div>
+      <div class="v4-founders">
+        <div class="v4-founder">
+          <div class="v4-photo-area"></div>
+          <div class="v4-card-body">
+            <div class="v4-name">David</div>
+            <div class="v4-role">Design & Strategy</div>
+            <div class="v4-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one.</div>
+          </div>
+        </div>
+        <div class="v4-founder">
+          <div class="v4-photo-area"></div>
+          <div class="v4-card-body">
+            <div class="v4-name">Colin</div>
+            <div class="v4-role">Development & Growth</div>
+            <div class="v4-bio">Turns vision into performance. Builds brands that don't just look good — they grow.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ════════════════════════════════════════════════
+     VARIATION 5 — Minimal / Typographic
+     ════════════════════════════════════════════════ -->
+<div class="var-label">
+  <div class="var-num">5</div>
+  <div>
+    <div class="var-title">Minimal Typographic</div>
+    <div class="var-desc">No photos, no cards — big headline up top, founders as a clean two-column text layout with oversized initials</div>
+  </div>
+</div>
+
+<div class="logo-section"><div class="logos-inner"><div class="logo-track" style="animation-delay:-16s;">
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+  <div class="logo-item"><div class="logo-a">Brandmark</div></div>
+  <div class="logo-item"><div class="logo-b-wrap"><div class="logo-b-mark"></div><div class="logo-b-text">Studio Co</div></div></div>
+  <div class="logo-item"><div class="logo-c"><div class="logo-c-top">The</div><div class="logo-c-bot">Agency</div></div></div>
+  <div class="logo-item"><div class="logo-d-wrap"><div class="logo-d-mark"><div class="logo-d-inner"></div></div><div class="logo-d-text">Venture</div></div></div>
+</div></div></div>
+
+<div class="about">
+  <div class="about-inner">
+    <div class="v5-layout">
+      <div class="v5-hero-text">
+        <div class="about-label">Who We Are</div>
+        <div class="about-headline">Two designers who got tired<br>of the agency grind.</div>
+        <div class="about-body">We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in.</div>
+      </div>
+      <div class="v5-founders-row">
+        <div class="v5-founder">
+          <div class="v5-initial">D</div>
+          <div class="v5-name">David</div>
+          <div class="v5-role">Design & Strategy</div>
+          <div class="v5-bio">Obsessed with craft. Believes every pixel tells a story — makes sure yours tells the right one. Leads brand identity, visual direction, and the details that make a site feel intentional.</div>
+        </div>
+        <div class="v5-founder">
+          <div class="v5-initial">C</div>
+          <div class="v5-name">Colin</div>
+          <div class="v5-role">Development & Growth</div>
+          <div class="v5-bio">Turns vision into performance. Builds brands that don't just look good — they grow. Handles development, SEO, analytics, and the systems that drive real results.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>

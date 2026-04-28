@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — 3 Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #1a1008; }
+
+  .var-label { background: #1a1008; padding: 40px 64px; display: flex; align-items: center; gap: 20px; }
+  .var-num { width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #B83228; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #B83228; flex-shrink: 0; }
+  .var-title { font-size: 20px; font-weight: 700; color: #F2E4D8; }
+  .var-desc { font-size: 13px; font-weight: 300; color: rgba(242,228,216,0.5); margin-top: 3px; }
+  .spacer { height: 20px; background: #F2E4D8; }
+
+  .faq-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #B83228; margin-bottom: 20px; }
+  .faq-headline { font-size: 40px; font-weight: 700; color: #1A1008; line-height: 1.12; margin-bottom: 12px; }
+  .faq-sub { font-size: 16px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 480px; }
+
+
+  /* ══════════════════════════════════════
+     V1 — Classic Accordion (click to expand)
+     ══════════════════════════════════════ */
+  .v1 { background: #F2E4D8; padding: 80px 64px; }
+  .v1-inner { max-width: 800px; margin: 0 auto; }
+  .v1-header { margin-bottom: 48px; }
+  .v1-items { display: flex; flex-direction: column; }
+  .v1-item { border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .v1-question {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; cursor: pointer; gap: 20px;
+  }
+  .v1-q-text { font-size: 17px; font-weight: 600; color: #1A1008; line-height: 1.4; }
+  .v1-toggle {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    border: 1.5px solid rgba(26,16,8,0.15); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 300; color: #5A4E44;
+    transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .v1-item:hover .v1-toggle { border-color: #B83228; color: #B83228; }
+  .v1-item.open .v1-toggle { transform: rotate(45deg); border-color: #B83228; color: #B83228; }
+  .v1-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), padding 0.4s ease;
+    padding: 0 0 0 0;
+  }
+  .v1-item.open .v1-answer { max-height: 200px; padding: 0 0 24px 0; }
+  .v1-a-text { font-size: 15px; font-weight: 300; color: #5A4E44; line-height: 1.8; max-width: 640px; }
+
+
+  /* ══════════════════════════════════════
+     V2 — Two Column Split
+     ══════════════════════════════════════ */
+  .v2 { background: #F2E4D8; padding: 80px 64px; }
+  .v2-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: start; }
+  .v2-left { position: sticky; top: 80px; }
+  .v2-items { display: flex; flex-direction: column; }
+  .v2-item { border-bottom: 1px solid rgba(26,16,8,0.08); }
+  .v2-question {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; cursor: pointer; gap: 16px;
+  }
+  .v2-q-text { font-size: 16px; font-weight: 600; color: #1A1008; line-height: 1.4; }
+  .v2-arrow {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    border: 1.5px solid rgba(26,16,8,0.15); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 300; color: #5A4E44;
+    transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .v2-item:hover .v2-arrow { border-color: #B83228; color: #B83228; }
+  .v2-item.open .v2-arrow { transform: rotate(45deg); border-color: #B83228; color: #B83228; }
+  .v2-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), padding 0.4s ease;
+  }
+  .v2-item.open .v2-answer { max-height: 200px; padding: 0 0 24px 0; }
+  .v2-a-text { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.8; }
+  .v2-cta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(26,16,8,0.08); }
+  .v2-cta-text { font-size: 14px; font-weight: 400; color: #5A4E44; margin-bottom: 16px; }
+  .v2-cta-link { font-size: 13px; font-weight: 700; color: #B83228; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; }
+
+
+  /* ══════════════════════════════════════
+     V3 — Cards Grid (all visible)
+     ══════════════════════════════════════ */
+  .v3 { background: #F2E4D8; padding: 80px 64px; }
+  .v3-inner { max-width: 1100px; margin: 0 auto; }
+  .v3-header { margin-bottom: 48px; }
+  .v3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .v3-card {
+    background: #EDD9C8; border-radius: 14px; padding: 32px 28px;
+    border: 1px solid rgba(26,16,8,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .v3-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,16,8,0.08); }
+  .v3-q { font-size: 16px; font-weight: 700; color: #1A1008; margin-bottom: 12px; line-height: 1.35; }
+  .v3-a { font-size: 14px; font-weight: 300; color: #5A4E44; line-height: 1.75; }
+
+
+  /* JS for accordion toggle */
+</style>
+</head>
+<body>
+
+<!-- ═══ V1 — Classic Accordion ═══ -->
+<div class="var-label"><div class="var-num">1</div><div><div class="var-title">Classic Accordion</div><div class="var-desc">Single column, centered, click to expand/collapse — clean and minimal</div></div></div>
+<div class="v1">
+  <div class="v1-inner">
+    <div class="v1-header">
+      <div class="faq-label">FAQ</div>
+      <div class="faq-headline">Questions we get asked a lot.</div>
+    </div>
+    <div class="v1-items">
+      <div class="v1-item open" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">What does the cohort model mean for my project?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">It means we only take on three clients at a time. Your project gets our full creative energy — no context-switching, no waiting in a queue of 40 other brands.</div></div></div>
+      <div class="v1-item" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">How long does a typical project take?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">Most projects run 4–8 weeks depending on scope. Standard packages are typically 4–5 weeks, Growth runs 6–7 weeks, and Scale projects can take up to 8 weeks.</div></div></div>
+      <div class="v1-item" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">Do you work with clients outside your area?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">Absolutely. Everything we do is remote-friendly. We've worked with brands across the country — all you need is a Zoom link and a vision.</div></div></div>
+      <div class="v1-item" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">What if I need changes after launch?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">Every package includes post-launch support (30–90 days depending on your plan). After that, we offer maintenance retainers or one-off update packages.</div></div></div>
+      <div class="v1-item" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">Can I upgrade my package after we start?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">Yes — if you start with Standard and realize you need the full Growth experience, we can adjust scope and pricing mid-project. We're flexible.</div></div></div>
+      <div class="v1-item" onclick="this.classList.toggle('open')"><div class="v1-question"><div class="v1-q-text">What do I need to have ready before we start?</div><div class="v1-toggle">+</div></div><div class="v1-answer"><div class="v1-a-text">Just a clear idea of what your brand does and who it serves. We handle the rest — content strategy, copy direction, design, and development. A logo helps but isn't required.</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V2 — Two Column Split ═══ -->
+<div class="var-label"><div class="var-num">2</div><div><div class="var-title">Two Column Split</div><div class="var-desc">Headline + CTA sticky on the left, accordion questions on the right</div></div></div>
+<div class="v2">
+  <div class="v2-inner">
+    <div class="v2-left">
+      <div class="faq-label">FAQ</div>
+      <div class="faq-headline">Questions we<br>get asked a lot.</div>
+      <div class="v2-cta">
+        <div class="v2-cta-text">Still have questions?</div>
+        <a href="#" class="v2-cta-link">Book a Consultation →</a>
+      </div>
+    </div>
+    <div class="v2-items">
+      <div class="v2-item open" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">What does the cohort model mean for my project?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">It means we only take on three clients at a time. Your project gets our full creative energy — no context-switching, no waiting in a queue.</div></div></div>
+      <div class="v2-item" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">How long does a typical project take?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">Most projects run 4–8 weeks depending on scope. Standard packages are typically 4–5 weeks, Growth runs 6–7 weeks, and Scale projects can take up to 8 weeks.</div></div></div>
+      <div class="v2-item" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">Do you work with clients outside your area?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">Absolutely. Everything we do is remote-friendly. We've worked with brands across the country.</div></div></div>
+      <div class="v2-item" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">What if I need changes after launch?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">Every package includes post-launch support (30–90 days depending on your plan). After that, we offer maintenance retainers.</div></div></div>
+      <div class="v2-item" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">Can I upgrade my package after we start?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">Yes — we can adjust scope and pricing mid-project. We're flexible.</div></div></div>
+      <div class="v2-item" onclick="this.classList.toggle('open')"><div class="v2-question"><div class="v2-q-text">What do I need to have ready before we start?</div><div class="v2-arrow">+</div></div><div class="v2-answer"><div class="v2-a-text">Just a clear idea of what your brand does and who it serves. We handle the rest — content strategy, copy direction, design, and development.</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+
+<!-- ═══ V3 — Cards Grid ═══ -->
+<div class="var-label"><div class="var-num">3</div><div><div class="var-title">Cards Grid</div><div class="var-desc">All Q&As visible at once in a two-column card grid — no clicking needed</div></div></div>
+<div class="v3">
+  <div class="v3-inner">
+    <div class="v3-header">
+      <div class="faq-label">FAQ</div>
+      <div class="faq-headline">Questions we get asked a lot.</div>
+    </div>
+    <div class="v3-grid">
+      <div class="v3-card"><div class="v3-q">What does the cohort model mean for my project?</div><div class="v3-a">It means we only take on three clients at a time. Your project gets our full creative energy — no context-switching, no waiting in a queue of 40 other brands.</div></div>
+      <div class="v3-card"><div class="v3-q">How long does a typical project take?</div><div class="v3-a">Most projects run 4–8 weeks depending on scope. Standard packages are typically 4–5 weeks, Growth 6–7, Scale up to 8 weeks.</div></div>
+      <div class="v3-card"><div class="v3-q">Do you work with clients outside your area?</div><div class="v3-a">Absolutely. Everything we do is remote-friendly. We've worked with brands across the country — all you need is a Zoom link and a vision.</div></div>
+      <div class="v3-card"><div class="v3-q">What if I need changes after launch?</div><div class="v3-a">Every package includes post-launch support (30–90 days depending on your plan). After that, we offer maintenance retainers or one-off update packages.</div></div>
+      <div class="v3-card"><div class="v3-q">Can I upgrade my package after we start?</div><div class="v3-a">Yes — if you start with Standard and realize you need the full Growth experience, we can adjust scope and pricing mid-project.</div></div>
+      <div class="v3-card"><div class="v3-q">What do I need to have ready before we start?</div><div class="v3-a">Just a clear idea of what your brand does and who it serves. We handle the rest — content, design, and development. A logo helps but isn't required.</div></div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>
+
+</body>
+</html>
