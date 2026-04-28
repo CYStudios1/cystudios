@@ -8,6 +8,7 @@ import { SpringCohort } from './components/SpringCohort/SpringCohort';
 import { SummerCohort } from './components/SummerCohort/SummerCohort';
 import { Pricing } from './components/Pricing/Pricing';
 import { FAQ } from './components/FAQ/FAQ';
+import { Footer } from './components/Footer/Footer';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <SummerCohort />
       <Pricing />
       <FAQ />
+      <Footer />
     </LanguageProvider>
   );
 }

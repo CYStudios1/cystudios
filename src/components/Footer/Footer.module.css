@@ -1,0 +1,131 @@
+/* ── Footer ── */
+
+.footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+/* CTA Banner */
+.ctaBanner {
+  padding: 64px 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ctaInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ctaText {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.ctaSub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--ink-muted);
+  margin-top: 8px;
+}
+
+/* Columns */
+.cols {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 0;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.brandText {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.colTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.colLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.colLink {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.colLink:hover {
+  color: var(--ink);
+}
+
+/* Bottom bar */
+.bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(26, 16, 8, 0.35);
+}
+
+.socials {
+  display: flex;
+  gap: 16px;
+}
+
+.social {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 16, 8, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  transition: border-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.social:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
