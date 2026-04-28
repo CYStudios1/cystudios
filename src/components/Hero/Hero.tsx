@@ -1,6 +1,7 @@
 import styles from './Hero.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
+import { DeviceMockup } from './DeviceMockup';
 
 export function Hero() {
   const { t, isKorean } = useTranslation();
@@ -29,7 +30,7 @@ export function Hero() {
           </Button>
         </div>
         <div className={styles.deviceSide}>
-          {/* Device mockups — Task 5 */}
+          <DeviceMockup />
         </div>
       </div>
     </section>

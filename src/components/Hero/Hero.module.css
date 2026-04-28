@@ -143,5 +143,9 @@
 }
 
 .deviceSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 40px 30px 16px;
   position: relative;
 }
