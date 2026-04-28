@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import styles from './FAQ.module.css';
 import { SectionLabel } from '../shared/SectionLabel';
 import { useTranslation } from '../shared/useTranslation';
@@ -39,7 +40,14 @@ export function FAQ() {
   };
 
   return (
-    <div id="faq" className={styles.faq}>
+    <motion.div
+      id="faq"
+      className={styles.faq}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+    >
       <div className={styles.inner}>
         <div className={styles.left}>
           <SectionLabel>{t('FAQ')}</SectionLabel>
@@ -70,6 +78,6 @@ export function FAQ() {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

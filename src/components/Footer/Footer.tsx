@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styles from './Footer.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
@@ -6,6 +7,12 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+    >
     <footer className={styles.footer}>
       {/* CTA Banner */}
       <div className={styles.ctaBanner}>
@@ -64,5 +71,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </motion.div>
   );
 }
