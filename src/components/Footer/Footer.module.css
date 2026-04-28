@@ -129,3 +129,32 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .ctaBanner {
+    padding: 40px 20px;
+  }
+  .ctaInner {
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 40px 20px;
+  }
+  .bottom {
+    padding: 20px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+}

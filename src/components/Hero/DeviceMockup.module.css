@@ -288,3 +288,17 @@
 .activeSlide {
   opacity: 1;
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .deviceWrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .laptop3d {
+    width: clamp(280px, 70vw, 400px);
+  }
+  .iphone {
+    width: clamp(60px, 15vw, 90px);
+  }
+}

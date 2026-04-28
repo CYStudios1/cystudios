@@ -96,3 +96,16 @@
 .cta {
   text-align: left;
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .summer {
+    padding: 60px 20px;
+  }
+  .headline {
+    font-size: 28px;
+  }
+  .slots {
+    grid-template-columns: 1fr;
+  }
+}

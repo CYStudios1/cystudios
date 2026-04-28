@@ -65,3 +65,17 @@
 .logoItem:hover img {
   filter: brightness(0) opacity(0.9);
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .logoSection {
+    padding: 32px 0;
+  }
+  .logoSection::before,
+  .logoSection::after {
+    width: 60px;
+  }
+  .logoItem img {
+    height: 35px;
+  }
+}

@@ -130,3 +130,31 @@
 .table tfoot td:first-child {
   text-align: left;
 }
+
+/* ── Scrollable wrapper for mobile ── */
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .pricing {
+    padding: 60px 20px;
+  }
+  .headline {
+    font-size: 28px;
+  }
+  .thPrice {
+    font-size: 24px;
+  }
+  .table thead th {
+    padding: 12px;
+  }
+  .table tbody td {
+    padding: 12px;
+  }
+  .table tfoot td {
+    padding: 12px;
+  }
+}

@@ -120,3 +120,20 @@
   color: var(--ink-muted);
   line-height: 1.8;
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .faq {
+    padding: 60px 20px;
+  }
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .left {
+    position: static;
+  }
+  .headline {
+    font-size: 28px;
+  }
+}

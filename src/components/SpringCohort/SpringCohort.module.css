@@ -164,3 +164,24 @@
 .accordion:hover .accItem:not(:hover) .accInfo {
   opacity: 0;
 }
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .accordion {
+    height: 400px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .header {
+    padding: 60px 20px 32px;
+  }
+  .cohortWrap {
+    padding: 0 20px 60px;
+  }
+  .accordion {
+    height: 350px;
+    gap: 8px;
+  }
+}

@@ -60,3 +60,26 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .nav {
+    padding: 0 32px;
+  }
+  .navRight {
+    gap: 24px;
+  }
+  .navLinks {
+    gap: 24px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 20px;
+  }
+  .navLinks {
+    display: none;
+  }
+}

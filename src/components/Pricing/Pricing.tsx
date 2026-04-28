@@ -54,46 +54,48 @@ export function Pricing() {
           <p className={styles.sub}>{t('Every package includes direct access to our team. No middlemen, no runaround.')}</p>
         </div>
 
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th><div className={styles.thLabel}>{t("What's included")}</div></th>
-              <th>
-                <div className={styles.thTier}>{t('Standard')}</div>
-                <div className={`${styles.thPrice} font-inter`}>$2,500</div>
-                <div className={styles.thPeriod}>/project</div>
-              </th>
-              <th className={styles.featured}>
-                <div className={styles.thTierFeatured}>{t('Growth')} ★</div>
-                <div className={`${styles.thPrice} font-inter`}>$5,000</div>
-                <div className={styles.thPeriod}>/project</div>
-              </th>
-              <th>
-                <div className={styles.thTier}>{t('Scale')}</div>
-                <div className={`${styles.thPrice} font-inter`}>$8,500</div>
-                <div className={styles.thPeriod}>/project</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.feature}>
-                <td>{t(row.feature)}</td>
-                <Cell value={row.standard} />
-                <Cell value={row.growth} featured />
-                <Cell value={row.scale} />
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th><div className={styles.thLabel}>{t("What's included")}</div></th>
+                <th>
+                  <div className={styles.thTier}>{t('Standard')}</div>
+                  <div className={`${styles.thPrice} font-inter`}>$2,500</div>
+                  <div className={styles.thPeriod}>/project</div>
+                </th>
+                <th className={styles.featured}>
+                  <div className={styles.thTierFeatured}>{t('Growth')} ★</div>
+                  <div className={`${styles.thPrice} font-inter`}>$5,000</div>
+                  <div className={styles.thPeriod}>/project</div>
+                </th>
+                <th>
+                  <div className={styles.thTier}>{t('Scale')}</div>
+                  <div className={`${styles.thPrice} font-inter`}>$8,500</div>
+                  <div className={styles.thPeriod}>/project</div>
+                </th>
               </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td />
-              <td><Button variant="outline" size="sm">{t('Get Started')}</Button></td>
-              <td className={styles.featured}><Button size="sm">{t('Get Started →')}</Button></td>
-              <td><Button variant="outline" size="sm">{t('Get Started')}</Button></td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.feature}>
+                  <td>{t(row.feature)}</td>
+                  <Cell value={row.standard} />
+                  <Cell value={row.growth} featured />
+                  <Cell value={row.scale} />
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td />
+                <td><Button variant="outline" size="sm">{t('Get Started')}</Button></td>
+                <td className={styles.featured}><Button size="sm">{t('Get Started →')}</Button></td>
+                <td><Button variant="outline" size="sm">{t('Get Started')}</Button></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </motion.div>
   );
