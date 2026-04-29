@@ -42,10 +42,10 @@ export function Pricing() {
     <motion.div
       id="pricing"
       className={styles.pricing}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 80 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <div className={styles.inner}>
         <div className={styles.header}>
