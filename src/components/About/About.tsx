@@ -10,9 +10,9 @@ const founderContainer = {
 };
 
 const founderItem = {
-  initial: { opacity: 0, y: 50 },
+  initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+  transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
 };
 
 export function About() {
@@ -22,10 +22,10 @@ export function About() {
     <motion.div
       id="about"
       className={s.about}
-      initial={{ opacity: 0, y: 80 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
     >
       <div className={s.aboutInner}>
         <SectionLabel>{t('Who We Are')}</SectionLabel>
