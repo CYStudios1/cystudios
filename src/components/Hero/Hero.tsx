@@ -14,7 +14,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className={styles.heroPill}
           >
             <span className={styles.pillDot} />
@@ -23,7 +23,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           >
             <h1
               className={styles.heroHeadline}
@@ -37,7 +37,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.5 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           >
             <p className={styles.heroSub}>
               {t('CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.')}
@@ -46,7 +46,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 2.0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
           >
             <Button dataEn="Book a Consultation →" dataKr="상담 예약하기 →">
               {t('Book a Consultation →')}
@@ -57,7 +57,7 @@ export function Hero() {
           className={styles.deviceSide}
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 2.5 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
         >
           <DeviceMockup />
         </motion.div>
