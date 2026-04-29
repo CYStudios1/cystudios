@@ -121,7 +121,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
           // 1. Slide up fast (word appears — overshoots past resting position)
           wc.start({
-            y: [110, -6], // % — from hidden to slightly above resting
+            y: [110, -10], // % — from hidden to noticeably above resting
             transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
           });
           // Don't await — let it play while ball squashes
@@ -145,13 +145,13 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           const wc = wordControls[wordI];
           // 2. Push down from ball impact
           await wc.start({
-            y: 5, // % — pushed below resting
+            y: 8, // % — pushed more noticeably below resting
             transition: { duration: 0.06, ease: [0.4, 0, 1, 0.4] },
           });
-          // 3. Spring back to resting with overshoot
+          // 3. Spring back to resting with strong overshoot
           wc.start({
             y: 0,
-            transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }, // spring overshoot
+            transition: { duration: 0.5, ease: [0.22, 1.8, 0.5, 1] }, // stronger spring overshoot
           });
         }
 
