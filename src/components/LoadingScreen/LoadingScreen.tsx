@@ -17,11 +17,11 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   // Word left positions in em units
   const wordPositions = [0.3, 2.8, 5.2, 7.2, 9.5];
   const periodPos = 12.2;
-  const landingTop = '1.05em'; // ball lands ON the text baseline
-  const startHeight = '-5em'; // drops from very high
+  const landingTop = '-0.15em'; // ball lands touching top of letters
+  const startHeight = '-4em'; // drops from high above
 
   // Bounce heights decrease with each bounce (losing energy)
-  const bounceHeights = ['-3em', '-2em', '-1.3em', '-0.8em', '-0.5em'];
+  const bounceHeights = ['-2em', '-1.4em', '-1em', '-0.7em', '-0.45em'];
   // Fall durations get shorter (ball moves faster)
   const fallDurations = [0.4, 0.22, 0.18, 0.15, 0.12];
   // Rise durations also get shorter
