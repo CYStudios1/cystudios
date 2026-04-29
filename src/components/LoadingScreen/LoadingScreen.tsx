@@ -18,17 +18,16 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   // "intention" gets two bounces — first lands on left side, second on right side
   const words = ['Your', 'brand,', 'built', 'with', 'intention'];
 
-  // Bounce physics — exponential speed decrease
-  // Heights drop off sharply: 120 → 55 → 22 → 8 → 4 → 2
-  const bounceHeights = [120, 55, 22, 8, 4, 2];
-  // Durations decrease exponentially: each ~55% of previous
-  const fallDurations = [0.4, 0.18, 0.1, 0.055, 0.03, 0.02];
-  const riseDurations = [0.22, 0.12, 0.07, 0.04, 0.025, 0.015];
-  // Squash decreases rapidly
-  const squashX = [1.4, 1.2, 1.1, 1.05, 1.02, 1.01];
-  const squashY = [0.6, 0.8, 0.9, 0.95, 0.98, 0.99];
-  // Landing pause decreases to almost nothing
-  const squashDurations = [0.04, 0.03, 0.025, 0.02, 0.015, 0.01];
+  // Bounce physics — exponential speed decrease but gentler on last 3
+  const bounceHeights = [120, 55, 35, 20, 10, 4];
+  // Durations: first 2 fast, last 3 ease off more gradually
+  const fallDurations = [0.4, 0.18, 0.14, 0.11, 0.08, 0.05];
+  const riseDurations = [0.22, 0.12, 0.1, 0.08, 0.06, 0.04];
+  // Squash decreases
+  const squashX = [1.4, 1.2, 1.12, 1.08, 1.04, 1.02];
+  const squashY = [0.6, 0.8, 0.88, 0.92, 0.96, 0.98];
+  // Landing pause: starts at 0.04, ends at 0.1 for the final settle
+  const squashDurations = [0.04, 0.035, 0.03, 0.025, 0.02, 0.1];
   const ballSize = 7; // px — must match CSS .ball width/height
 
   const setWordRef = useCallback((el: HTMLSpanElement | null, i: number) => {
