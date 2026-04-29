@@ -169,10 +169,52 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         await landOnWord(i + 1);
       }
 
+      // Extra bounce on "intention" — small bounce in place
+      const intentionI = words.length - 1;
+      const intentionX = positions[intentionI].x;
+      const intentionY = positions[intentionI].y;
+      const smallBounceHeight = 20; // much smaller second bounce
+
+      // Rise up slightly
+      await ballControls.start({
+        top: intentionY - smallBounceHeight,
+        scaleX: 0.95,
+        scaleY: 1.05,
+        transition: {
+          duration: 0.08,
+          ease: [0, 0.55, 0.45, 1],
+        },
+      });
+
+      // Fall back down
+      await ballControls.start({
+        top: intentionY,
+        scaleX: 1,
+        scaleY: 1,
+        transition: {
+          duration: 0.07,
+          ease: [0.55, 0, 1, 0.45],
+        },
+      });
+
+      // Second push-down on "intention"
+      setPushedWord(intentionI);
+      await ballControls.start({
+        scaleX: 1.08,
+        scaleY: 0.92,
+        transition: { duration: 0.03, ease: 'easeOut' },
+      });
+      await ballControls.start({
+        scaleX: 1,
+        scaleY: 1,
+        transition: { duration: 0.03, ease: 'easeOut' },
+      });
+      setPushedWord(null);
+
       // Arc to period position
-      const lastI = words.length - 1;
-      const fromX = positions[lastI].x;
-      const fromY = positions[lastI].y;
+      const lastI = intentionI;
+      const fromX = intentionX;
+      const fromY = intentionY;
       const periodPeakY = Math.min(fromY, periodY) - bounceHeights[4];
       const periodArcDuration = riseDurations[4] + 0.06;
 
