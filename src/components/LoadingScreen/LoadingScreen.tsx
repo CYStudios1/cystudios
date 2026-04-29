@@ -17,12 +17,13 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
   const words = ['Your', 'brand,', 'built', 'with', 'intention'];
 
-  // Bounce physics — decrease height, increase speed
-  const bounceHeights = [120, 85, 60, 40, 25]; // pixels above word
-  const fallDurations = [0.4, 0.22, 0.18, 0.15, 0.12];
-  const riseDurations = [0.25, 0.2, 0.16, 0.13, 0.1];
+  // Bounce physics — decrease height, increase speed dramatically
+  const bounceHeights = [120, 75, 45, 25, 14]; // pixels above word
+  const fallDurations = [0.4, 0.18, 0.13, 0.09, 0.06];
+  const riseDurations = [0.22, 0.15, 0.11, 0.08, 0.05];
   const squashX = [1.4, 1.25, 1.15, 1.1, 1.05];
   const squashY = [0.6, 0.75, 0.85, 0.9, 0.95];
+  const ballSize = 7; // px — must match CSS .ball width/height
 
   const setWordRef = useCallback((el: HTMLSpanElement | null, i: number) => {
     wordRefs.current[i] = el;
@@ -41,12 +42,13 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const headlineRect = headline.getBoundingClientRect();
 
       // Measure each word's position relative to the h1
+      // Ball's bottom edge should touch the word's top edge
       const positions = wordRefs.current.map(ref => {
         if (!ref) return { x: 0, y: 0, width: 0 };
         const rect = ref.getBoundingClientRect();
         return {
           x: rect.left - headlineRect.left + rect.width / 2, // center of word
-          y: rect.top - headlineRect.top - 3, // top of word, slightly above
+          y: rect.top - headlineRect.top - ballSize, // ball bottom touches word top
           width: rect.width,
         };
       });
@@ -61,7 +63,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
       // Ball starts high above first word
       const startX = positions[0].x;
-      const startY = positions[0].y - 200;
+      const startY = positions[0].y - 250;
 
       await ballControls.set({
         left: startX,
