@@ -8,7 +8,7 @@ import { DeviceMockup } from './DeviceMockup';
 const headlineLines = [
   'Your brand,',
   'built with',
-  'intention.',
+  'intention',
 ];
 
 export function Hero() {
@@ -42,7 +42,7 @@ export function Hero() {
               dangerouslySetInnerHTML={{ __html: t('heroHeadlineHtml') }}
             />
           ) : (
-            <h1 className={styles.heroHeadline}>
+            <h1 className={styles.heroHeadline} style={{ position: 'relative' }}>
               {headlineLines.map((line, lineIndex) => {
                 const previousChars = headlineLines.slice(0, lineIndex).reduce((sum, l) => sum + l.length, 0);
                 return (
@@ -72,6 +72,22 @@ export function Hero() {
                   </span>
                 );
               })}
+              <motion.div
+                className={styles.bouncingBall}
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  left: ['0.3em', '0.3em', '2.8em', '2.8em', '0.3em', '0.3em', '2.2em', '2.2em', '2.5em', '2.5em', '4.8em', '4.8em', '4.8em'],
+                  top: ['-0.15em', '-0.3em', '-0.3em', '-0.15em', '0.85em', '0.7em', '0.7em', '0.85em', '1.85em', '1.7em', '1.7em', '1.85em', '1.85em'],
+                  scale: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.7, 0.7],
+                }}
+                transition={{
+                  duration: 1.1,
+                  delay: 0.7,
+                  ease: [0.16, 1, 0.3, 1],
+                  times: [0, 0.05, 0.2, 0.25, 0.3, 0.35, 0.5, 0.55, 0.6, 0.65, 0.85, 0.95, 1],
+                }}
+              />
             </h1>
           )}
           <motion.div

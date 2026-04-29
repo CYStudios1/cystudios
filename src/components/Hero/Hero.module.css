@@ -144,6 +144,18 @@
   display: inline-block;
 }
 
+.bouncingBall {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(220, 150, 130, 0.9);
+  pointer-events: none;
+  z-index: 5;
+  top: 0;
+  left: 0;
+}
+
 .heroSub {
   font-size: 15px;
   font-weight: 300;
