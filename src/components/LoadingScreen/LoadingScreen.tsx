@@ -10,6 +10,9 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
   const [pushedWord, setPushedWord] = useState<number | null>(null);
+  // Individual word controls for words 0 and 1 (multi-step animations)
+  const word0Controls = useAnimationControls();
+  const word1Controls = useAnimationControls();
   const [phase, setPhase] = useState<'bounce' | 'transition' | 'done'>('bounce');
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -108,19 +111,24 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         },
       });
 
+      const wordControls = [word0Controls, word1Controls];
+
       // === LANDING HELPER ===
       async function land(wordI: number, bounceI: number, revealWord: boolean) {
-        // Reveal or push word
-        if (revealWord) {
-          if (wordI <= 1) {
-            setVisibleWords(prev => [...prev, wordI]);
-            if (wordI === 1) {
-              await delay(60);
-              setVisibleWords(prev => [...prev, 2, 3, 4]);
-            }
-          } else {
-            setPushedWord(wordI);
-          }
+        // Words 0 and 1: multi-step reveal — slide up, overshoot, get pushed down by ball, spring back
+        if (revealWord && wordI <= 1) {
+          const wc = wordControls[wordI];
+
+          // 1. Slide up fast (word appears — overshoots past resting position)
+          wc.start({
+            y: [110, -6], // % — from hidden to slightly above resting
+            transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+          });
+          // Don't await — let it play while ball squashes
+
+          setVisibleWords(prev => [...prev, wordI]);
+        } else if (revealWord && wordI > 1) {
+          setPushedWord(wordI);
         } else {
           setPushedWord(wordI);
         }
@@ -132,12 +140,33 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           transition: { duration: groundTime[bounceI], ease: 'easeOut' },
         });
 
+        // Words 0 and 1: ball impact pushes word down, then it springs back
+        if (revealWord && wordI <= 1) {
+          const wc = wordControls[wordI];
+          // 2. Push down from ball impact
+          await wc.start({
+            y: 5, // % — pushed below resting
+            transition: { duration: 0.06, ease: [0.4, 0, 1, 0.4] },
+          });
+          // 3. Spring back to resting with overshoot
+          wc.start({
+            y: 0,
+            transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }, // spring overshoot
+          });
+        }
+
         // UN-SQUASH — ball returns to round (spring)
         await ballControls.start({
           scaleX: 1,
           scaleY: 1,
           transition: { duration: groundTime[bounceI] * 0.8, ease: 'easeIn' },
         });
+
+        // After word 1, reveal words 2-4
+        if (revealWord && wordI === 1) {
+          await delay(40);
+          setVisibleWords(prev => [...prev, 2, 3, 4]);
+        }
 
         if (wordI >= 2) setPushedWord(null);
       }
@@ -253,21 +282,34 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
                 className={styles.wordClip}
                 style={{ marginRight: '0.25em' }}
               >
-                <motion.span
-                  className={styles.wordInner}
-                  initial={{ y: '110%' }}
-                  animate={{
-                    y: visibleWords.includes(i)
-                      ? (pushedWord === i ? '4%' : '0%')
-                      : '110%',
-                  }}
-                  transition={{
-                    duration: pushedWord === i ? 0.12 : 0.5,
-                    ease: pushedWord === i ? [0.34, 1.56, 0.64, 1] : [0.16, 1, 0.3, 1],
-                  }}
-                >
-                  {word}
-                </motion.span>
+                {i <= 1 ? (
+                  /* Words 0-1: controlled by individual animationControls */
+                  <motion.span
+                    className={styles.wordInner}
+                    initial={{ y: '110%' }}
+                    animate={i === 0 ? word0Controls : word1Controls}
+                    style={{ y: '110%' }}
+                  >
+                    {word}
+                  </motion.span>
+                ) : (
+                  /* Words 2-4: state-driven reveal + push */
+                  <motion.span
+                    className={styles.wordInner}
+                    initial={{ y: '110%' }}
+                    animate={{
+                      y: visibleWords.includes(i)
+                        ? (pushedWord === i ? '4%' : '0%')
+                        : '110%',
+                    }}
+                    transition={{
+                      duration: pushedWord === i ? 0.12 : 0.5,
+                      ease: pushedWord === i ? [0.34, 1.56, 0.64, 1] : [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                )}
               </span>
             ))}
 
