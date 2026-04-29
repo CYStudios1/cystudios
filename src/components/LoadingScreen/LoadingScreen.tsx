@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
 import styles from './LoadingScreen.module.css';
 
@@ -9,40 +9,66 @@ function delay(ms: number) {
 export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
-  const [showPeriod, setShowPeriod] = useState(false);
   const [phase, setPhase] = useState<'bounce' | 'transition' | 'done'>('bounce');
+
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   const words = ['Your', 'brand,', 'built', 'with', 'intention'];
 
-  // Word left positions in em units
-  const wordPositions = [0.3, 2.8, 5.2, 7.2, 9.5];
-  const periodPos = 12.2;
-  const landingTop = '-0.15em'; // ball lands touching top of letters
-  const startHeight = '-4em'; // drops from high above
-
-  // Bounce heights decrease with each bounce (losing energy)
-  const bounceHeights = ['-2em', '-1.4em', '-1em', '-0.7em', '-0.45em'];
-  // Fall durations get shorter (ball moves faster)
+  // Bounce physics — decrease height, increase speed
+  const bounceHeights = [120, 85, 60, 40, 25]; // pixels above word
   const fallDurations = [0.4, 0.22, 0.18, 0.15, 0.12];
-  // Rise durations also get shorter
   const riseDurations = [0.25, 0.2, 0.16, 0.13, 0.1];
-  // Squash intensity decreases
   const squashX = [1.4, 1.25, 1.15, 1.1, 1.05];
   const squashY = [0.6, 0.75, 0.85, 0.9, 0.95];
 
+  const setWordRef = useCallback((el: HTMLSpanElement | null, i: number) => {
+    wordRefs.current[i] = el;
+  }, []);
+
   useEffect(() => {
     async function animate() {
-      // Ball starts high above first word, invisible
+      const headline = headlineRef.current;
+      if (!headline) return;
+
+      // Wait for fonts to load and layout to settle
+      await delay(100);
+      await document.fonts.ready;
+      await delay(200);
+
+      const headlineRect = headline.getBoundingClientRect();
+
+      // Measure each word's position relative to the h1
+      const positions = wordRefs.current.map(ref => {
+        if (!ref) return { x: 0, y: 0, width: 0 };
+        const rect = ref.getBoundingClientRect();
+        return {
+          x: rect.left - headlineRect.left + rect.width / 2, // center of word
+          y: rect.top - headlineRect.top - 3, // top of word, slightly above
+          width: rect.width,
+        };
+      });
+
+      // Period position: right edge of last word
+      const lastWord = wordRefs.current[words.length - 1];
+      const lastRect = lastWord?.getBoundingClientRect();
+      const periodX = lastRect
+        ? lastRect.right - headlineRect.left + 4
+        : positions[positions.length - 1].x + 50;
+      const periodY = positions[positions.length - 1].y;
+
+      // Ball starts high above first word
+      const startX = positions[0].x;
+      const startY = positions[0].y - 200;
+
       await ballControls.set({
-        left: `${wordPositions[0]}em`,
-        top: startHeight,
+        left: startX,
+        top: startY,
         opacity: 0,
         scaleX: 1,
         scaleY: 1,
       });
-
-      // Small pause before animation starts
-      await delay(300);
 
       // Make ball visible
       await ballControls.start({
@@ -50,78 +76,87 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.1 },
       });
 
-      // For each word: fall down, reveal word, squash, bounce up, arc to next
+      // Bounce across each word
       for (let i = 0; i < words.length; i++) {
-        // FALL DOWN to word position (gravity — accelerating)
+        const landX = positions[i].x;
+        const landY = positions[i].y;
+
+        // FALL DOWN to word (gravity)
         await ballControls.start({
-          top: landingTop,
-          left: `${wordPositions[i]}em`,
+          left: landX,
+          top: landY,
           scaleX: 1,
           scaleY: 1,
           transition: {
             duration: fallDurations[i],
-            ease: [0.55, 0, 1, 0.45], // gravity — accelerates downward
+            ease: [0.55, 0, 1, 0.45],
           },
         });
 
-        // Reveal the word on impact
+        // Reveal word on impact
         setVisibleWords(prev => [...prev, i]);
 
-        // SQUASH on landing (fast — less time on ground)
+        // SQUASH on landing
         await ballControls.start({
           scaleX: squashX[i],
           scaleY: squashY[i],
           transition: { duration: 0.04, ease: 'easeOut' },
         });
 
-        // SPRING back to normal (quick)
+        // Spring back
         await ballControls.start({
           scaleX: 1,
           scaleY: 1,
           transition: { duration: 0.04, ease: 'easeOut' },
         });
 
-        // If not the last word, BOUNCE UP toward next word
+        // BOUNCE UP toward next word (if not last)
         if (i < words.length - 1) {
-          const midX = (wordPositions[i] + wordPositions[i + 1]) / 2;
+          const nextX = positions[i + 1].x;
+          const midX = (landX + nextX) / 2;
+          const peakY = landY - bounceHeights[i];
 
-          // Rise up (decelerating — losing momentum) — height decreases each time
+          // Rise to peak (decelerating)
           await ballControls.start({
-            top: bounceHeights[i],
-            left: `${midX}em`,
+            left: midX,
+            top: peakY,
             scaleX: 0.9,
             scaleY: 1.1,
             transition: {
               duration: riseDurations[i],
-              ease: [0, 0.55, 0.45, 1], // deceleration — slows at top
+              ease: [0, 0.55, 0.45, 1],
             },
           });
         }
       }
 
-      // After last word: small bounce to period position (very low, fast)
+      // Bounce to period position
+      const lastLandY = positions[words.length - 1].y;
+      const periodPeakY = lastLandY - bounceHeights[4];
+      const midPeriodX = (positions[words.length - 1].x + periodX) / 2;
+
       await ballControls.start({
-        top: bounceHeights[4],
-        left: '11em',
+        left: midPeriodX,
+        top: periodPeakY,
         scaleX: 0.95,
         scaleY: 1.05,
-        transition: { duration: 0.14, ease: [0, 0.55, 0.45, 1] },
+        transition: { duration: 0.1, ease: [0, 0.55, 0.45, 1] },
       });
 
-      // Fall to period position
+      // Fall to period
       await ballControls.start({
-        top: landingTop,
-        left: `${periodPos}em`,
+        left: periodX,
+        top: periodY,
         scaleX: 1,
         scaleY: 1,
-        transition: { duration: 0.16, ease: [0.55, 0, 1, 0.45] },
+        transition: { duration: 0.12, ease: [0.55, 0, 1, 0.45] },
       });
 
       // Small squash
       await ballControls.start({
         scaleX: 1.1,
         scaleY: 0.9,
-        transition: { duration: 0.05 },
+        transition: { duration: 0.04 },
       });
 
       // Settle as period
@@ -131,9 +166,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.2, ease: 'easeOut' },
       });
 
-      setShowPeriod(true);
-
-      // Wait a moment, then transition
+      // Wait then transition
       await delay(600);
       setPhase('transition');
       await delay(1500);
@@ -142,7 +175,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     }
 
     animate();
-  }, []);
+  }, [ballControls, onComplete]);
 
   return (
     <AnimatePresence>
@@ -153,9 +186,14 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 className={styles.headline}>
+          <h1 ref={headlineRef} className={styles.headline}>
             {words.map((word, i) => (
-              <span key={i} className={styles.wordClip} style={{ marginRight: '0.25em' }}>
+              <span
+                key={i}
+                ref={(el) => setWordRef(el, i)}
+                className={styles.wordClip}
+                style={{ marginRight: '0.25em' }}
+              >
                 <motion.span
                   className={styles.wordInner}
                   initial={{ y: '110%' }}
@@ -171,7 +209,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             <motion.div
               className={styles.ball}
               animate={ballControls}
-              initial={{ opacity: 0, left: '0.3em', top: '-4em' }}
+              initial={{ opacity: 0 }}
             />
           </h1>
 

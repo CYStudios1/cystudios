@@ -36,4 +36,5 @@
   background: rgba(220, 150, 130, 0.9);
   pointer-events: none;
   z-index: 5;
+  transform-origin: center center;
 }
