@@ -59,9 +59,9 @@ export function Hero() {
                             initial={{ y: '100%' }}
                             animate={{ y: '0%' }}
                             transition={{
-                              duration: 0.8,
+                              duration: 1,
                               ease: [0.16, 1, 0.3, 1],
-                              delay: 0.85 + (globalIndex * 0.03),
+                              delay: 0.85 + (globalIndex * 0.05),
                             }}
                           >
                             {char}
@@ -77,15 +77,15 @@ export function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                  left: ['0.3em', '0.3em', '2.8em', '2.8em', '0.3em', '0.3em', '2.2em', '2.2em', '2.5em', '2.5em', '4.8em', '4.8em', '4.8em'],
-                  top: ['-0.15em', '-0.3em', '-0.3em', '-0.15em', '0.85em', '0.7em', '0.7em', '0.85em', '1.85em', '1.7em', '1.7em', '1.85em', '1.85em'],
+                  left: ['0.3em', '0.3em', '2.8em', '2.8em', '0.3em', '0.3em', '2.2em', '2.2em', '2.5em', '2.5em', '5.3em', '5.3em', '5.3em'],
+                  top: ['-0.15em', '-0.45em', '-0.45em', '-0.15em', '0.85em', '0.5em', '0.5em', '0.85em', '1.85em', '1.5em', '1.5em', '1.85em', '1.85em'],
                   scale: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.7, 0.7],
                 }}
                 transition={{
-                  duration: 1.1,
-                  delay: 0.7,
+                  duration: 1.8,
+                  delay: 0.65,
                   ease: [0.16, 1, 0.3, 1],
-                  times: [0, 0.05, 0.2, 0.25, 0.3, 0.35, 0.5, 0.55, 0.6, 0.65, 0.85, 0.95, 1],
+                  times: [0, 0.04, 0.15, 0.22, 0.28, 0.33, 0.45, 0.52, 0.58, 0.63, 0.8, 0.92, 1],
                 }}
               />
             </h1>
