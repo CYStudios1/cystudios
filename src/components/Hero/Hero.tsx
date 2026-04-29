@@ -72,22 +72,7 @@ export function Hero() {
                   </span>
                 );
               })}
-              <motion.div
-                className={styles.bouncingBall}
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                  left: ['0.3em', '0.3em', '2.8em', '2.8em', '0.3em', '0.3em', '2.2em', '2.2em', '2.5em', '2.5em', '5.3em', '5.3em', '5.3em'],
-                  top: ['-0.15em', '-0.45em', '-0.45em', '-0.15em', '0.85em', '0.5em', '0.5em', '0.85em', '1.85em', '1.5em', '1.5em', '1.85em', '1.85em'],
-                  scale: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.7, 0.7],
-                }}
-                transition={{
-                  duration: 1.8,
-                  delay: 0.65,
-                  ease: [0.16, 1, 0.3, 1],
-                  times: [0, 0.04, 0.15, 0.22, 0.28, 0.33, 0.45, 0.52, 0.58, 0.63, 0.8, 0.92, 1],
-                }}
-              />
+              <div className={styles.bouncingBall} />
             </h1>
           )}
           <motion.div
