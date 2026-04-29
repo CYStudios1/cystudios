@@ -18,6 +18,17 @@
   padding-top: 3em; /* space above for ball to bounce from */
 }
 
+.wordClip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 4px;
+}
+
+.wordInner {
+  display: inline-block;
+}
+
 .ball {
   position: absolute;
   width: 7px;

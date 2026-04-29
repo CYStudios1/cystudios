@@ -21,14 +21,14 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const startHeight = '-5em'; // drops from very high
 
   // Bounce heights decrease with each bounce (losing energy)
-  const bounceHeights = ['-3em', '-2.2em', '-1.5em', '-1em', '-0.6em'];
-  // Fall durations get shorter (ball moves faster as it loses height)
-  const fallDurations = [0.55, 0.32, 0.28, 0.24, 0.2];
+  const bounceHeights = ['-3em', '-2em', '-1.3em', '-0.8em', '-0.5em'];
+  // Fall durations get shorter (ball moves faster)
+  const fallDurations = [0.4, 0.22, 0.18, 0.15, 0.12];
   // Rise durations also get shorter
-  const riseDurations = [0.35, 0.28, 0.24, 0.2, 0.16];
+  const riseDurations = [0.25, 0.2, 0.16, 0.13, 0.1];
   // Squash intensity decreases
-  const squashX = [1.5, 1.35, 1.25, 1.15, 1.1];
-  const squashY = [0.5, 0.65, 0.75, 0.85, 0.9];
+  const squashX = [1.4, 1.25, 1.15, 1.1, 1.05];
+  const squashY = [0.6, 0.75, 0.85, 0.9, 0.95];
 
   useEffect(() => {
     async function animate() {
@@ -67,24 +67,18 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         // Reveal the word on impact
         setVisibleWords(prev => [...prev, i]);
 
-        // SQUASH on landing (intensity decreases with each bounce)
+        // SQUASH on landing (fast — less time on ground)
         await ballControls.start({
           scaleX: squashX[i],
           scaleY: squashY[i],
-          transition: { duration: 0.07, ease: 'easeOut' },
+          transition: { duration: 0.04, ease: 'easeOut' },
         });
 
-        // SPRING back to normal shape
-        await ballControls.start({
-          scaleX: 0.9,
-          scaleY: 1.1,
-          transition: { duration: 0.06, ease: 'easeOut' },
-        });
-
+        // SPRING back to normal (quick)
         await ballControls.start({
           scaleX: 1,
           scaleY: 1,
-          transition: { duration: 0.05 },
+          transition: { duration: 0.04, ease: 'easeOut' },
         });
 
         // If not the last word, BOUNCE UP toward next word
@@ -161,20 +155,17 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         >
           <h1 className={styles.headline}>
             {words.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: visibleWords.includes(i) ? 1 : 0 }}
-                transition={{ duration: 0.15 }}
-                style={{ marginRight: '0.25em' }}
-              >
-                {word}
-              </motion.span>
+              <span key={i} className={styles.wordClip} style={{ marginRight: '0.25em' }}>
+                <motion.span
+                  className={styles.wordInner}
+                  initial={{ y: '110%' }}
+                  animate={{ y: visibleWords.includes(i) ? '0%' : '110%' }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {word}
+                </motion.span>
+              </span>
             ))}
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showPeriod ? 0 : 0 }}
-            />
 
             {/* Bouncing ball */}
             <motion.div
