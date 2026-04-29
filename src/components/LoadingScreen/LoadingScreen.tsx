@@ -83,40 +83,19 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.1 },
       });
 
-      // Bounce across each word
-      for (let i = 0; i < words.length; i++) {
-        const landX = positions[i].x;
-        const landY = positions[i].y;
-
-        // FALL DOWN to word (gravity)
-        await ballControls.start({
-          left: landX,
-          top: landY,
-          scaleX: 1,
-          scaleY: 1,
-          transition: {
-            duration: fallDurations[i],
-            ease: [0.55, 0, 1, 0.45],
-          },
-        });
-
-        // Words 0-1: reveal on ball impact
-        // Words 2-4: already visible, get "pushed down" by ball
+      // Helper: handle landing on a word
+      async function landOnWord(i: number) {
         if (i <= 1) {
           setVisibleWords(prev => [...prev, i]);
-          // After word 1 lands, reveal words 2-4 together
           if (i === 1) {
-            await delay(100);
+            await delay(80);
             setVisibleWords(prev => [...prev, 2, 3, 4]);
           }
         } else {
-          // Ball pushes this word down on landing
           setPushedWord(i);
-          await delay(120); // let the push animation play
-          setPushedWord(null);
         }
 
-        // SQUASH on landing
+        // SQUASH
         await ballControls.start({
           scaleX: squashX[i],
           scaleY: squashY[i],
@@ -130,46 +109,66 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           transition: { duration: 0.04, ease: 'easeOut' },
         });
 
-        // BOUNCE UP toward next word (if not last)
-        if (i < words.length - 1) {
-          const nextX = positions[i + 1].x;
-          const midX = (landX + nextX) / 2;
-          const peakY = landY - bounceHeights[i];
-
-          // Rise to peak (decelerating)
-          await ballControls.start({
-            left: midX,
-            top: peakY,
-            scaleX: 0.9,
-            scaleY: 1.1,
-            transition: {
-              duration: riseDurations[i],
-              ease: [0, 0.55, 0.45, 1],
-            },
-          });
+        if (i >= 2) {
+          setPushedWord(null);
         }
       }
 
-      // Bounce to period position
-      const lastLandY = positions[words.length - 1].y;
-      const periodPeakY = lastLandY - bounceHeights[4];
-      const midPeriodX = (positions[words.length - 1].x + periodX) / 2;
-
+      // First word: ball falls from above
       await ballControls.start({
-        left: midPeriodX,
-        top: periodPeakY,
-        scaleX: 0.95,
-        scaleY: 1.05,
-        transition: { duration: 0.1, ease: [0, 0.55, 0.45, 1] },
+        left: positions[0].x,
+        top: positions[0].y,
+        transition: {
+          duration: fallDurations[0],
+          ease: [0.55, 0, 1, 0.45],
+        },
       });
+      await landOnWord(0);
 
-      // Fall to period
+      // Words 1-4: fluid arc from previous word to next (no pause at peak)
+      for (let i = 0; i < words.length - 1; i++) {
+        const fromX = positions[i].x;
+        const fromY = positions[i].y;
+        const toX = positions[i + 1].x;
+        const toY = positions[i + 1].y;
+        const midX = (fromX + toX) / 2;
+        const peakY = Math.min(fromY, toY) - bounceHeights[i];
+        const arcDuration = riseDurations[i] + fallDurations[i + 1];
+
+        // Single fluid arc: up and over to next word
+        await ballControls.start({
+          left: [fromX, midX, toX],
+          top: [fromY, peakY, toY],
+          scaleX: [1, 0.9, 1],
+          scaleY: [1, 1.1, 1],
+          transition: {
+            duration: arcDuration,
+            ease: 'easeInOut',
+            times: [0, 0.4, 1],
+          },
+        });
+
+        await landOnWord(i + 1);
+      }
+
+      // Arc to period position
+      const lastI = words.length - 1;
+      const fromX = positions[lastI].x;
+      const fromY = positions[lastI].y;
+      const midPeriodX = (fromX + periodX) / 2;
+      const periodPeakY = Math.min(fromY, periodY) - bounceHeights[4];
+      const periodArcDuration = riseDurations[4] + 0.06;
+
       await ballControls.start({
-        left: periodX,
-        top: periodY,
-        scaleX: 1,
-        scaleY: 1,
-        transition: { duration: 0.12, ease: [0.55, 0, 1, 0.45] },
+        left: [fromX, midPeriodX, periodX],
+        top: [fromY, periodPeakY, periodY],
+        scaleX: [1, 0.95, 1],
+        scaleY: [1, 1.05, 1],
+        transition: {
+          duration: periodArcDuration,
+          ease: 'easeInOut',
+          times: [0, 0.4, 1],
+        },
       });
 
       // Small squash
