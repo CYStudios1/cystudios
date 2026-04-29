@@ -17,9 +17,18 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   // Word left positions in em units
   const wordPositions = [0.3, 2.8, 5.2, 7.2, 9.5];
   const periodPos = 12.2;
-  const baseTop = '0.9em';
-  const bounceHeight = '-2.5em';
-  const startHeight = '-4em';
+  const landingTop = '1.05em'; // ball lands ON the text baseline
+  const startHeight = '-5em'; // drops from very high
+
+  // Bounce heights decrease with each bounce (losing energy)
+  const bounceHeights = ['-3em', '-2.2em', '-1.5em', '-1em', '-0.6em'];
+  // Fall durations get shorter (ball moves faster as it loses height)
+  const fallDurations = [0.55, 0.32, 0.28, 0.24, 0.2];
+  // Rise durations also get shorter
+  const riseDurations = [0.35, 0.28, 0.24, 0.2, 0.16];
+  // Squash intensity decreases
+  const squashX = [1.5, 1.35, 1.25, 1.15, 1.1];
+  const squashY = [0.5, 0.65, 0.75, 0.85, 0.9];
 
   useEffect(() => {
     async function animate() {
@@ -45,12 +54,12 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       for (let i = 0; i < words.length; i++) {
         // FALL DOWN to word position (gravity — accelerating)
         await ballControls.start({
-          top: baseTop,
+          top: landingTop,
           left: `${wordPositions[i]}em`,
           scaleX: 1,
           scaleY: 1,
           transition: {
-            duration: i === 0 ? 0.5 : 0.35,
+            duration: fallDurations[i],
             ease: [0.55, 0, 1, 0.45], // gravity — accelerates downward
           },
         });
@@ -58,71 +67,67 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         // Reveal the word on impact
         setVisibleWords(prev => [...prev, i]);
 
-        // SQUASH on landing
+        // SQUASH on landing (intensity decreases with each bounce)
         await ballControls.start({
-          scaleX: 1.4,
-          scaleY: 0.6,
-          transition: { duration: 0.08, ease: 'easeOut' },
+          scaleX: squashX[i],
+          scaleY: squashY[i],
+          transition: { duration: 0.07, ease: 'easeOut' },
         });
 
         // SPRING back to normal shape
         await ballControls.start({
-          scaleX: 0.85,
-          scaleY: 1.15,
-          transition: { duration: 0.08, ease: 'easeOut' },
+          scaleX: 0.9,
+          scaleY: 1.1,
+          transition: { duration: 0.06, ease: 'easeOut' },
         });
 
         await ballControls.start({
           scaleX: 1,
           scaleY: 1,
-          transition: { duration: 0.06 },
+          transition: { duration: 0.05 },
         });
 
         // If not the last word, BOUNCE UP toward next word
         if (i < words.length - 1) {
           const midX = (wordPositions[i] + wordPositions[i + 1]) / 2;
 
-          // Rise up (decelerating — losing momentum) and move toward next word
+          // Rise up (decelerating — losing momentum) — height decreases each time
           await ballControls.start({
-            top: bounceHeight,
+            top: bounceHeights[i],
             left: `${midX}em`,
             scaleX: 0.9,
             scaleY: 1.1,
             transition: {
-              duration: 0.3,
+              duration: riseDurations[i],
               ease: [0, 0.55, 0.45, 1], // deceleration — slows at top
             },
           });
-
-          // Small pause at the apex
-          await delay(30);
         }
       }
 
-      // After last word: bounce to period position
-      // Rise up
+      // After last word: small bounce to period position (very low, fast)
       await ballControls.start({
-        top: bounceHeight,
+        top: bounceHeights[4],
         left: '11em',
-        scaleX: 0.9,
-        scaleY: 1.1,
-        transition: { duration: 0.25, ease: [0, 0.55, 0.45, 1] },
+        scaleX: 0.95,
+        scaleY: 1.05,
+        transition: { duration: 0.14, ease: [0, 0.55, 0.45, 1] },
       });
 
       // Fall to period position
       await ballControls.start({
-        top: baseTop,
+        top: landingTop,
         left: `${periodPos}em`,
         scaleX: 1,
         scaleY: 1,
-        transition: { duration: 0.3, ease: [0.55, 0, 1, 0.45] },
+        transition: { duration: 0.16, ease: [0.55, 0, 1, 0.45] },
       });
 
       // Small squash
       await ballControls.start({
-        scaleX: 1.2,
-        scaleY: 0.8,
-        transition: { duration: 0.06 },
+        scaleX: 1.1,
+        scaleY: 0.9,
+        transition: { duration: 0.05 },
       });
 
       // Settle as period
