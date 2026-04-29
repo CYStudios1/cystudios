@@ -72,7 +72,6 @@ export function Hero() {
                   </span>
                 );
               })}
-              <div className={styles.bouncingBall} />
             </h1>
           )}
           <motion.div
