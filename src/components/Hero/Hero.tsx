@@ -52,9 +52,9 @@ export function Hero() {
                             initial={{ y: '100%' }}
                             animate={{ y: '0%' }}
                             transition={{
-                              duration: 0.6,
+                              duration: 0.8,
                               ease: [0.16, 1, 0.3, 1],
-                              delay: 0.85 + (globalIndex * 0.02),
+                              delay: 0.85 + (globalIndex * 0.03),
                             }}
                           >
                             {char}
