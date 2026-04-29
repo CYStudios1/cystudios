@@ -9,6 +9,7 @@ function delay(ms: number) {
 export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
+  const [pushedWord, setPushedWord] = useState<number | null>(null);
   const [phase, setPhase] = useState<'bounce' | 'transition' | 'done'>('bounce');
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -93,8 +94,21 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           },
         });
 
-        // Reveal word on impact
-        setVisibleWords(prev => [...prev, i]);
+        // Words 0-1: reveal on ball impact
+        // Words 2-4: already visible, get "pushed down" by ball
+        if (i <= 1) {
+          setVisibleWords(prev => [...prev, i]);
+          // After word 1 lands, reveal words 2-4 together
+          if (i === 1) {
+            await delay(100);
+            setVisibleWords(prev => [...prev, 2, 3, 4]);
+          }
+        } else {
+          // Ball pushes this word down on landing
+          setPushedWord(i);
+          await delay(120); // let the push animation play
+          setPushedWord(null);
+        }
 
         // SQUASH on landing
         await ballControls.start({
@@ -197,8 +211,15 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
                 <motion.span
                   className={styles.wordInner}
                   initial={{ y: '110%' }}
-                  animate={{ y: visibleWords.includes(i) ? '0%' : '110%' }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  animate={{
+                    y: visibleWords.includes(i)
+                      ? (pushedWord === i ? '4%' : '0%')
+                      : '110%',
+                  }}
+                  transition={{
+                    duration: pushedWord === i ? 0.12 : 0.5,
+                    ease: pushedWord === i ? [0.34, 1.56, 0.64, 1] : [0.16, 1, 0.3, 1],
+                  }}
                 >
                   {word}
                 </motion.span>
