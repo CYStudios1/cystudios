@@ -145,13 +145,17 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           const wc = wordControls[wordI];
           // 2. Push down from ball impact
           await wc.start({
-            y: 8, // % — pushed more noticeably below resting
+            y: 8, // % — pushed noticeably below resting
             transition: { duration: 0.06, ease: [0.4, 0, 1, 0.4] },
           });
-          // 3. Spring back to resting with strong overshoot
+          // 3. Spring back up, overshoot down slightly, settle
           wc.start({
-            y: 0,
-            transition: { duration: 0.5, ease: [0.22, 1.8, 0.5, 1] }, // stronger spring overshoot
+            y: [8, -1, 3, 0], // down → up → small overshoot down → rest
+            transition: {
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1],
+              times: [0, 0.35, 0.7, 1],
+            },
           });
         }
 
