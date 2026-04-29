@@ -142,34 +142,46 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         if (wordI >= 2) setPushedWord(null);
       }
 
-      // === ARC HELPER — true parabolic arc between two points ===
+      // === ARC HELPER — single animation, no concurrent conflicts ===
       async function arc(fromX: number, toX: number, height: number, duration: number) {
         const peakY = groundY - height;
+        const midX = (fromX + toX) / 2;
+        // Use multiple keyframe stops to approximate the arc curve
+        // More stops = smoother arc
+        const stops = 8;
+        const leftKeys: number[] = [];
+        const topKeys: number[] = [];
+        const timeKeys: number[] = [];
+        const scaleXKeys: number[] = [];
+        const scaleYKeys: number[] = [];
 
-        await Promise.all([
-          // X: linear (constant horizontal speed)
-          ballControls.start({
-            left: toX,
-            transition: { duration, ease: 'linear' },
-          }),
-          // Y: parabolic — split into rise (ease-out) and fall (ease-in)
-          // Using keyframes: ground → peak → ground
-          // The ball should be ROUND at peak, STRETCHED while falling fast
-          ballControls.start({
-            top: [groundY, peakY, groundY],
-            // Stretch going up, round at peak, stretch coming down
-            scaleX: [1, 1, 0.88],
-            scaleY: [1, 1, 1.15],
-            transition: {
-              duration,
-              // Custom timing: peak at ~45% (slightly less than half — falls faster than rises)
-              times: [0, 0.45, 1],
-              // Y needs different easing for up vs down
-              // Single bezier that approximates parabola: fast out of ground, slow at peak, fast back down
-              ease: [0.1, 0.82, 0.9, 0.18],
-            },
-          }),
-        ]);
+        for (let s = 0; s <= stops; s++) {
+          const t = s / stops; // 0 to 1
+          timeKeys.push(t);
+          // X: linear interpolation
+          leftKeys.push(fromX + (toX - fromX) * t);
+          // Y: parabolic — y = ground - height * (1 - (2t-1)^2)
+          // This gives a perfect parabola peaking at t=0.5
+          const parabola = 1 - Math.pow(2 * t - 1, 2);
+          topKeys.push(groundY - height * parabola);
+          // Stretch: round at peak (t=0.5), slightly stretched near ground
+          const distFromPeak = Math.abs(t - 0.45);
+          const stretch = distFromPeak > 0.3 ? 0.92 : 1;
+          scaleXKeys.push(stretch);
+          scaleYKeys.push(stretch < 1 ? 1 + (1 - stretch) : 1);
+        }
+
+        await ballControls.start({
+          left: leftKeys,
+          top: topKeys,
+          scaleX: scaleXKeys,
+          scaleY: scaleYKeys,
+          transition: {
+            duration,
+            ease: 'linear', // we baked the easing into the keyframe positions
+            times: timeKeys,
+          },
+        });
       }
 
       // === FIRST LANDING ===
@@ -197,23 +209,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       await land(intentionI, 5, false);
 
       // === ARC TO PERIOD ===
-      const periodPeakHeight = 10;
-      const periodArcDuration = 0.1;
-
-      await Promise.all([
-        ballControls.start({
-          left: periodX,
-          transition: { duration: periodArcDuration, ease: 'linear' },
-        }),
-        ballControls.start({
-          top: [groundY, groundY - periodPeakHeight, groundY],
-          transition: {
-            duration: periodArcDuration,
-            ease: [0.1, 0.82, 0.9, 0.18],
-            times: [0, 0.45, 1],
-          },
-        }),
-      ]);
+      await arc(intentionRightX, periodX, 10, 0.1);
 
       // Tiny final squash
       await ballControls.start({
