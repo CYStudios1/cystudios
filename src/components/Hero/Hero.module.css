@@ -133,6 +133,17 @@
   margin-bottom: 20px;
 }
 
+.headlineWord {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 4px; /* prevents descenders from clipping */
+}
+
+.headlineWordInner {
+  display: inline-block;
+}
+
 .heroSub {
   font-size: 15px;
   font-weight: 300;

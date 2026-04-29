@@ -4,6 +4,12 @@ import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
 import { DeviceMockup } from './DeviceMockup';
 
+const headlineLines = [
+  ['Your', 'brand,'],
+  ['built', 'with'],
+  ['intention.'],
+];
+
 export function Hero() {
   const { t, isKorean } = useTranslation();
 
@@ -20,20 +26,44 @@ export function Hero() {
             <span className={styles.pillDot} />
             {t('Now Booking — Summer Cohort')}
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.85 }}
-          >
-            <h1
+          {isKorean ? (
+            <motion.h1
               className={styles.heroHeadline}
-              dangerouslySetInnerHTML={{
-                __html: isKorean
-                  ? t('heroHeadlineHtml')
-                  : 'Your brand,<br>built with<br>intention.',
-              }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.85 }}
+              dangerouslySetInnerHTML={{ __html: t('heroHeadlineHtml') }}
             />
-          </motion.div>
+          ) : (
+            <h1 className={styles.heroHeadline}>
+              {headlineLines.map((line, lineIndex) => (
+                <span key={lineIndex} style={{ display: 'block' }}>
+                  {line.map((word, wordIndex) => {
+                    const globalIndex = headlineLines.slice(0, lineIndex).reduce((sum, l) => sum + l.length, 0) + wordIndex;
+                    return (
+                      <span key={wordIndex}>
+                        {wordIndex > 0 && ' '}
+                        <span className={styles.headlineWord}>
+                          <motion.span
+                            className={styles.headlineWordInner}
+                            initial={{ y: '100%' }}
+                            animate={{ y: '0%' }}
+                            transition={{
+                              duration: 1,
+                              ease: [0.16, 1, 0.3, 1],
+                              delay: 0.85 + (globalIndex * 0.08),
+                            }}
+                          >
+                            {word}
+                          </motion.span>
+                        </span>
+                      </span>
+                    );
+                  })}
+                </span>
+              ))}
+            </h1>
+          )}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
