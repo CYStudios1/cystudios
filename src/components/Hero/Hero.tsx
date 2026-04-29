@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import styles from './Hero.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
@@ -12,10 +13,16 @@ const headlineLines = [
 
 export function Hero() {
   const { t, isKorean } = useTranslation();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   return (
-    <section className={styles.heroSection}>
-      <div className={styles.heroBody}>
+    <section ref={heroRef} className={styles.heroSection}>
+      <motion.div className={styles.heroBody} style={{ y: contentY }}>
         <div className={styles.heroContent}>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -94,7 +101,7 @@ export function Hero() {
         >
           <DeviceMockup />
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
