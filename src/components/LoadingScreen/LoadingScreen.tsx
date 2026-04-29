@@ -42,13 +42,17 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const headlineRect = headline.getBoundingClientRect();
 
       // Measure each word's position relative to the h1
-      // Ball's bottom edge should touch the word's top edge
+      // We want the ball's bottom edge to sit right on top of the visible text
+      // The wordClip span wraps the text — we measure its inner text position
       const positions = wordRefs.current.map(ref => {
         if (!ref) return { x: 0, y: 0, width: 0 };
         const rect = ref.getBoundingClientRect();
+        // The inner text starts a bit below rect.top due to line-height/overflow hidden
+        // Use rect.top + small offset to hit the actual visible letter tops
+        const textTopOffset = rect.height * 0.15; // skip the line-height gap at top
         return {
           x: rect.left - headlineRect.left + rect.width / 2, // center of word
-          y: rect.top - headlineRect.top - ballSize, // ball bottom touches word top
+          y: rect.top - headlineRect.top + textTopOffset - ballSize, // ball bottom on letter tops
           width: rect.width,
         };
       });
