@@ -125,28 +125,46 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       });
       await landOnWord(0);
 
-      // Words 1-4: fluid arc from previous word to next (no pause at peak)
+      // Words 1-4: true parabolic arc from word to word
+      // X moves linearly, Y uses gravity easing — creates a natural arc
       for (let i = 0; i < words.length - 1; i++) {
         const fromX = positions[i].x;
         const fromY = positions[i].y;
         const toX = positions[i + 1].x;
         const toY = positions[i + 1].y;
-        const midX = (fromX + toX) / 2;
         const peakY = Math.min(fromY, toY) - bounceHeights[i];
         const arcDuration = riseDurations[i] + fallDurations[i + 1];
 
-        // Single fluid arc: up and over to next word
-        await ballControls.start({
-          left: [fromX, midX, toX],
-          top: [fromY, peakY, toY],
-          scaleX: [1, 0.9, 1],
-          scaleY: [1, 1.1, 1],
-          transition: {
-            duration: arcDuration,
-            ease: 'easeInOut',
-            times: [0, 0.4, 1],
-          },
-        });
+        // Animate as two concurrent motions:
+        // 1. X: linear movement from word to word
+        // 2. Y: up with deceleration, down with acceleration (gravity parabola)
+        // Use Promise.all so they run simultaneously
+        await Promise.all([
+          // Horizontal: constant speed
+          ballControls.start({
+            left: toX,
+            transition: {
+              duration: arcDuration,
+              ease: 'linear',
+            },
+          }),
+          // Vertical: parabolic arc using keyframes with gravity easing
+          ballControls.start({
+            top: [fromY, peakY, toY],
+            scaleX: [1, 0.9, 1],
+            scaleY: [1, 1.1, 1],
+            transition: {
+              duration: arcDuration,
+              ease: [0.33, 0, 0.67, 1], // symmetric parabola
+              times: [0, 0.4, 1],
+              top: {
+                duration: arcDuration,
+                ease: [0.33, 0, 0.67, 1],
+                times: [0, 0.4, 1],
+              },
+            },
+          }),
+        ]);
 
         await landOnWord(i + 1);
       }
@@ -155,21 +173,25 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const lastI = words.length - 1;
       const fromX = positions[lastI].x;
       const fromY = positions[lastI].y;
-      const midPeriodX = (fromX + periodX) / 2;
       const periodPeakY = Math.min(fromY, periodY) - bounceHeights[4];
       const periodArcDuration = riseDurations[4] + 0.06;
 
-      await ballControls.start({
-        left: [fromX, midPeriodX, periodX],
-        top: [fromY, periodPeakY, periodY],
-        scaleX: [1, 0.95, 1],
-        scaleY: [1, 1.05, 1],
-        transition: {
-          duration: periodArcDuration,
-          ease: 'easeInOut',
-          times: [0, 0.4, 1],
-        },
-      });
+      await Promise.all([
+        ballControls.start({
+          left: periodX,
+          transition: { duration: periodArcDuration, ease: 'linear' },
+        }),
+        ballControls.start({
+          top: [fromY, periodPeakY, periodY],
+          scaleX: [1, 0.95, 1],
+          scaleY: [1, 1.05, 1],
+          transition: {
+            duration: periodArcDuration,
+            ease: [0.33, 0, 0.67, 1],
+            times: [0, 0.4, 1],
+          },
+        }),
+      ]);
 
       // Small squash
       await ballControls.start({
