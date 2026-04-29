@@ -1,4 +1,5 @@
 import { LanguageProvider } from './context/LanguageContext';
+import { SmoothScroll } from './components/shared/SmoothScroll';
 import { Nav } from './components/Nav/Nav';
 import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
@@ -13,6 +14,7 @@ import { Footer } from './components/Footer/Footer';
 function App() {
   return (
     <LanguageProvider>
+      <SmoothScroll />
       <div className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
         <ArcBackground />
         <Nav />
