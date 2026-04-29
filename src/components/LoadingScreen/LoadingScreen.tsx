@@ -15,14 +15,20 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
+  // "intention" gets two bounces — first lands on left side, second on right side
   const words = ['Your', 'brand,', 'built', 'with', 'intention'];
 
-  // Bounce physics — decrease height, increase speed dramatically
-  const bounceHeights = [120, 75, 45, 25, 14]; // pixels above word
-  const fallDurations = [0.4, 0.18, 0.13, 0.09, 0.06];
-  const riseDurations = [0.22, 0.15, 0.11, 0.08, 0.05];
-  const squashX = [1.4, 1.25, 1.15, 1.1, 1.05];
-  const squashY = [0.6, 0.75, 0.85, 0.9, 0.95];
+  // Bounce physics — exponential speed decrease
+  // Heights drop off sharply: 120 → 55 → 22 → 8 → 4 → 2
+  const bounceHeights = [120, 55, 22, 8, 4, 2];
+  // Durations decrease exponentially: each ~55% of previous
+  const fallDurations = [0.4, 0.18, 0.1, 0.055, 0.03, 0.02];
+  const riseDurations = [0.22, 0.12, 0.07, 0.04, 0.025, 0.015];
+  // Squash decreases rapidly
+  const squashX = [1.4, 1.2, 1.1, 1.05, 1.02, 1.01];
+  const squashY = [0.6, 0.8, 0.9, 0.95, 0.98, 0.99];
+  // Landing pause decreases to almost nothing
+  const squashDurations = [0.04, 0.03, 0.025, 0.02, 0.015, 0.01];
   const ballSize = 7; // px — must match CSS .ball width/height
 
   const setWordRef = useCallback((el: HTMLSpanElement | null, i: number) => {
@@ -84,32 +90,38 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       });
 
       // Helper: handle landing on a word
-      async function landOnWord(i: number) {
-        if (i <= 1) {
-          setVisibleWords(prev => [...prev, i]);
-          if (i === 1) {
-            await delay(80);
-            setVisibleWords(prev => [...prev, 2, 3, 4]);
+      // bounceIndex controls physics (can differ from word index for extra bounces)
+      async function landOnWord(wordI: number, bounceI: number, revealWord = true) {
+        if (revealWord) {
+          if (wordI <= 1) {
+            setVisibleWords(prev => [...prev, wordI]);
+            if (wordI === 1) {
+              await delay(80);
+              setVisibleWords(prev => [...prev, 2, 3, 4]);
+            }
+          } else {
+            setPushedWord(wordI);
           }
         } else {
-          setPushedWord(i);
+          // Extra bounce — still push the word
+          setPushedWord(wordI);
         }
 
-        // SQUASH
+        // SQUASH — duration decreases with each bounce
         await ballControls.start({
-          scaleX: squashX[i],
-          scaleY: squashY[i],
-          transition: { duration: 0.04, ease: 'easeOut' },
+          scaleX: squashX[bounceI],
+          scaleY: squashY[bounceI],
+          transition: { duration: squashDurations[bounceI], ease: 'easeOut' },
         });
 
         // Spring back
         await ballControls.start({
           scaleX: 1,
           scaleY: 1,
-          transition: { duration: 0.04, ease: 'easeOut' },
+          transition: { duration: squashDurations[bounceI], ease: 'easeOut' },
         });
 
-        if (i >= 2) {
+        if (wordI >= 2) {
           setPushedWord(null);
         }
       }
@@ -123,7 +135,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           ease: [0.55, 0, 1, 0.45],
         },
       });
-      await landOnWord(0);
+      await landOnWord(0, 0);
 
       // Words 1-4: true parabolic arc from word to word
       // X moves linearly, Y uses gravity easing — creates a natural arc
@@ -166,54 +178,47 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           }),
         ]);
 
-        await landOnWord(i + 1);
+        await landOnWord(i + 1, i + 1);
       }
 
-      // Extra bounce on "intention" — small bounce in place
+      // "intention" gets a second bounce — arc from left side to right side of the word
       const intentionI = words.length - 1;
-      const intentionX = positions[intentionI].x;
+      const intentionRef = wordRefs.current[intentionI];
+      const intentionRect = intentionRef?.getBoundingClientRect();
+      const headlineRect2 = headlineRef.current!.getBoundingClientRect();
+
+      // First bounce landed at center of "intention" (positions[intentionI].x)
+      // Second bounce lands at ~75% across the word
+      const intentionRightX = intentionRect
+        ? intentionRect.left - headlineRect2.left + intentionRect.width * 0.75
+        : positions[intentionI].x + 30;
       const intentionY = positions[intentionI].y;
-      const smallBounceHeight = 20; // much smaller second bounce
 
-      // Rise up slightly
-      await ballControls.start({
-        top: intentionY - smallBounceHeight,
-        scaleX: 0.95,
-        scaleY: 1.05,
-        transition: {
-          duration: 0.08,
-          ease: [0, 0.55, 0.45, 1],
-        },
-      });
+      // Arc from center to right side of "intention" (bounce index 5 — very fast/small)
+      const secondBounceHeight = bounceHeights[5];
+      const secondArcDuration = riseDurations[5] + fallDurations[5];
 
-      // Fall back down
-      await ballControls.start({
-        top: intentionY,
-        scaleX: 1,
-        scaleY: 1,
-        transition: {
-          duration: 0.07,
-          ease: [0.55, 0, 1, 0.45],
-        },
-      });
+      await Promise.all([
+        ballControls.start({
+          left: intentionRightX,
+          transition: { duration: secondArcDuration, ease: 'linear' },
+        }),
+        ballControls.start({
+          top: [intentionY, intentionY - secondBounceHeight, intentionY],
+          transition: {
+            duration: secondArcDuration,
+            ease: [0.33, 0, 0.67, 1],
+            times: [0, 0.4, 1],
+          },
+        }),
+      ]);
 
-      // Second push-down on "intention"
-      setPushedWord(intentionI);
-      await ballControls.start({
-        scaleX: 1.08,
-        scaleY: 0.92,
-        transition: { duration: 0.03, ease: 'easeOut' },
-      });
-      await ballControls.start({
-        scaleX: 1,
-        scaleY: 1,
-        transition: { duration: 0.03, ease: 'easeOut' },
-      });
-      setPushedWord(null);
+      // Second landing on "intention"
+      await landOnWord(intentionI, 5, false);
 
       // Arc to period position
       const lastI = intentionI;
-      const fromX = intentionX;
+      const fromX = intentionRightX;
       const fromY = intentionY;
       const periodPeakY = Math.min(fromY, periodY) - bounceHeights[4];
       const periodArcDuration = riseDurations[4] + 0.06;
