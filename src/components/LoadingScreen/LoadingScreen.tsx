@@ -261,15 +261,64 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       // Wait a moment after ball settles
       await delay(400);
 
-      // Phase: rearrange — background fades, text goes from one line to three lines
+      // === FLIP ANIMATION: words physically move to three-line positions ===
+
+      // Step 1: Record current position of each word (single line)
+      const wordElements = wordRefs.current;
+      const singleLinePositions = wordElements.map(el => {
+        if (!el) return { x: 0, y: 0 };
+        const rect = el.getBoundingClientRect();
+        return { x: rect.left, y: rect.top };
+      });
+
+      // Step 2: Fade out the ball
+      await ballControls.start({
+        opacity: 0,
+        transition: { duration: 0.3 },
+      });
+
+      // Step 3: Switch to three-line layout
       setPhase('rearrange');
-      await delay(800); // let the CSS transition play
 
-      // Phase: falling — text moves up to hero position
+      // Wait one frame for DOM to update
+      await delay(50);
+
+      // Step 4: Record new position of each word (three lines)
+      const threeLinePositions = wordElements.map(el => {
+        if (!el) return { x: 0, y: 0 };
+        const rect = el.getBoundingClientRect();
+        return { x: rect.left, y: rect.top };
+      });
+
+      // Step 5: Calculate deltas and apply inverse transform (FLIP)
+      wordElements.forEach((el, i) => {
+        if (!el) return;
+        const dx = singleLinePositions[i].x - threeLinePositions[i].x;
+        const dy = singleLinePositions[i].y - threeLinePositions[i].y;
+        // Move word back to its old position instantly
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        el.style.transition = 'none';
+      });
+
+      // Wait one frame
+      await delay(20);
+
+      // Step 6: Animate to new positions (remove the inverse transform)
+      wordElements.forEach((el, i) => {
+        if (!el) return;
+        const stagger = i * 0.04; // slight stagger per word
+        el.style.transition = `transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}s`;
+        el.style.transform = 'translate(0, 0)';
+      });
+
+      // Wait for animation to complete
+      await delay(1000);
+
+      // Step 7: Background fades
       setPhase('falling');
-      await delay(700);
+      await delay(600);
 
-      // Phase: done — loading screen unmounts, hero takes over
+      // Step 8: Done
       setPhase('done');
       onComplete();
     }
@@ -282,7 +331,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
   const overlayClasses = [
     styles.overlay,
-    isRearranging ? styles.overlayFading : '',
+    isFalling ? styles.overlayFading : '',
   ].filter(Boolean).join(' ');
 
   const headlineClasses = [
