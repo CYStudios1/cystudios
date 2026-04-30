@@ -7,6 +7,14 @@ function delay(ms: number) {
 }
 
 export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  // Lock scroll during loading
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
   const [pushedWord, setPushedWord] = useState<number | null>(null);
