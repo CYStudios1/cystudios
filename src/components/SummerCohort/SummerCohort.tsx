@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import styles from './SummerCohort.module.css';
 import { SectionLabel } from '../shared/SectionLabel';
-import { Button } from '../shared/Button';
+import { GooeyButton } from '../shared/GooeyButton';
 import { useTranslation } from '../shared/useTranslation';
 
 const slots = [
@@ -64,7 +64,7 @@ export function SummerCohort() {
         </motion.div>
 
         <div className={styles.cta}>
-          <Button>{t('Book a Consultation →')}</Button>
+          <GooeyButton>{t('Book a Consultation')}</GooeyButton>
         </div>
       </div>
     </motion.div>

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import styles from './Footer.module.css';
-import { Button } from '../shared/Button';
+import { GooeyButton } from '../shared/GooeyButton';
 import { useTranslation } from '../shared/useTranslation';
 
 const colContainer = {
@@ -33,7 +33,7 @@ export function Footer() {
             <div className={styles.ctaText}>{t('Ready to build something intentional?')}</div>
             <div className={styles.ctaSub}>{t('Book a free consultation — no pressure, just a conversation about your brand.')}</div>
           </div>
-          <Button>{t('Book a Consultation →')}</Button>
+          <GooeyButton>{t('Book a Consultation')}</GooeyButton>
         </div>
       </div>
 

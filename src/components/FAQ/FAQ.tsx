@@ -69,7 +69,7 @@ export function FAQ() {
           </h2>
           <div className={styles.cta}>
             <div className={styles.ctaText}>{t('Still have questions?')}</div>
-            <a href="#" className={styles.ctaLink}>{t('Book a Consultation →')}</a>
+            <a href="#" className={styles.ctaLink}>{t('Book a Consultation')}</a>
           </div>
         </div>
 
