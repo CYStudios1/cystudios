@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { SmoothScroll } from './components/shared/SmoothScroll';
 import { Vignette } from './components/shared/Vignette';
@@ -17,14 +18,23 @@ import { Footer } from './components/Footer/Footer';
 function App() {
   const [loading, setLoading] = useState(true);
   const handleLoadingComplete = useCallback(() => setLoading(false), []);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: wrapperRef,
+    offset: ['start start', '30% start'],
+  });
+  const arcsY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
   return (
     <LanguageProvider>
       <SmoothScroll />
       <Vignette />
       {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <div className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
-        <ArcBackground />
+      <div ref={wrapperRef} className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
+        <motion.div style={{ y: arcsY }}>
+          <ArcBackground />
+        </motion.div>
         <Nav />
         <Hero />
         <LogoTicker />

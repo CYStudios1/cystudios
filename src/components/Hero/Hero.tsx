@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import styles from './Hero.module.css';
 import { useTranslation } from '../shared/useTranslation';
@@ -9,6 +9,16 @@ export function Hero() {
   const { t, isKorean } = useTranslation();
   const sphereRef = useRef<HTMLDivElement>(null);
   const text3dRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+
+  /* ── Parallax scroll — 3 layers at different speeds ── */
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const arcsY = useTransform(scrollYProgress, [0, 1], [0, 200]);     // arcs: slowest (lag behind)
+  const panelsY = useTransform(scrollYProgress, [0, 1], [0, 100]);   // panels: medium
+  const subY = useTransform(scrollYProgress, [0, 1], [0, 50]);       // sub+CTA: slight lag
 
   /* ── Draggable orbit rotation ── */
   useEffect(() => {
@@ -78,7 +88,7 @@ export function Hero() {
   const slices = Array.from({ length: 8 }, (_, i) => i);
 
   return (
-    <section className={styles.heroSection}>
+    <section ref={heroRef} className={styles.heroSection}>
       {/* SVG gooey filter */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <defs>
@@ -95,8 +105,8 @@ export function Hero() {
         </defs>
       </svg>
 
-      {/* Orbit container with 3D cylinder panels */}
-      <div className={styles.orbitContainer}>
+      {/* Orbit container with 3D cylinder panels — parallax layer */}
+      <motion.div className={styles.orbitContainer} style={{ y: panelsY }}>
         <div ref={sphereRef} className={styles.orbitSphere}>
           {/* 4 screens, each with 8 slices */}
           {[0, 1, 2, 3].map((screen) => (
@@ -141,10 +151,10 @@ export function Hero() {
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Subheader + CTA outside the cylinder */}
-      <div className={styles.heroSubOuter}>
+      {/* Subheader + CTA outside the cylinder — slight parallax */}
+      <motion.div className={styles.heroSubOuter} style={{ y: subY }}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -167,7 +177,7 @@ export function Hero() {
         >
           {t('CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.')}
         </motion.p>
-      </div>
+      </motion.div>
     </section>
   );
 }
