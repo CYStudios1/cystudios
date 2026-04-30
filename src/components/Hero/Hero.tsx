@@ -1,107 +1,173 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import styles from './Hero.module.css';
-import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
-import { DeviceMockup } from './DeviceMockup';
 
-const headlineLines = [
-  'Your brand,',
-  'built with',
-  'intention',
-];
+const fadeEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function Hero() {
   const { t, isKorean } = useTranslation();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const sphereRef = useRef<HTMLDivElement>(null);
+  const text3dRef = useRef<HTMLDivElement>(null);
+
+  /* ── Draggable orbit rotation ── */
+  useEffect(() => {
+    const sphere = sphereRef.current;
+    const text3d = text3dRef.current;
+    if (!sphere || !text3d) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let currentRotation = 0;
+    let autoRotation = 0;
+    let lastTime = performance.now();
+    const speed = 360 / 24; // degrees per second
+
+    function updateRotation(totalDeg: number) {
+      sphere!.style.transform = `rotateY(${totalDeg}deg)`;
+      text3d!.style.transform = `translateZ(0px) rotateY(${-totalDeg}deg)`;
+    }
+
+    function autoRotate(time: number) {
+      if (!isDragging) {
+        const delta = (time - lastTime) / 1000;
+        autoRotation += speed * delta;
+        updateRotation(autoRotation + currentRotation);
+      }
+      lastTime = time;
+      requestAnimationFrame(autoRotate);
+    }
+    const animId = requestAnimationFrame(autoRotate);
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest(`.${styles.gooeyWrap}`)) return;
+      isDragging = true;
+      startX = e.clientX;
+      document.body.style.cursor = 'grabbing';
+      e.preventDefault();
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      currentRotation = deltaX * 0.5;
+      updateRotation(autoRotation + currentRotation);
+    };
+
+    const handleMouseUp = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      autoRotation += currentRotation;
+      currentRotation = 0;
+      document.body.style.cursor = '';
+      lastTime = performance.now();
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
+
+  const slices = Array.from({ length: 8 }, (_, i) => i);
 
   return (
-    <section ref={heroRef} className={styles.heroSection}>
-      <motion.div className={styles.heroBody} style={{ y: contentY }}>
-        <div className={styles.heroContent}>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
-            className={styles.heroPill}
-          >
-            <span className={styles.pillDot} />
-            {t('Now Booking — Summer Cohort')}
-          </motion.div>
-          {isKorean ? (
-            <motion.h1
-              className={styles.heroHeadline}
+    <section className={styles.heroSection}>
+      {/* SVG gooey filter */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          <filter id="gooey">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 15 -7"
+              result="gooey"
+            />
+            <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Orbit container with 3D cylinder panels */}
+      <div className={styles.orbitContainer}>
+        <div ref={sphereRef} className={styles.orbitSphere}>
+          {/* 4 screens, each with 8 slices */}
+          {[0, 1, 2, 3].map((screen) => (
+            <div key={screen} className={styles.orbitScreen}>
+              {slices.map((slice) => (
+                <div key={slice} className={styles.screenSlice} />
+              ))}
+            </div>
+          ))}
+
+          {/* Text at center of cylinder -- counter-rotates to stay static */}
+          <div ref={text3dRef} className={styles.hero3dText}>
+            <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.85 }}
-              dangerouslySetInnerHTML={{ __html: t('heroHeadlineHtml') }}
-            />
-          ) : (
-            <h1 className={styles.heroHeadline} style={{ position: 'relative' }}>
-              {headlineLines.map((line, lineIndex) => {
-                const previousChars = headlineLines.slice(0, lineIndex).reduce((sum, l) => sum + l.length, 0);
-                return (
-                  <span key={lineIndex} style={{ display: 'block' }}>
-                    {line.split('').map((char, charIndex) => {
-                      const globalIndex = previousChars + charIndex;
-                      if (char === ' ') {
-                        return <span key={charIndex}>&nbsp;</span>;
-                      }
-                      return (
-                        <span key={charIndex} className={styles.headlineWord}>
-                          <motion.span
-                            className={styles.headlineWordInner}
-                            initial={{ y: '100%' }}
-                            animate={{ y: '0%' }}
-                            transition={{
-                              duration: 1,
-                              ease: [0.16, 1, 0.3, 1],
-                              delay: 0.85 + (globalIndex * 0.05),
-                            }}
-                          >
-                            {char}
-                          </motion.span>
-                        </span>
-                      );
-                    })}
-                  </span>
-                );
-              })}
-            </h1>
-          )}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.1 }}
-          >
-            <p className={styles.heroSub}>
-              {t('CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.')}
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.35 }}
-          >
-            <Button dataEn="Book a Consultation →" dataKr="상담 예약하기 →">
-              {t('Book a Consultation →')}
-            </Button>
-          </motion.div>
+              transition={{ duration: 1, ease: fadeEase, delay: 0.6 }}
+              className={styles.heroPill}
+            >
+              <span className={styles.pillDot} />
+              {t('Now Booking — Summer Cohort')}
+            </motion.div>
+
+            {isKorean ? (
+              <motion.h1
+                className={styles.heroHeadline}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: fadeEase, delay: 0.85 }}
+                dangerouslySetInnerHTML={{ __html: t('heroHeadlineHtml') }}
+              />
+            ) : (
+              <motion.h1
+                className={styles.heroHeadline}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: fadeEase, delay: 0.85 }}
+              >
+                Your brand,<br />
+                built with<br />
+                intention.
+              </motion.h1>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Subheader + CTA outside the cylinder */}
+      <div className={styles.heroSubOuter}>
         <motion.div
-          className={styles.deviceSide}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.6 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: fadeEase, delay: 1.1 }}
         >
-          <DeviceMockup />
+          <div className={styles.gooeyWrap}>
+            <button className={styles.heroCta}>
+              {t('Book a Consultation')}
+            </button>
+            <div className={styles.gooeyPill}>
+              <span>{t("It's Free")}</span>
+            </div>
+          </div>
         </motion.div>
-      </motion.div>
+        <motion.p
+          className={styles.heroSub}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: fadeEase, delay: 1.1 }}
+        >
+          {t('CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.')}
+        </motion.p>
+      </div>
     </section>
   );
 }

@@ -77,25 +77,12 @@
   background: transparent;
   position: relative;
   display: flex;
-  flex-direction: column;
-}
-
-.heroBody {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
-  z-index: 10;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 60px 48px 48px 64px;
+  perspective: 900px;
 }
 
+/* ── Pill badge ── */
 .heroPill {
   display: inline-flex;
   align-items: center;
@@ -125,23 +112,24 @@
   50%      { opacity: 0.3; }
 }
 
+/* ── Headline ── */
 .heroHeadline {
-  font-size: clamp(40px, 4.5vw, 68px);
+  font-size: clamp(36px, 4.5vw, 64px);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 1.05;
   color: #1a1008;
   margin-bottom: 20px;
 }
 
-.headlineWord {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding-bottom: 4px; /* prevents descenders from clipping */
-}
-
-.headlineWordInner {
-  display: inline-block;
+/* ── Subheader (outside cylinder, always visible) ── */
+.heroSubOuter {
+  position: absolute;
+  z-index: 20;
+  bottom: calc(5% + 35px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  max-width: 420px;
 }
 
 .heroSub {
@@ -149,37 +137,182 @@
   font-weight: 300;
   color: #5a4e44;
   line-height: 1.85;
-  max-width: 380px;
-  margin-bottom: 32px;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
-.deviceSide {
+/* ── Gooey CTA ── */
+.gooeyWrap {
+  filter: url(#gooey);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 28px;
+}
+
+.heroCta {
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 30px;
+  border-radius: 50px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.gooeyPill {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  transform: translateX(-50%);
+  background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 50%;
+  padding: 0;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 40px 30px 16px;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    width 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    top 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gooeyPill span {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.gooeyWrap:hover .gooeyPill {
+  width: 105px;
+  height: 32px;
+  top: -44px;
+  border-radius: 50px;
+  padding: 0 18px;
+  transition:
+    top 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+    height 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    padding 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.18s,
+    border-radius 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.gooeyWrap:hover .gooeyPill span {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.35s;
+}
+
+/* ── 3D Orbit ── */
+.orbitContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.orbitSphere {
   position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  cursor: grab;
 }
 
-/* ── Tablet ── */
-@media (max-width: 1024px) {
-  .heroBody {
-    grid-template-columns: 1fr;
-  }
-  .heroContent {
-    padding: 48px 32px 32px;
-  }
-  .deviceSide {
-    padding: 16px 32px 48px;
-  }
+.orbitScreen {
+  position: absolute;
+  width: 0;
+  height: 320px;
+  left: 0;
+  top: -160px;
+  transform-style: preserve-3d;
+  pointer-events: auto;
 }
 
-/* ── Mobile ── */
-@media (max-width: 768px) {
-  .heroContent {
-    padding: 32px 20px;
-  }
-  .deviceSide {
-    padding: 16px 20px 48px;
-  }
+.screenSlice {
+  position: absolute;
+  width: 68px;
+  height: 100%;
+  top: 0;
+  background: linear-gradient(180deg, #EDD9C8, #F2E4D8);
+  border: 0.5px solid rgba(26, 16, 8, 0.06);
+  transform-style: preserve-3d;
+}
+
+/* Screen 1: starts at 0deg */
+.orbitScreen:nth-child(1) .screenSlice:nth-child(1) { transform: rotateY(0deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(2) { transform: rotateY(7.5deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(3) { transform: rotateY(15deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(4) { transform: rotateY(22.5deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(5) { transform: rotateY(30deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(6) { transform: rotateY(37.5deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(7) { transform: rotateY(45deg) translateZ(380px); }
+.orbitScreen:nth-child(1) .screenSlice:nth-child(8) { transform: rotateY(52.5deg) translateZ(380px); }
+
+/* Screen 2: starts at 90deg */
+.orbitScreen:nth-child(2) .screenSlice:nth-child(1) { transform: rotateY(90deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(2) { transform: rotateY(97.5deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(3) { transform: rotateY(105deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(4) { transform: rotateY(112.5deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(5) { transform: rotateY(120deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(6) { transform: rotateY(127.5deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(7) { transform: rotateY(135deg) translateZ(380px); }
+.orbitScreen:nth-child(2) .screenSlice:nth-child(8) { transform: rotateY(142.5deg) translateZ(380px); }
+
+/* Screen 3: starts at 180deg */
+.orbitScreen:nth-child(3) .screenSlice:nth-child(1) { transform: rotateY(180deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(2) { transform: rotateY(187.5deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(3) { transform: rotateY(195deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(4) { transform: rotateY(202.5deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(5) { transform: rotateY(210deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(6) { transform: rotateY(217.5deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(7) { transform: rotateY(225deg) translateZ(380px); }
+.orbitScreen:nth-child(3) .screenSlice:nth-child(8) { transform: rotateY(232.5deg) translateZ(380px); }
+
+/* Screen 4: starts at 270deg */
+.orbitScreen:nth-child(4) .screenSlice:nth-child(1) { transform: rotateY(270deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(2) { transform: rotateY(277.5deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(3) { transform: rotateY(285deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(4) { transform: rotateY(292.5deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(5) { transform: rotateY(300deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(6) { transform: rotateY(307.5deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(7) { transform: rotateY(315deg) translateZ(380px); }
+.orbitScreen:nth-child(4) .screenSlice:nth-child(8) { transform: rotateY(322.5deg) translateZ(380px); }
+
+/* ── Text inside cylinder (counter-rotates to stay static) ── */
+.hero3dText {
+  position: absolute;
+  left: -300px;
+  top: -140px;
+  width: 600px;
+  text-align: center;
+  pointer-events: none;
+  transform: translateZ(0px);
+}
+
+.hero3dText .heroCta {
+  pointer-events: auto;
 }
