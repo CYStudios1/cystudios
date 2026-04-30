@@ -261,64 +261,81 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       // Wait a moment after ball settles
       await delay(400);
 
-      // === FLIP ANIMATION: words physically move to three-line positions ===
+      // === WORD-BY-WORD POSITION ANIMATION ===
+      // No layout changes — calculate target positions manually and animate with transforms
 
-      // Step 1: Record current position of each word (single line)
+      // Step 1: Record current position of each word
       const wordElements = wordRefs.current;
-      const singleLinePositions = wordElements.map(el => {
+      const headlineEl = headlineRef.current!;
+      const headlineRect3 = headlineEl.getBoundingClientRect();
+
+      const currentPositions = wordElements.map(el => {
         if (!el) return { x: 0, y: 0 };
         const rect = el.getBoundingClientRect();
         return { x: rect.left, y: rect.top };
       });
 
-      // Step 2: Fade out the ball
+      // Step 2: Calculate where each word should go in three-line centered layout
+      // Line 1: "Your brand,"  Line 2: "built with"  Line 3: "intention."
+      // We need to figure out the target positions based on the hero headline styling
+      const heroFontSize = Math.min(Math.max(36, window.innerWidth * 0.045), 64);
+      const lineHeight = heroFontSize * 1.05;
+      const centerX = window.innerWidth / 2;
+      const centerY = headlineRect3.top + headlineRect3.height / 2;
+
+      // Measure each word's width to calculate centered positions
+      const wordWidths = wordElements.map(el => el ? el.getBoundingClientRect().width : 0);
+      const spaceWidth = heroFontSize * 0.25; // approximate space between words
+
+      // Line 1: "Your brand," — 2 words
+      const line1Width = wordWidths[0] + spaceWidth + wordWidths[1];
+      const line1StartX = centerX - line1Width / 2;
+
+      // Line 2: "built with" — 2 words
+      const line2Width = wordWidths[2] + spaceWidth + wordWidths[3];
+      const line2StartX = centerX - line2Width / 2;
+
+      // Line 3: "intention" — 1 word (+ period from ball)
+      const line3Width = wordWidths[4];
+      const line3StartX = centerX - line3Width / 2;
+
+      // Target Y positions (3 lines centered around current center)
+      const targetY0 = centerY - lineHeight; // line 1
+      const targetY1 = centerY;              // line 2
+      const targetY2 = centerY + lineHeight; // line 3
+
+      const targetPositions = [
+        { x: line1StartX, y: targetY0 },                          // "Your"
+        { x: line1StartX + wordWidths[0] + spaceWidth, y: targetY0 }, // "brand,"
+        { x: line2StartX, y: targetY1 },                          // "built"
+        { x: line2StartX + wordWidths[2] + spaceWidth, y: targetY1 }, // "with"
+        { x: line3StartX, y: targetY2 },                          // "intention"
+      ];
+
+      // Step 3: Fade out the ball
       await ballControls.start({
         opacity: 0,
         transition: { duration: 0.3 },
       });
 
-      // Step 3: Switch to three-line layout
-      setPhase('rearrange');
-
-      // Wait one frame for DOM to update
-      await delay(50);
-
-      // Step 4: Record new position of each word (three lines)
-      const threeLinePositions = wordElements.map(el => {
-        if (!el) return { x: 0, y: 0 };
-        const rect = el.getBoundingClientRect();
-        return { x: rect.left, y: rect.top };
-      });
-
-      // Step 5: Calculate deltas and apply inverse transform (FLIP)
+      // Step 4: Animate each word from current position to target position
       wordElements.forEach((el, i) => {
         if (!el) return;
-        const dx = singleLinePositions[i].x - threeLinePositions[i].x;
-        const dy = singleLinePositions[i].y - threeLinePositions[i].y;
-        // Move word back to its old position instantly
+        const dx = targetPositions[i].x - currentPositions[i].x;
+        const dy = targetPositions[i].y - currentPositions[i].y;
+        const stagger = i * 0.04;
+        el.style.transition = `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}s`;
         el.style.transform = `translate(${dx}px, ${dy}px)`;
-        el.style.transition = 'none';
-      });
-
-      // Wait one frame
-      await delay(20);
-
-      // Step 6: Animate to new positions (remove the inverse transform)
-      wordElements.forEach((el, i) => {
-        if (!el) return;
-        const stagger = i * 0.04; // slight stagger per word
-        el.style.transition = `transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}s`;
-        el.style.transform = 'translate(0, 0)';
       });
 
       // Wait for animation to complete
-      await delay(1000);
+      await delay(1100);
 
-      // Step 7: Background fades
+      // Step 5: Background fades, text moves up
       setPhase('falling');
       await delay(600);
 
-      // Step 8: Done
+      // Step 6: Done
       setPhase('done');
       onComplete();
     }
@@ -326,7 +343,6 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     animate();
   }, [ballControls, onComplete]);
 
-  const isRearranging = phase === 'rearrange' || phase === 'falling';
   const isFalling = phase === 'falling';
 
   const overlayClasses = [
@@ -336,7 +352,6 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
   const headlineClasses = [
     styles.headline,
-    isRearranging ? styles.headlineRearranging : '',
     isFalling ? styles.headlineFalling : '',
   ].filter(Boolean).join(' ');
 
