@@ -25,6 +25,7 @@ function App() {
     offset: ['start start', '30% start'],
   });
   const arcsY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const tickerY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
     <LanguageProvider>
@@ -37,7 +38,9 @@ function App() {
         </motion.div>
         <Nav />
         <Hero />
-        <LogoTicker />
+        <motion.div style={{ y: tickerY }}>
+          <LogoTicker />
+        </motion.div>
         <About />
       </div>
       <SpringCohort />
