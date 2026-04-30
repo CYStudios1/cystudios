@@ -125,7 +125,7 @@
 .heroSubOuter {
   position: absolute;
   z-index: 20;
-  bottom: calc(5% + 35px);
+  bottom: calc(5% + 115px);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -232,6 +232,7 @@
   justify-content: center;
   transform-style: preserve-3d;
   pointer-events: none;
+  margin-top: -80px;
 }
 
 .orbitSphere {

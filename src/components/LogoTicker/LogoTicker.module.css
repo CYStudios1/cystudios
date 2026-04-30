@@ -33,7 +33,7 @@
   display: inline-flex;
   align-items: center;
   gap: 100px;
-  animation: logoScroll 28s linear infinite;
+  animation: logoScroll 8s linear infinite;
   white-space: nowrap;
 }
 

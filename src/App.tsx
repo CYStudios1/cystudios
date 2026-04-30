@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { SmoothScroll } from './components/shared/SmoothScroll';
@@ -17,8 +17,26 @@ import { Footer } from './components/Footer/Footer';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const handleLoadingComplete = useCallback(() => setLoading(false), []);
+  const [heroReady, setHeroReady] = useState(false);
+  const handleLoadingComplete = useCallback(() => {
+    setLoading(false);
+    // Small delay then trigger hero animations
+    setTimeout(() => setHeroReady(true), 100);
+  }, []);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Keep scroll locked until hero animations complete
+  useEffect(() => {
+    if (!heroReady) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Unlock scroll after hero elements have animated in
+      const timer = setTimeout(() => {
+        document.body.style.overflow = '';
+      }, 1200); // wait for panels + CTA to finish animating
+      return () => clearTimeout(timer);
+    }
+  }, [heroReady]);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -36,8 +54,8 @@ function App() {
         <motion.div style={{ y: arcsY }}>
           <ArcBackground />
         </motion.div>
-        <Nav />
-        <Hero />
+        <Nav introComplete={heroReady} />
+        <Hero introComplete={heroReady} />
         <motion.div style={{ y: tickerY }}>
           <LogoTicker />
         </motion.div>

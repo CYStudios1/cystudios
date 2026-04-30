@@ -38,3 +38,37 @@
   z-index: 5;
   transform-origin: center center;
 }
+
+/* ── Transition phases ── */
+
+/* Background fades to transparent during rearrange */
+.overlayFading {
+  background: transparent !important;
+  transition: background 0.5s ease;
+}
+
+/* Text rearranges from one line to three lines */
+.headlineRearranging {
+  white-space: normal;
+  max-width: 500px;
+  font-size: clamp(36px, 4.5vw, 64px);
+  line-height: 1.05;
+  text-align: center;
+  transition:
+    white-space 0s,
+    max-width 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    font-size 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    line-height 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Text moves up to hero cylinder position */
+.headlineFalling {
+  white-space: normal;
+  max-width: 500px;
+  font-size: clamp(36px, 4.5vw, 64px);
+  line-height: 1.05;
+  text-align: center;
+  transform: translateY(-12vh);
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}

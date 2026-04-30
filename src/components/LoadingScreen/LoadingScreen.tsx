@@ -7,21 +7,13 @@ function delay(ms: number) {
 }
 
 export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
-  // Lock scroll during loading
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
   const [pushedWord, setPushedWord] = useState<number | null>(null);
   // Individual word controls for words 0 and 1 (multi-step animations)
   const word0Controls = useAnimationControls();
   const word1Controls = useAnimationControls();
-  const [phase, setPhase] = useState<'bounce' | 'transition' | 'done'>('bounce');
+  const [phase, setPhase] = useState<'bounce' | 'rearrange' | 'falling' | 'done'>('bounce');
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -266,10 +258,18 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
       });
 
-      // Wait then transition out
-      await delay(500);
-      setPhase('transition');
-      await delay(1500);
+      // Wait a moment after ball settles
+      await delay(400);
+
+      // Phase: rearrange — background fades, text goes from one line to three lines
+      setPhase('rearrange');
+      await delay(800); // let the CSS transition play
+
+      // Phase: falling — text moves up to hero position
+      setPhase('falling');
+      await delay(700);
+
+      // Phase: done — loading screen unmounts, hero takes over
       setPhase('done');
       onComplete();
     }
@@ -277,16 +277,30 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
     animate();
   }, [ballControls, onComplete]);
 
+  const isRearranging = phase === 'rearrange' || phase === 'falling';
+  const isFalling = phase === 'falling';
+
+  const overlayClasses = [
+    styles.overlay,
+    isRearranging ? styles.overlayFading : '',
+  ].filter(Boolean).join(' ');
+
+  const headlineClasses = [
+    styles.headline,
+    isRearranging ? styles.headlineRearranging : '',
+    isFalling ? styles.headlineFalling : '',
+  ].filter(Boolean).join(' ');
+
   return (
     <AnimatePresence>
       {phase !== 'done' && (
         <motion.div
-          className={styles.overlay}
+          className={overlayClasses}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.15, ease: 'easeOut' }}
         >
-          <h1 ref={headlineRef} className={styles.headline}>
+          <h1 ref={headlineRef} className={headlineClasses}>
             {words.map((word, i) => (
               <span
                 key={i}
@@ -329,18 +343,12 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
               className={styles.ball}
               animate={ballControls}
               initial={{ opacity: 0 }}
+              style={{
+                opacity: isFalling ? 0 : undefined,
+                transition: 'opacity 0.3s ease',
+              }}
             />
           </h1>
-
-          {phase === 'transition' && (
-            <motion.div
-              className={styles.overlay}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              style={{ background: 'var(--bg)' }}
-            />
-          )}
         </motion.div>
       )}
     </AnimatePresence>
