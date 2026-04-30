@@ -95,6 +95,12 @@
   opacity: 1;
 }
 
+/* When accordion is hovered, hide images in non-hovered cards */
+.accordion:hover .accItem:not(:hover) .accScreen {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 /* Info overlay */
 .accInfo {
   position: absolute;
