@@ -39,6 +39,11 @@
   transform-origin: center center;
 }
 
+/* Gooey filter container — wraps headline + ball for liquid merge */
+.gooeyContainer {
+  filter: url(#gooey-loading);
+}
+
 /* ── Transition phases ── */
 
 /* Rearrange: switch to three-line layout instantly (FLIP handles animation) */

@@ -237,25 +237,33 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       await arc(positions[intentionI].x, intentionRightX, bounceHeights[5], arcDurations[5]);
       await land(intentionI, 5, false);
 
-      // === ARC TO PERIOD ===
-      await arc(intentionRightX, periodX, 10, 0.1);
+      // === BALL MERGES INTO TEXT (gooey absorption) ===
 
-      // Tiny final squash
+      // Step 1: Change ball color from peachy to ink (match text color)
       await ballControls.start({
-        scaleX: 1.05,
-        scaleY: 0.95,
-        transition: { duration: 0.02 },
+        backgroundColor: '#1A1008',
+        transition: { duration: 0.25, ease: 'easeOut' },
       });
 
-      // Settle as period
+      // Step 2: Ball sinks downward into the word — shrinks and fades
       await ballControls.start({
-        scaleX: 0.7,
-        scaleY: 0.7,
-        transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+        top: groundY + 20,
+        scaleX: 0.5,
+        scaleY: 0.5,
+        opacity: 0.6,
+        transition: { duration: 0.4, ease: [0.55, 0, 1, 0.45] },
       });
 
-      // Wait a moment after ball settles
-      await delay(400);
+      // Step 3: Final absorption — disappears
+      await ballControls.start({
+        scaleX: 0.1,
+        scaleY: 0.1,
+        opacity: 0,
+        transition: { duration: 0.25, ease: 'easeIn' },
+      });
+
+      // Wait a moment
+      await delay(300);
 
       // === WORD-BY-WORD POSITION ANIMATION ===
       // No layout changes — calculate target positions manually and animate with transforms
@@ -360,6 +368,22 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15, ease: 'easeOut' }}
         >
+          {/* SVG gooey filter for ball-into-text merge */}
+          <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+            <defs>
+              <filter id="gooey-loading">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+                <feColorMatrix
+                  in="blur"
+                  mode="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                  result="gooey"
+                />
+                <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+              </filter>
+            </defs>
+          </svg>
+          <div className={styles.gooeyContainer}>
           <h1 ref={headlineRef} className={headlineClasses}>
             {words.map((word, i) => (
               <span
@@ -409,6 +433,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
               }}
             />
           </h1>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
