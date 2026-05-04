@@ -15,6 +15,8 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const word1Controls = useAnimationControls();
   const [phase, setPhase] = useState<'bounce' | 'rearrange' | 'falling' | 'done'>('bounce');
   const [isMerging, setIsMerging] = useState(false);
+  const [filterBlur, setFilterBlur] = useState(4); // starts gooey, decreases to 0
+  const blurRef = useRef<SVGFEGaussianBlurElement>(null);
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -214,8 +216,20 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         });
       }
 
+      // Helper: reduce gooey blur (text sharpens with each bounce)
+      // 6 total landings: blur goes 4 → 3.2 → 2.4 → 1.6 → 0.8 → 0
+      const blurSteps = [3.2, 2.4, 1.6, 0.8, 0.3, 0];
+      let bounceCount = 0;
+      function reduceBlur() {
+        if (blurRef.current && bounceCount < blurSteps.length) {
+          blurRef.current.setAttribute('stdDeviation', String(blurSteps[bounceCount]));
+          bounceCount++;
+        }
+      }
+
       // === FIRST LANDING ===
       await land(0, 0, true);
+      reduceBlur();
 
       // === BOUNCE TO EACH WORD ===
       for (let i = 0; i < words.length - 1; i++) {
@@ -223,6 +237,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         const toX = positions[i + 1].x;
         await arc(fromX, toX, bounceHeights[i], arcDurations[i]);
         await land(i + 1, i + 1, true);
+        reduceBlur();
       }
 
       // === SECOND BOUNCE ON "intention" (horizontal movement) ===
@@ -240,7 +255,10 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
       // === BALL MERGES INTO TEXT (gooey absorption) ===
 
-      // Activate gooey filter
+      // Bump blur back up for the merge effect
+      if (blurRef.current) {
+        blurRef.current.setAttribute('stdDeviation', '3');
+      }
       setIsMerging(true);
 
       // Step 1: Change ball color from peachy to ink (match text color)
@@ -266,8 +284,10 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.25, ease: 'easeIn' },
       });
 
-      // Deactivate gooey filter
-      setIsMerging(false);
+      // Remove gooey filter — clean text
+      if (blurRef.current) {
+        blurRef.current.setAttribute('stdDeviation', '0');
+      }
 
       // Wait a moment
       await delay(300);
@@ -379,7 +399,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           <svg style={{ position: 'absolute', width: 0, height: 0 }}>
             <defs>
               <filter id="gooey-loading">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                <feGaussianBlur ref={blurRef} in="SourceGraphic" stdDeviation="4" result="blur" />
                 <feColorMatrix
                   in="blur"
                   mode="matrix"
@@ -390,7 +410,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
               </filter>
             </defs>
           </svg>
-          <div className={`${styles.gooeyContainer}${isMerging ? ` ${styles.merging}` : ''}`}>
+          <div className={styles.gooeyContainer}>
           <h1 ref={headlineRef} className={headlineClasses}>
             {words.map((word, i) => (
               <span

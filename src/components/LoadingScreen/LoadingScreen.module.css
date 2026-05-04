@@ -39,12 +39,8 @@
   transform-origin: center center;
 }
 
-/* Gooey filter container — only active during merge phase */
+/* Gooey filter container — always active, blur decreases over time */
 .gooeyContainer {
-  /* No filter by default — text renders normally */
-}
-
-.gooeyContainer.merging {
   filter: url(#gooey-loading);
 }
 
