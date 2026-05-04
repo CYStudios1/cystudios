@@ -20,9 +20,7 @@ export function Hero({ introComplete = false }: HeroProps) {
     target: heroRef,
     offset: ['start start', 'end start'],
   });
-  const arcsY = useTransform(scrollYProgress, [0, 1], [0, 200]);     // arcs: slowest (lag behind)
   const panelsY = useTransform(scrollYProgress, [0, 1], [0, 100]);   // panels: medium
-  const subY = useTransform(scrollYProgress, [0, 1], [0, 50]);       // sub+CTA: slight lag
 
   const [panelsVisible, setPanelsVisible] = useState(false);
   const [elementsVisible, setElementsVisible] = useState(false);

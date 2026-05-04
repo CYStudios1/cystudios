@@ -70,8 +70,6 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const periodX = lastRect
         ? lastRect.right - headlineRect.left + 4
         : positions[positions.length - 1].x + 50;
-      const periodY = positions[positions.length - 1].y;
-
       const startX = positions[0].x;
       const groundY = positions[0].y; // all words on same line = same Y
 
@@ -177,8 +175,6 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
       // === ARC HELPER — single animation, no concurrent conflicts ===
       async function arc(fromX: number, toX: number, height: number, duration: number) {
-        const peakY = groundY - height;
-        const midX = (fromX + toX) / 2;
         // Use multiple keyframe stops to approximate the arc curve
         // More stops = smoother arc
         const stops = 8;
