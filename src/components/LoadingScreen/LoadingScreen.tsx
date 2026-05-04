@@ -14,6 +14,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const word0Controls = useAnimationControls();
   const word1Controls = useAnimationControls();
   const [phase, setPhase] = useState<'bounce' | 'rearrange' | 'falling' | 'done'>('bounce');
+  const [isMerging, setIsMerging] = useState(false);
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -239,6 +240,9 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
       // === BALL MERGES INTO TEXT (gooey absorption) ===
 
+      // Activate gooey filter
+      setIsMerging(true);
+
       // Step 1: Change ball color from peachy to ink (match text color)
       await ballControls.start({
         backgroundColor: '#1A1008',
@@ -261,6 +265,9 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         opacity: 0,
         transition: { duration: 0.25, ease: 'easeIn' },
       });
+
+      // Deactivate gooey filter
+      setIsMerging(false);
 
       // Wait a moment
       await delay(300);
@@ -372,18 +379,18 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           <svg style={{ position: 'absolute', width: 0, height: 0 }}>
             <defs>
               <filter id="gooey-loading">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
                 <feColorMatrix
                   in="blur"
                   mode="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 25 -12"
                   result="gooey"
                 />
                 <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
               </filter>
             </defs>
           </svg>
-          <div className={styles.gooeyContainer}>
+          <div className={`${styles.gooeyContainer}${isMerging ? ` ${styles.merging}` : ''}`}>
           <h1 ref={headlineRef} className={headlineClasses}>
             {words.map((word, i) => (
               <span
