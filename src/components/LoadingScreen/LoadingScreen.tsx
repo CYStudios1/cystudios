@@ -217,12 +217,29 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       }
 
       // Helper: reduce gooey blur (text sharpens with each bounce)
-      // 6 total landings: blur goes 4 → 3.2 → 2.4 → 1.6 → 0.8 → 0
-      const blurSteps = [3.2, 2.4, 1.6, 0.8, 0.3, 0];
+      // 6 total landings: blur goes 4 → 3.5 → 3.0 → 2.0 → 1.0 → 0.5 → 0
+      // Smoother steps with smaller decrements
+      const blurSteps = [3.5, 3.0, 2.0, 1.0, 0.5, 0];
       let bounceCount = 0;
+
+      function animateBlur(from: number, to: number, duration: number) {
+        const start = performance.now();
+        function tick(now: number) {
+          const t = Math.min((now - start) / duration, 1);
+          const val = from + (to - from) * t;
+          if (blurRef.current) {
+            blurRef.current.setAttribute('stdDeviation', String(val));
+          }
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
       function reduceBlur() {
         if (blurRef.current && bounceCount < blurSteps.length) {
-          blurRef.current.setAttribute('stdDeviation', String(blurSteps[bounceCount]));
+          const currentBlur = bounceCount === 0 ? 4 : blurSteps[bounceCount - 1];
+          const targetBlur = blurSteps[bounceCount];
+          animateBlur(currentBlur, targetBlur, 200); // smooth 200ms transition
           bounceCount++;
         }
       }
@@ -254,11 +271,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       await land(intentionI, 5, false);
 
       // === BALL MERGES INTO TEXT (gooey absorption) ===
-
-      // Bump blur back up for the merge effect
-      if (blurRef.current) {
-        blurRef.current.setAttribute('stdDeviation', '3');
-      }
+      // Keep blur at 0 — text stays clean Raleway, only ball gets absorbed
       setIsMerging(true);
 
       // Step 1: Change ball color from peachy to ink (match text color)
@@ -284,89 +297,56 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         transition: { duration: 0.25, ease: 'easeIn' },
       });
 
-      // Remove gooey filter — clean text
-      if (blurRef.current) {
-        blurRef.current.setAttribute('stdDeviation', '0');
-      }
-
       // Wait a moment
       await delay(300);
 
-      // === WORD-BY-WORD POSITION ANIMATION ===
-      // No layout changes — calculate target positions manually and animate with transforms
+      // === ANIMATE WORDS TO HERO HEADLINE POSITIONS ===
 
-      // Step 1: Record current position of each word
+      // Measure hero headline word positions (hero is mounted but invisible)
+      const heroWordEls = document.querySelectorAll('[data-hero-word]');
+      const heroWordPositions = Array.from(heroWordEls).map(el => {
+        const rect = el.getBoundingClientRect();
+        return { x: rect.left, y: rect.top };
+      });
+
+      // Measure current loading screen word positions
       const wordElements = wordRefs.current;
-      const headlineEl = headlineRef.current!;
-      const headlineRect3 = headlineEl.getBoundingClientRect();
-
       const currentPositions = wordElements.map(el => {
         if (!el) return { x: 0, y: 0 };
         const rect = el.getBoundingClientRect();
         return { x: rect.left, y: rect.top };
       });
 
-      // Step 2: Calculate where each word should go in three-line centered layout
-      // Line 1: "Your brand,"  Line 2: "built with"  Line 3: "intention."
-      // We need to figure out the target positions based on the hero headline styling
-      const heroFontSize = Math.min(Math.max(36, window.innerWidth * 0.045), 64);
-      const lineHeight = heroFontSize * 1.05;
-      const centerX = window.innerWidth / 2;
-      const centerY = headlineRect3.top + headlineRect3.height / 2;
+      // Calculate font scale ratio (loading vs hero)
+      const loadingFontSize = parseFloat(getComputedStyle(headlineRef.current!).fontSize);
+      const heroH1 = heroWordEls[0]?.closest('h1');
+      const heroFSize = heroH1 ? parseFloat(getComputedStyle(heroH1).fontSize) : loadingFontSize;
+      const scaleRatio = heroFSize / loadingFontSize;
 
-      // Measure each word's width to calculate centered positions
-      const wordWidths = wordElements.map(el => el ? el.getBoundingClientRect().width : 0);
-      const spaceWidth = heroFontSize * 0.25; // approximate space between words
+      // Remove gooey filter so transforms render cleanly
+      if (blurRef.current) {
+        blurRef.current.setAttribute('stdDeviation', '0');
+      }
 
-      // Line 1: "Your brand," — 2 words
-      const line1Width = wordWidths[0] + spaceWidth + wordWidths[1];
-      const line1StartX = centerX - line1Width / 2;
-
-      // Line 2: "built with" — 2 words
-      const line2Width = wordWidths[2] + spaceWidth + wordWidths[3];
-      const line2StartX = centerX - line2Width / 2;
-
-      // Line 3: "intention" — 1 word (+ period from ball)
-      const line3Width = wordWidths[4];
-      const line3StartX = centerX - line3Width / 2;
-
-      // Target Y positions (3 lines centered around current center)
-      const targetY0 = centerY - lineHeight; // line 1
-      const targetY1 = centerY;              // line 2
-      const targetY2 = centerY + lineHeight; // line 3
-
-      const targetPositions = [
-        { x: line1StartX, y: targetY0 },                          // "Your"
-        { x: line1StartX + wordWidths[0] + spaceWidth, y: targetY0 }, // "brand,"
-        { x: line2StartX, y: targetY1 },                          // "built"
-        { x: line2StartX + wordWidths[2] + spaceWidth, y: targetY1 }, // "with"
-        { x: line3StartX, y: targetY2 },                          // "intention"
-      ];
-
-      // Step 3: Fade out the ball
-      await ballControls.start({
-        opacity: 0,
-        transition: { duration: 0.3 },
-      });
-
-      // Step 4: Animate each word from current position to target position
+      // Animate each word from current position to hero position
       wordElements.forEach((el, i) => {
-        if (!el) return;
-        const dx = targetPositions[i].x - currentPositions[i].x;
-        const dy = targetPositions[i].y - currentPositions[i].y;
+        if (!el || !heroWordPositions[i]) return;
+        const dx = heroWordPositions[i].x - currentPositions[i].x;
+        const dy = heroWordPositions[i].y - currentPositions[i].y;
         const stagger = i * 0.04;
+        el.style.transformOrigin = 'left top';
         el.style.transition = `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${stagger}s`;
-        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        el.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleRatio})`;
       });
 
       // Wait for animation to complete
       await delay(1100);
 
-      // Step 5: Background fades, text moves up
+      // Background fades out AFTER text has settled
       setPhase('falling');
       await delay(600);
 
-      // Step 6: Done
+      // Done — hero headline takes over at same position
       setPhase('done');
       onComplete();
     }

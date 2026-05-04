@@ -163,10 +163,18 @@ export function Hero({ introComplete = false }: HeroProps) {
                 dangerouslySetInnerHTML={{ __html: t('heroHeadlineHtml') }}
               />
             ) : (
-              <h1 className={styles.heroHeadline}>
-                Your brand,<br />
-                built with<br />
-                intention.
+              <h1
+                className={styles.heroHeadline}
+                data-hero-headline
+                style={{ opacity: introComplete ? 1 : 0, transition: 'none' }}
+              >
+                <span data-hero-word="0">Your </span>
+                <span data-hero-word="1">brand,</span>
+                <br />
+                <span data-hero-word="2">built </span>
+                <span data-hero-word="3">with</span>
+                <br />
+                <span data-hero-word="4">intention.</span>
               </h1>
             )}
           </div>
