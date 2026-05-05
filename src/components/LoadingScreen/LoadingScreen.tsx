@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 import styles from './LoadingScreen.module.css';
 
 function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPositioned: () => void; onComplete: () => void }) {
   const ballControls = useAnimationControls();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
   const [pushedWord, setPushedWord] = useState<number | null>(null);
@@ -21,7 +21,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
-  const words = ['Your', 'brand,', 'built', 'with', 'intention'];
+  const words = ['Your', 'brand,', 'built', 'with', 'intention.'];
 
   // AE bouncing ball physics:
   // - Each bounce is ~65% height of previous (energy loss)
@@ -51,43 +51,41 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const headline = headlineRef.current;
       if (!headline) return;
 
-      await delay(100);
-      await document.fonts.ready;
-      await delay(200);
-
+      // Show ball immediately at a default position (center, high)
       const headlineRect = headline.getBoundingClientRect();
+      await ballControls.set({
+        left: headlineRect.width / 2,
+        top: -200,
+        opacity: 1,
+        scaleX: 1,
+        scaleY: 1,
+      });
+
+      // Wait for fonts to load so word measurements are accurate
+      await document.fonts.ready;
+      await delay(100);
+
+      // Re-measure after fonts loaded
+      const headlineRect2 = headline.getBoundingClientRect();
 
       const positions = wordRefs.current.map(ref => {
         if (!ref) return { x: 0, y: 0, width: 0 };
         const rect = ref.getBoundingClientRect();
         const textTopOffset = rect.height * 0.15;
         return {
-          x: rect.left - headlineRect.left + rect.width / 2,
-          y: rect.top - headlineRect.top + textTopOffset - ballSize,
+          x: rect.left - headlineRect2.left + rect.width / 2,
+          y: rect.top - headlineRect2.top + textTopOffset - ballSize,
           width: rect.width,
         };
       });
 
-      const lastWord = wordRefs.current[words.length - 1];
-      const lastRect = lastWord?.getBoundingClientRect();
-      const periodX = lastRect
-        ? lastRect.right - headlineRect.left + 4
-        : positions[positions.length - 1].x + 50;
       const startX = positions[0].x;
       const groundY = positions[0].y; // all words on same line = same Y
 
-      // Ball starts high above
+      // Snap ball to correct starting position above first word
       await ballControls.set({
         left: startX,
         top: groundY - 280,
-        opacity: 0,
-        scaleX: 1,
-        scaleY: 1,
-      });
-
-      await ballControls.start({
-        opacity: 1,
-        transition: { duration: 0.1 },
       });
 
       // === INITIAL DROP from high above ===
@@ -261,10 +259,10 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       const intentionI = words.length - 1;
       const intentionRef = wordRefs.current[intentionI];
       const intentionRect = intentionRef?.getBoundingClientRect();
-      const headlineRect2 = headlineRef.current!.getBoundingClientRect();
+      const headlineRectNow = headlineRef.current!.getBoundingClientRect();
 
       const intentionRightX = intentionRect
-        ? intentionRect.left - headlineRect2.left + intentionRect.width * 0.78
+        ? intentionRect.left - headlineRectNow.left + intentionRect.width * 0.78
         : positions[intentionI].x + 30;
 
       await arc(positions[intentionI].x, intentionRightX, bounceHeights[5], arcDurations[5]);
@@ -302,7 +300,9 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
       // === ANIMATE WORDS TO HERO HEADLINE POSITIONS ===
 
-      // Measure hero headline word positions (hero is mounted but invisible)
+      // Measure hero headline word positions
+      // Hero text is in its own layer (not inside the orbit container),
+      // so getBoundingClientRect returns correct positions even before panels animate.
       const heroWordEls = document.querySelectorAll('[data-hero-word]');
       const heroWordPositions = Array.from(heroWordEls).map(el => {
         const rect = el.getBoundingClientRect();
@@ -342,17 +342,24 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       // Wait for animation to complete
       await delay(1100);
 
-      // Background fades out AFTER text has settled
+      // Text is now at hero position — tell App to make hero headline visible
+      // (hero headline appears behind loading overlay at exact same position)
+      onTextPositioned();
+
+      // Give hero headline a frame to render
+      await delay(50);
+
+      // Background fades out, revealing hero headline underneath
       setPhase('falling');
       await delay(600);
 
-      // Done — hero headline takes over at same position
+      // Done — unmount loading screen, hero is already visible
       setPhase('done');
       onComplete();
     }
 
     animate();
-  }, [ballControls, onComplete]);
+  }, [ballControls, onTextPositioned, onComplete]);
 
   const isFalling = phase === 'falling';
 
@@ -367,13 +374,10 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <AnimatePresence>
+    <>
       {phase !== 'done' && (
-        <motion.div
+        <div
           className={overlayClasses}
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15, ease: 'easeOut' }}
         >
           {/* SVG gooey filter for ball-into-text merge */}
           <svg style={{ position: 'absolute', width: 0, height: 0 }}>
@@ -433,7 +437,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             <motion.div
               className={styles.ball}
               animate={ballControls}
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               style={{
                 opacity: isFalling ? 0 : undefined,
                 transition: 'opacity 0.3s ease',
@@ -441,8 +445,8 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             />
           </h1>
           </div>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

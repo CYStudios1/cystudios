@@ -18,10 +18,13 @@ import { Footer } from './components/Footer/Footer';
 function App() {
   const [loading, setLoading] = useState(true);
   const [heroReady, setHeroReady] = useState(false);
+  // Called when loading screen text has reached hero position — make hero headline visible
+  const handleTextPositioned = useCallback(() => {
+    setHeroReady(true);
+  }, []);
+  // Called when loading screen is fully done (background faded) — unmount it
   const handleLoadingComplete = useCallback(() => {
     setLoading(false);
-    // Small delay then trigger hero animations
-    setTimeout(() => setHeroReady(true), 100);
   }, []);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +36,7 @@ function App() {
       // Unlock scroll after hero elements have animated in
       const timer = setTimeout(() => {
         document.body.style.overflow = '';
-      }, 1200); // wait for panels + CTA to finish animating
+      }, 2000); // wait for loading fade + panels + CTA to finish animating
       return () => clearTimeout(timer);
     }
   }, [heroReady]);
@@ -49,7 +52,7 @@ function App() {
     <LanguageProvider>
       <SmoothScroll />
       <Vignette />
-      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {loading && <LoadingScreen onTextPositioned={handleTextPositioned} onComplete={handleLoadingComplete} />}
       <div ref={wrapperRef} className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
         <motion.div style={{ y: arcsY }}>
           <ArcBackground />

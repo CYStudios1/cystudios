@@ -125,25 +125,27 @@ export function Hero({ introComplete = false }: HeroProps) {
         </defs>
       </svg>
 
-      {/* Orbit container with 3D cylinder panels — parallax layer */}
+      {/* Orbit container — always at scale 1 so text is measurable.
+          Panels inside use CSS class to scale in; text stays at correct position. */}
       <motion.div
+        data-orbit-container
         className={styles.orbitContainer}
         style={{ y: panelsY }}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={panelsVisible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-        transition={{ duration: 0.8, ease: fadeEase }}
       >
         <div ref={sphereRef} className={styles.orbitSphere}>
-          {/* 4 screens, each with 8 slices */}
+          {/* 4 screens, each with 8 slices — panels scale in via CSS */}
           {[0, 1, 2, 3].map((screen) => (
-            <div key={screen} className={styles.orbitScreen}>
+            <div
+              key={screen}
+              className={`${styles.orbitScreen} ${panelsVisible ? styles.orbitScreenVisible : ''}`}
+            >
               {slices.map((slice) => (
                 <div key={slice} className={styles.screenSlice} />
               ))}
             </div>
           ))}
 
-          {/* Text at center of cylinder -- counter-rotates to stay static */}
+          {/* Text at center of cylinder — counter-rotates to stay static */}
           <div ref={text3dRef} className={styles.hero3dText}>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
