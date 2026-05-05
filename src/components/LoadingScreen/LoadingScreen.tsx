@@ -14,8 +14,6 @@ export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPosition
   const word0Controls = useAnimationControls();
   const word1Controls = useAnimationControls();
   const [phase, setPhase] = useState<'bounce' | 'rearrange' | 'falling' | 'done'>('bounce');
-  const [isMerging, setIsMerging] = useState(false);
-  const [filterBlur, setFilterBlur] = useState(4); // starts gooey, decreases to 0
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
 
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -270,8 +268,6 @@ export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPosition
 
       // === BALL MERGES INTO TEXT (gooey absorption) ===
       // Keep blur at 0 — text stays clean Raleway, only ball gets absorbed
-      setIsMerging(true);
-
       // Step 1: Change ball color from peachy to ink (match text color)
       await ballControls.start({
         backgroundColor: '#1A1008',
