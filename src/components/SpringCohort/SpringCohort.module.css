@@ -6,9 +6,7 @@
 }
 
 .header {
-  padding: 80px 64px 48px;
-  max-width: 1228px;
-  margin: 0 auto;
+  padding: 80px 100px 48px;
 }
 
 .headline {
@@ -20,17 +18,14 @@
 
 /* Accordion container */
 .cohortWrap {
-  padding: 0 64px 80px;
+  padding: 0 100px 80px;
   background: var(--bg);
-  border-bottom: 1px solid var(--border);
 }
 
 .accordion {
   display: flex;
   gap: 12px;
   height: 480px;
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 /* Accordion items */

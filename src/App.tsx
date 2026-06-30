@@ -8,8 +8,8 @@ import { Nav } from './components/Nav/Nav';
 import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
 import { LogoTicker } from './components/LogoTicker/LogoTicker';
-import { About } from './components/About/About';
-import { SpringCohort } from './components/SpringCohort/SpringCohort';
+import { AboutV3 } from './components/AboutV3/AboutV3';
+import { WorkShowcase } from './components/WorkShowcase/WorkShowcase';
 import { SummerCohort } from './components/SummerCohort/SummerCohort';
 import { Pricing } from './components/Pricing/Pricing';
 import { FAQ } from './components/FAQ/FAQ';
@@ -62,9 +62,9 @@ function App() {
         <motion.div style={{ y: tickerY }}>
           <LogoTicker />
         </motion.div>
-        <About />
+        <AboutV3 />
       </div>
-      <SpringCohort />
+      <WorkShowcase />
       <SummerCohort />
       <Pricing />
       <FAQ />

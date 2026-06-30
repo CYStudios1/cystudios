@@ -69,7 +69,7 @@ export function FAQ() {
           </h2>
           <div className={styles.cta}>
             <div className={styles.ctaText}>{t('Still have questions?')}</div>
-            <a href="#" className={styles.ctaLink}>{t('Book a Consultation')}</a>
+            <a href="https://calendly.com/design-cy-studios/30min" target="_blank" rel="noopener noreferrer" className={styles.ctaLink}>{t('Book a Consultation')}</a>
           </div>
         </div>
 

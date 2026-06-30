@@ -2,12 +2,10 @@
 
 .summer {
   background: var(--bg);
-  padding: 80px 64px;
+  padding: 80px 100px;
 }
 
 .inner {
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 .header {

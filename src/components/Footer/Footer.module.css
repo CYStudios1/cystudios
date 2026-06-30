@@ -2,13 +2,11 @@
 
 .footer {
   background: var(--bg);
-  border-top: 1px solid var(--border);
 }
 
 /* CTA Banner */
 .ctaBanner {
-  padding: 64px 64px;
-  border-bottom: 1px solid var(--border);
+  padding: 64px 100px;
 }
 
 .ctaInner {

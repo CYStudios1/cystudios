@@ -71,6 +71,8 @@ export function Hero({ introComplete = false }: HeroProps) {
 
     const handleMouseDown = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest(`.${styles.gooeyWrap}`)) return;
+      // Only start drag if mouse is over the orbit panels
+      if (!(e.target as HTMLElement).closest(`.${styles.orbitScreen}`)) return;
       isDragging = true;
       startX = e.clientX;
       document.body.style.cursor = 'grabbing';
@@ -93,19 +95,22 @@ export function Hero({ introComplete = false }: HeroProps) {
       lastTime = performance.now();
     };
 
-    document.addEventListener('mousedown', handleMouseDown);
+    sphere.addEventListener('mousedown', handleMouseDown as EventListener);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
 
     return () => {
       cancelAnimationFrame(animId);
-      document.removeEventListener('mousedown', handleMouseDown);
+      sphere.removeEventListener('mousedown', handleMouseDown as EventListener);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [panelsVisible]);
 
   const slices = Array.from({ length: 8 }, (_, i) => i);
+  const panelImages = ['/project-1.jpg', '/project-2.jpg', '/project-3.jpg', '/project-4.jpg'];
+  const sliceWidth = 68;
+  const totalWidth = slices.length * sliceWidth;
 
   return (
     <section ref={heroRef} className={styles.heroSection}>
@@ -133,14 +138,23 @@ export function Hero({ introComplete = false }: HeroProps) {
         style={{ y: panelsY }}
       >
         <div ref={sphereRef} className={styles.orbitSphere}>
-          {/* 4 screens, each with 8 slices — panels scale in via CSS */}
+          {/* 4 screens, each with 8 slices */}
           {[0, 1, 2, 3].map((screen) => (
             <div
               key={screen}
               className={`${styles.orbitScreen} ${panelsVisible ? styles.orbitScreenVisible : ''}`}
             >
               {slices.map((slice) => (
-                <div key={slice} className={styles.screenSlice} />
+                <div
+                  key={slice}
+                  className={styles.screenSlice}
+                  style={{
+                    backgroundImage: `url(${panelImages[screen]})`,
+                    backgroundSize: `${totalWidth}px 100%`,
+                    backgroundPosition: `${-(slice * sliceWidth)}px center`,
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
               ))}
             </div>
           ))}
@@ -191,9 +205,9 @@ export function Hero({ introComplete = false }: HeroProps) {
           transition={{ duration: 1, ease: fadeEase }}
         >
           <div className={styles.gooeyWrap}>
-            <button className={styles.heroCta}>
+            <a href="https://calendly.com/design-cy-studios/30min" target="_blank" rel="noopener noreferrer" className={styles.heroCta}>
               {t('Book a Consultation')}
-            </button>
+            </a>
             <div className={styles.gooeyPill}>
               <span>{t("It's Free")}</span>
             </div>

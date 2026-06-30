@@ -64,7 +64,7 @@ export function SummerCohort() {
         </motion.div>
 
         <div className={styles.cta}>
-          <GooeyButton>{t('Book a Consultation')}</GooeyButton>
+          <GooeyButton href="https://calendly.com/design-cy-studios/30min">{t('Book a Consultation')}</GooeyButton>
         </div>
       </div>
     </motion.div>

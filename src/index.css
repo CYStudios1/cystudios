@@ -18,7 +18,7 @@ html.lenis, html.lenis body {
 body {
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: var(--bg);
+  background: var(--bg) url('/texture-paper.png') repeat;
   color: var(--ink);
 }
 a { text-decoration: none; color: inherit; }
@@ -27,8 +27,8 @@ img { display: block; max-width: 100%; }
 
 /* ── Color tokens ── */
 :root {
-  --bg: #F2E4D8;
-  --surface: #EDD9C8;
+  --bg: #FAFAFA;
+  --surface: #F3EDE7;
   --ink: #1A1008;
   --ink-muted: #5A4E44;
   --accent: #B83228;

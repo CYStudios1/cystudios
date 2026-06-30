@@ -45,7 +45,9 @@ export function About() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.div className={s.founder} variants={founderItem}>
-            <div className={s.photo} />
+            <div className={s.photo}>
+              <img src="/photo-david.jpg" alt="David" className={s.photoImg} />
+            </div>
             <div className={s.name}>David</div>
             <div className={s.role}>{t('Design & Strategy')}</div>
             <div className={s.bio}>
@@ -56,7 +58,9 @@ export function About() {
           </motion.div>
           <motion.div className={s.divider} variants={founderItem} />
           <motion.div className={s.founder} variants={founderItem}>
-            <div className={s.photo} />
+            <div className={s.photo}>
+              <img src="/photo-colin.jpg" alt="Colin" className={s.photoImg} />
+            </div>
             <div className={s.name}>Colin</div>
             <div className={s.role}>{t('Development & Growth')}</div>
             <div className={s.bio}>

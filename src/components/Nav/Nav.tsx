@@ -29,7 +29,7 @@ export function Nav({ introComplete = false }: NavProps) {
         <button className={styles.langToggle} onClick={toggleLang}>
           {isKorean ? 'EN' : 'KR'}
         </button>
-        <Button size="sm" dataEn="Book a Consultation" dataKr="상담 예약하기">
+        <Button size="sm" dataEn="Book a Consultation" dataKr="상담 예약하기" href="https://calendly.com/design-cy-studios/30min">
           {t('Book a Consultation')}
         </Button>
       </div>
