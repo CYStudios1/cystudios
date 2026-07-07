@@ -127,7 +127,7 @@ interface ThreadsProps {
   enableMouseInteraction?: boolean;
 }
 
-const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseInteraction = false, ...rest }: ThreadsProps & React.HTMLAttributes<HTMLDivElement>) => {
+const Threads = ({ color = [1, 1, 1] as [number, number, number], amplitude = 1, distance = 0, enableMouseInteraction = false, ...rest }: ThreadsProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'color'>) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationFrameId = useRef(0);
 
@@ -165,7 +165,7 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
 
     const MAX_RENDER_DIM = 1920;
     function resize() {
-      const { clientWidth, clientHeight } = container;
+      const { clientWidth, clientHeight } = container!;
       const baseDpr = Math.min(window.devicePixelRatio || 1, 2);
       const longestSide = Math.max(clientWidth, clientHeight) * baseDpr;
       const dpr = longestSide > MAX_RENDER_DIM ? (baseDpr * MAX_RENDER_DIM) / longestSide : baseDpr;
@@ -185,7 +185,7 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
     let targetMouse = [0.5, 0.5];
 
     function handleMouseMove(e: MouseEvent) {
-      const rect = container.getBoundingClientRect();
+      const rect = container!.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
       targetMouse = [x, y];

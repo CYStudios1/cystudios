@@ -32,7 +32,7 @@ export function Footer() {
       <div className={styles.ctaBanner}>
         <div className={styles.threadsLayer}>
           <Threads
-            color={[0.55, 0.65, 0.80]}
+            color={[0.55, 0.65, 0.80] as [number, number, number]}
             amplitude={0.8}
             distance={1.2}
             enableMouseInteraction={true}

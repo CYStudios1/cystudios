@@ -58,7 +58,7 @@ export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPosition
       const fontsReady = document.fonts.ready;
 
       // Wait two frames for initial paint
-      await new Promise<void>(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise<void>(r => requestAnimationFrame(() => requestAnimationFrame(() => r())));
 
       // === PHASE 1: LOGO INTRO ===
       // Logo fades in centered on screen
@@ -356,7 +356,7 @@ export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPosition
       // Period text appears instantly (ball is covering it, same color) —
       // then ball vanishes instantly. The swap is invisible.
       setPeriodVisible(true);
-      await new Promise<void>(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise<void>(r => requestAnimationFrame(() => requestAnimationFrame(() => r())));
       ballControls.set({ opacity: 0 });
 
       // Wait a moment

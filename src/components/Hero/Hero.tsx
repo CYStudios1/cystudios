@@ -118,7 +118,6 @@ export function Hero({ introComplete = false }: HeroProps) {
   // content is continuous across slice boundaries
   const chordWidth = 2 * RADIUS * Math.sin((SLICE_ANGLE / 2) * (Math.PI / 180)); // ≈ 24.87px
   // Element is slightly wider than chord to fill any sub-pixel rendering gaps
-  const sliceWidth = 27;
   const totalWidth = NUM_SLICES * chordWidth; // ≈ 398px
 
   return (
@@ -142,7 +141,7 @@ export function Hero({ introComplete = false }: HeroProps) {
       {/* Threads WebGL background — interactive lines behind the carousel */}
       <div className={styles.threadsLayer}>
         <Threads
-          color={[0.55, 0.65, 0.80]}
+          color={[0.55, 0.65, 0.80] as [number, number, number]}
           amplitude={0.8}
           distance={1.2}
           enableMouseInteraction={true}
