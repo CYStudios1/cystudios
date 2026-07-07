@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import styles from './Footer.module.css';
 import { GooeyButton } from '../shared/GooeyButton';
 import { useTranslation } from '../shared/useTranslation';
+import Threads from '../Hero/Threads';
+import { CYLogo } from '../Nav/CYLogo';
 
 const colContainer = {
   initial: {},
@@ -28,11 +30,17 @@ export function Footer() {
     <footer className={styles.footer}>
       {/* CTA Banner */}
       <div className={styles.ctaBanner}>
+        <div className={styles.threadsLayer}>
+          <Threads
+            color={[0.55, 0.65, 0.80]}
+            amplitude={0.8}
+            distance={1.2}
+            enableMouseInteraction={true}
+          />
+        </div>
         <div className={styles.ctaInner}>
-          <div>
-            <div className={styles.ctaText}>{t('Ready to build something intentional?')}</div>
-            <div className={styles.ctaSub}>{t('Book a free consultation — no pressure, just a conversation about your brand.')}</div>
-          </div>
+          <div className={styles.ctaText}>{t('Ready to build something intentional?')}</div>
+          <div className={styles.ctaSub}>{t('Book a free consultation. No pressure, just a conversation about your brand.')}</div>
           <GooeyButton href="https://calendly.com/design-cy-studios/30min">{t('Book a Consultation')}</GooeyButton>
         </div>
       </div>
@@ -46,8 +54,8 @@ export function Footer() {
         viewport={{ once: true, margin: '-80px' }}
       >
         <motion.div variants={colItem}>
-          <div className={styles.logo}>{t('CY Studios')}</div>
-          <div className={styles.brandText}>{t('A boutique creative agency building brands with intention — one cohort at a time.')}</div>
+          <div className={styles.logo}><CYLogo /> {t('CY Studios')}</div>
+          <div className={styles.brandText}>{t('A boutique creative agency building brands with intention. One cohort at a time.')}</div>
         </motion.div>
         <motion.div variants={colItem}>
           <div className={styles.colTitle}>{t('Navigate')}</div>

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { SectionLabel } from '../shared/SectionLabel';
 import { useTranslation } from '../shared/useTranslation';
 import s from './AboutV3.module.css';
@@ -11,9 +12,20 @@ const fadeIn = {
 
 export function AboutV3() {
   const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  // Rings move at a different rate than the photos — subtle parallax
+  const ring1Y = useTransform(scrollYProgress, [0, 1], [8, -8]);
+  const ring2Y = useTransform(scrollYProgress, [0, 1], [6, -10]);
 
   return (
     <motion.section
+      ref={sectionRef}
       id="about-v3"
       className={s.about}
       initial={{ opacity: 0, y: 40 }}
@@ -33,7 +45,7 @@ export function AboutV3() {
           <div className={s.bodyLabel}>{t('Our Story')}</div>
           <p className={s.body}>
             {t(
-              "We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in."
+              "We started CY Studios because we saw the same story play out. Talented brands stuck in a queue of 40+ clients, getting templated work and distracted attention. We believe every brand deserves a team that's fully locked in."
             )}
           </p>
         </motion.div>
@@ -41,13 +53,37 @@ export function AboutV3() {
         <motion.div className={s.left} {...fadeIn} viewport={{ once: true }} transition={{ ...fadeIn.transition, delay: 0.15 }}>
           <div className={s.photos}>
             <div className={s.photoWrap}>
-              <div className={s.photo}>
-                <img src="/photo-david.jpg" alt="David" className={s.photoImg} />
+              <motion.div className={s.ring} style={{ y: ring1Y }} />
+              <div className={s.coin}>
+                <div className={s.coinFront}>
+                  <div className={s.photo}>
+                    <img src="/photo-david.jpg" alt="David" className={s.photoImg} />
+                  </div>
+                </div>
+                <div className={s.coinBack}>
+                  <div className={s.quoteCard}>
+                    <span className={s.quoteMark}>&ldquo;</span>
+                    Be curious, not judgmental.
+                    <span className={s.quoteMark}>&rdquo;</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className={s.photoWrap}>
-              <div className={s.photo}>
-                <img src="/photo-colin.jpg" alt="Colin" className={s.photoImg} />
+              <motion.div className={s.ring} style={{ y: ring2Y }} />
+              <div className={s.coin}>
+                <div className={s.coinFront}>
+                  <div className={s.photo}>
+                    <img src="/photo-colin.jpg" alt="Colin" className={s.photoImg} />
+                  </div>
+                </div>
+                <div className={s.coinBack}>
+                  <div className={s.quoteCard}>
+                    <span className={s.quoteMark}>&ldquo;</span>
+                    If you don&apos;t care about what you&apos;re selling, people won&apos;t care about what they&apos;re buying.
+                    <span className={s.quoteMark}>&rdquo;</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@
   border: none;
   color: #fff;
   cursor: pointer;
-  background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+  background: linear-gradient(145deg, #E07070 0%, #D96363 25%, #D25656 50%, #B84848 80%, #A33F3F 100%);
   position: relative;
   z-index: 2;
   white-space: nowrap;
@@ -29,7 +29,7 @@
   left: 50%;
   top: -2px;
   transform: translateX(-50%);
-  background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+  background: linear-gradient(145deg, #E07070 0%, #D96363 25%, #D25656 50%, #B84848 80%, #A33F3F 100%);
   color: #fff;
   font-family: 'Raleway', sans-serif;
   font-size: 10px;

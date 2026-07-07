@@ -10,12 +10,16 @@
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 800;
   color: var(--ink);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
 
 .navRight {
   display: flex;
@@ -24,11 +28,15 @@
 }
 
 .navLinks {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 36px;
 }
 
 .navLinks a {
+  position: relative;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -38,8 +46,27 @@
   transition: color 0.2s ease;
 }
 
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%) scale(0);
+  width: 6px;
+  height: 6px;
+  margin-top: 3px;
+  background: url('/nav-hover.png') center / contain no-repeat;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .navLinks a:hover {
   color: var(--ink);
+}
+
+.navLinks a:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
 .langToggle {

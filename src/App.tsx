@@ -5,12 +5,10 @@ import { SmoothScroll } from './components/shared/SmoothScroll';
 import { Vignette } from './components/shared/Vignette';
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen';
 import { Nav } from './components/Nav/Nav';
-import { ArcBackground } from './components/Hero/ArcBackground';
 import { Hero } from './components/Hero/Hero';
 import { LogoTicker } from './components/LogoTicker/LogoTicker';
 import { AboutV3 } from './components/AboutV3/AboutV3';
 import { WorkShowcase } from './components/WorkShowcase/WorkShowcase';
-import { SummerCohort } from './components/SummerCohort/SummerCohort';
 import { Pricing } from './components/Pricing/Pricing';
 import { FAQ } from './components/FAQ/FAQ';
 import { Footer } from './components/Footer/Footer';
@@ -45,7 +43,6 @@ function App() {
     target: wrapperRef,
     offset: ['start start', '30% start'],
   });
-  const arcsY = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const tickerY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
@@ -54,18 +51,15 @@ function App() {
       <Vignette />
       {loading && <LoadingScreen onTextPositioned={handleTextPositioned} onComplete={handleLoadingComplete} />}
       <div ref={wrapperRef} className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
-        <motion.div style={{ y: arcsY }}>
-          <ArcBackground />
-        </motion.div>
+        {/* ArcBackground removed */}
         <Nav introComplete={heroReady} />
         <Hero introComplete={heroReady} />
-        <motion.div style={{ y: tickerY }}>
+        <motion.div style={{ y: tickerY, position: 'relative' as const, zIndex: 2 }}>
           <LogoTicker />
         </motion.div>
         <AboutV3 />
       </div>
       <WorkShowcase />
-      <SummerCohort />
       <Pricing />
       <FAQ />
       <Footer />

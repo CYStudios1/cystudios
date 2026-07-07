@@ -41,6 +41,43 @@
   margin-left: -60px;
 }
 
+/* Coin flip container */
+.coin {
+  width: 300px;
+  height: 300px;
+  perspective: 800px;
+  cursor: pointer;
+}
+
+.coinFront,
+.coinBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.coinFront {
+  z-index: 2;
+}
+
+.coinBack {
+  transform: rotateY(180deg);
+}
+
+/* Hover triggers the coin spin — starts fast, decelerates */
+.coin {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(0.0, 0.0, 0.15, 1);
+}
+
+.photoWrap:hover .coin {
+  transform: rotateY(540deg);
+}
+
 .photo {
   width: 300px;
   height: 300px;
@@ -57,14 +94,52 @@
   object-fit: cover;
 }
 
+/* Quote on the back of the coin */
+.quoteCard {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D25656, #B84848);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  font-style: italic;
+  border: 4px solid var(--bg);
+}
+
+.quoteMark {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.ring {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(210, 86, 86, 0.2);
+  pointer-events: none;
+}
+
 .names {
   display: flex;
-  gap: 80px;
-  padding-left: 20px;
+  padding-left: 60px;
 }
 
 .nameBlock {
   text-align: left;
+  width: 300px;
+}
+
+.nameBlock:nth-child(2) {
+  margin-left: -60px;
 }
 
 .name {
@@ -117,6 +192,10 @@
   .content {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .coin {
+    width: 160px;
+    height: 160px;
   }
   .photo {
     width: 160px;

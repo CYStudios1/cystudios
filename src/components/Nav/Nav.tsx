@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import styles from './Nav.module.css';
 import { Button } from '../shared/Button';
 import { useTranslation } from '../shared/useTranslation';
+import { CYLogo } from './CYLogo';
 
 interface NavProps {
   introComplete?: boolean;
@@ -17,15 +18,17 @@ export function Nav({ introComplete = false }: NavProps) {
       animate={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className={styles.logo}>CY Studios</div>
+      <div className={styles.logo}>
+        <CYLogo />
+        CY Studios
+      </div>
+      <div className={styles.navLinks}>
+        <a href="#about-v3">{t('About')}</a>
+        <a href="#works">{t('Works')}</a>
+        <a href="#pricing">{t('Pricing')}</a>
+        <a href="#faq">{t('FAQ')}</a>
+      </div>
       <div className={styles.navRight}>
-        <div className={styles.navLinks}>
-          <a href="#services">{t('Services')}</a>
-          <a href="#about">{t('About')}</a>
-          <a href="#cohorts">{t('Cohorts')}</a>
-          <a href="#pricing">{t('Pricing')}</a>
-          <a href="#faq">{t('FAQ')}</a>
-        </div>
         <button className={styles.langToggle} onClick={toggleLang}>
           {isKorean ? 'EN' : 'KR'}
         </button>

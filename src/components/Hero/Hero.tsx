@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import styles from './Hero.module.css';
 import { useTranslation } from '../shared/useTranslation';
+import Threads from './Threads';
 
 const fadeEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -51,7 +52,7 @@ export function Hero({ introComplete = false }: HeroProps) {
     let currentRotation = 0;
     let autoRotation = 0;
     let lastTime = performance.now();
-    const speed = 360 / 24; // degrees per second
+    const speed = 360 / 30; // degrees per second (slower = smoother)
 
     function updateRotation(totalDeg: number) {
       sphere!.style.transform = `rotateY(${totalDeg}deg)`;
@@ -107,10 +108,18 @@ export function Hero({ introComplete = false }: HeroProps) {
     };
   }, [panelsVisible]);
 
-  const slices = Array.from({ length: 8 }, (_, i) => i);
+  const NUM_SLICES = 16;
+  const SLICE_ANGLE = 3.75;
+  const RADIUS = 380;
+  const CENTER_OFFSET = ((NUM_SLICES - 1) / 2) * SLICE_ANGLE;
   const panelImages = ['/project-1.jpg', '/project-2.jpg', '/project-3.jpg', '/project-4.jpg'];
-  const sliceWidth = 68;
-  const totalWidth = slices.length * sliceWidth;
+  const baseAngles = [0, 90, 180, 270];
+  // Geometric chord width — background positions step on this grid so image
+  // content is continuous across slice boundaries
+  const chordWidth = 2 * RADIUS * Math.sin((SLICE_ANGLE / 2) * (Math.PI / 180)); // ≈ 24.87px
+  // Element is slightly wider than chord to fill any sub-pixel rendering gaps
+  const sliceWidth = 27;
+  const totalWidth = NUM_SLICES * chordWidth; // ≈ 398px
 
   return (
     <section ref={heroRef} className={styles.heroSection}>
@@ -130,6 +139,16 @@ export function Hero({ introComplete = false }: HeroProps) {
         </defs>
       </svg>
 
+      {/* Threads WebGL background — interactive lines behind the carousel */}
+      <div className={styles.threadsLayer}>
+        <Threads
+          color={[0.55, 0.65, 0.80]}
+          amplitude={0.8}
+          distance={1.2}
+          enableMouseInteraction={true}
+        />
+      </div>
+
       {/* Orbit container — always at scale 1 so text is measurable.
           Panels inside use CSS class to scale in; text stays at correct position. */}
       <motion.div
@@ -138,24 +157,44 @@ export function Hero({ introComplete = false }: HeroProps) {
         style={{ y: panelsY }}
       >
         <div ref={sphereRef} className={styles.orbitSphere}>
-          {/* 4 screens, each with 8 slices */}
-          {[0, 1, 2, 3].map((screen) => (
+          {/* 4 panels — each slice has a front face + back face so panels stay
+              visible at all angles when backface-visibility: hidden is active */}
+          {baseAngles.map((baseAngle, screen) => (
             <div
               key={screen}
               className={`${styles.orbitScreen} ${panelsVisible ? styles.orbitScreenVisible : ''}`}
             >
-              {slices.map((slice) => (
-                <div
-                  key={slice}
-                  className={styles.screenSlice}
-                  style={{
-                    backgroundImage: `url(${panelImages[screen]})`,
-                    backgroundSize: `${totalWidth}px 100%`,
-                    backgroundPosition: `${-(slice * sliceWidth)}px center`,
-                    backgroundRepeat: 'no-repeat',
-                  }}
-                />
-              ))}
+              {Array.from({ length: NUM_SLICES }, (_, slice) => {
+                const angle = baseAngle - CENTER_OFFSET + slice * SLICE_ANGLE;
+                const mirrorSlice = NUM_SLICES - 1 - slice;
+                return (
+                  <div key={slice} style={{ display: 'contents' }}>
+                    {/* Front face */}
+                    <div
+                      className={styles.screenSlice}
+                      style={{
+                        backgroundImage: `url(${panelImages[screen]})`,
+                        backgroundSize: `${totalWidth}px 100%`,
+                        backgroundPosition: `${-(slice * chordWidth)}px center`,
+                        backgroundRepeat: 'no-repeat',
+                        transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)`,
+                      }}
+                    />
+                    {/* Back face — rotated 180° so it's visible when panel faces away */}
+                    <div
+                      key={`b${slice}`}
+                      className={styles.screenSlice}
+                      style={{
+                        backgroundImage: `url(${panelImages[screen]})`,
+                        backgroundSize: `${totalWidth}px 100%`,
+                        backgroundPosition: `${-(mirrorSlice * chordWidth)}px center`,
+                        backgroundRepeat: 'no-repeat',
+                        transform: `rotateY(${angle}deg) translateZ(${RADIUS}px) rotateY(180deg)`,
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           ))}
 
@@ -167,8 +206,8 @@ export function Hero({ introComplete = false }: HeroProps) {
               transition={{ duration: 1, ease: fadeEase }}
               className={styles.heroPill}
             >
-              <span className={styles.pillDot} />
-              {t('Now Booking — Summer Cohort')}
+              <img src="/one-logo.png" alt="" className={styles.pillLogo} />
+              it'll be ok colin
             </motion.div>
 
             {isKorean ? (
@@ -219,7 +258,7 @@ export function Hero({ introComplete = false }: HeroProps) {
           animate={elementsVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 1, ease: fadeEase, delay: 0.15 }}
         >
-          {t('CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.')}
+          {t('CY Studios is a boutique creative agency taking clients in with intention, so every brand gets the attention it deserves.')}
         </motion.p>
       </div>
     </section>

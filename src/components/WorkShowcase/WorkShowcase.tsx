@@ -26,6 +26,7 @@ export function WorkShowcase() {
   return (
     <motion.section
       ref={sectionRef}
+      id="works"
       className={s.section}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}

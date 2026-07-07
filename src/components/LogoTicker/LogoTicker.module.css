@@ -1,5 +1,5 @@
 .logoSection {
-  background: rgba(26,16,8,0.04);
+  background: #F2F0ED;
   padding: 48px 0;
   overflow: visible;
   position: relative;
@@ -57,12 +57,12 @@
   height: 50px;
   width: auto;
   object-fit: contain;
-  filter: none;
+  filter: grayscale(100%);
   transition: filter 0.3s ease;
 }
 
 .logoItem:hover img {
-  filter: none;
+  filter: grayscale(0%);
 }
 
 /* ── Mobile ── */

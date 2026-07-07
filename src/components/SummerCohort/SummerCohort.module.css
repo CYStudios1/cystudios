@@ -46,14 +46,14 @@
 }
 
 .slot:hover {
-  border-color: rgba(184, 50, 40, 0.3);
+  border-color: rgba(210, 86, 86, 0.3);
   transform: translateY(-4px);
 }
 
 .slotNum {
   font-size: 48px;
   font-weight: 900;
-  color: rgba(184, 50, 40, 0.1);
+  color: rgba(210, 86, 86, 0.1);
   line-height: 1;
   margin-bottom: 8px;
 }
@@ -74,7 +74,7 @@
 .dot {
   width: 6px;
   height: 6px;
-  background: #b83228;
+  background: #D25656;
   border-radius: 50%;
   animation: pdot 2s infinite;
 }

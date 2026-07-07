@@ -31,8 +31,8 @@ img { display: block; max-width: 100%; }
   --surface: #F3EDE7;
   --ink: #1A1008;
   --ink-muted: #5A4E44;
-  --accent: #B83228;
-  --accent-warm: #D44A28;
+  --accent: #D25656;
+  --accent-warm: #E07070;
   --border: rgba(26,16,8,0.08);
   --border-card: rgba(26,16,8,0.06);
   --ticker-bg: rgba(26,16,8,0.04);
