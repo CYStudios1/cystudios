@@ -150,18 +150,21 @@
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .ctaBanner {
-    padding: 80px 20px;
+    padding: 80px 16px;
   }
   .ctaText {
-    font-size: 28px;
+    font-size: 24px;
+  }
+  .ctaSub {
+    font-size: 14px;
   }
   .cols {
     grid-template-columns: 1fr 1fr;
     gap: 32px;
-    padding: 40px 20px;
+    padding: 40px 16px;
   }
   .bottom {
-    padding: 20px;
+    padding: 20px 16px;
     flex-direction: column;
     gap: 16px;
     align-items: center;

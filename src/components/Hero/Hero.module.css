@@ -346,3 +346,56 @@
 .hero3dText .heroCta {
   pointer-events: auto;
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: 100svh;
+  }
+
+  .orbitContainer {
+    margin-top: -40px;
+    transform: scale(0.6);
+  }
+
+  .heroSubOuter {
+    bottom: calc(3% + 60px);
+    max-width: 300px;
+    padding: 0 20px;
+  }
+
+  .heroSub {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .heroCta {
+    font-size: 11px;
+    padding: 12px 24px;
+  }
+
+  .heroPill {
+    font-size: 8px;
+    padding: 5px 12px;
+    margin-bottom: 20px;
+  }
+
+  .hero3dText {
+    left: -180px;
+    top: -100px;
+    width: 360px;
+  }
+
+  .hero3dText::before {
+    width: 120%;
+    height: 140%;
+  }
+
+  .threadsLayer {
+    display: none;
+  }
+
+  .gooeyPill {
+    display: none;
+  }
+}

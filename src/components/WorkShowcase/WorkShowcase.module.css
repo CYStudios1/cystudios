@@ -70,3 +70,32 @@
   object-fit: cover;
   display: block;
 }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 20px 0;
+  }
+
+  .headline {
+    font-size: 28px;
+  }
+
+  .subtext {
+    font-size: 14px;
+  }
+
+  .scrollArea {
+    height: 400px;
+  }
+
+  .track {
+    gap: 20px;
+  }
+
+  .card {
+    width: 280px;
+    height: 180px;
+    transform: rotateY(-8deg);
+  }
+}

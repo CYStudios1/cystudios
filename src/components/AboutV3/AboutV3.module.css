@@ -186,27 +186,48 @@
 /* Mobile */
 @media (max-width: 768px) {
   .about {
-    padding: 60px 20px;
+    padding: 60px 16px;
   }
   .headline {
-    font-size: 28px;
+    font-size: 24px;
   }
   .content {
     flex-direction: column;
     align-items: flex-start;
+    gap: 32px;
   }
   .coin {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
   }
   .photo {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
   }
   .photoWrap:nth-child(2) {
-    margin-left: -40px;
+    margin-left: -30px;
   }
   .names {
-    gap: 40px;
+    gap: 60px;
+    padding-left: 30px;
+  }
+  .nameBlock {
+    width: 140px;
+  }
+  .nameBlock:nth-child(2) {
+    margin-left: -30px;
+  }
+  .name {
+    font-size: 15px;
+  }
+  .role {
+    font-size: 9px;
+  }
+  .body {
+    font-size: 14px;
+  }
+  .quoteCard {
+    padding: 24px;
+    font-size: 11px;
   }
 }

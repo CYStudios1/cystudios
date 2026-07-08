@@ -1,0 +1,700 @@
+/* ── PlanBuilder ── */
+
+.section {
+  width: 100%;
+  padding: 100px 40px 80px;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.headline {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 12px;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* ── Two-column layout ── */
+.layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.configurator {
+  flex: 1;
+  min-width: 0;
+}
+
+.summary {
+  width: 360px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+/* ── Module block ── */
+.moduleBlock {
+  margin-bottom: 48px;
+}
+
+.moduleHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.moduleTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.chip {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(210, 86, 86, 0.08);
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.groupLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+  margin-top: 24px;
+}
+
+.requiredLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-left: 8px;
+}
+
+/* ── Scope cards ── */
+.scopeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.scopeCard {
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-card);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.scopeCard:hover {
+  border-color: rgba(210, 86, 86, 0.3);
+}
+
+.scopeCardSelected {
+  border: 2px solid var(--accent-secondary, var(--accent));
+  background: var(--accent-secondary, var(--accent));
+}
+
+.scopeCardSelected .scopeCardTitle {
+  color: #fff;
+}
+
+.scopeCardSelected .scopeCardSub {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.scopeCardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.scopeCardSub {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+/* ── Radio / Checkbox cards ── */
+.cardGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.cardGrid2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cardGrid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-card);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  border-color: rgba(210, 86, 86, 0.3);
+}
+
+.cardSelected {
+  border: 2px solid var(--accent);
+  background: rgba(210, 86, 86, 0.03);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cardName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cardPrice {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.cardPricePeriod {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.cardDesc {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.popularBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  padding: 3px 8px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+/* ── Toggle for features ── */
+.toggleBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Raleway', sans-serif;
+  transition: opacity 0.2s ease;
+}
+
+.toggleBtn:hover {
+  opacity: 0.7;
+}
+
+.toggleArrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 10px;
+}
+
+.toggleArrowOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Feature list ── */
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureList li {
+  font-size: 13px;
+  color: var(--ink-muted);
+  padding: 4px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.featureList li::before {
+  content: '✓';
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.featureLead {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+
+/* ── Indicator (radio / check) ── */
+.indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+}
+
+.indicatorCheck {
+  border-radius: 4px;
+}
+
+.indicatorActive {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.indicatorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.indicatorTick {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ── Info note ── */
+.infoNote {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(210, 86, 86, 0.04);
+  border: 1px solid rgba(210, 86, 86, 0.08);
+}
+
+.infoNoteBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.infoNoteBtn:hover {
+  color: var(--accent);
+}
+
+.infoNoteText {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* ── Setup line ── */
+.setupLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-card);
+  background: var(--bg);
+  margin-bottom: 16px;
+}
+
+.setupLineLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.setupLinePrice {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--ink-muted);
+  font-weight: 400;
+  margin-right: 8px;
+}
+
+.waived {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── Add-ons ── */
+.addonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.addonCard {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-card);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.addonCard:hover {
+  border-color: rgba(210, 86, 86, 0.3);
+}
+
+.addonCardSelected {
+  border: 2px solid var(--accent);
+  background: rgba(210, 86, 86, 0.03);
+}
+
+.addonInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.addonName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.addonPrice {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+/* ── Summary card ── */
+.summaryCard {
+  background: var(--bg);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 28px 24px;
+}
+
+.summaryTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.summaryItems {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.summaryItem:last-child {
+  border-bottom: none;
+}
+
+.summaryItemName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.summaryItemSub {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 1px;
+}
+
+.summaryItemPrice {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.summaryItemWaived {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.summaryPrompt {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.bundleCallout {
+  background: rgba(210, 86, 86, 0.06);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+.bundleCalloutText {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.summaryDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.summaryTotals {
+  margin-bottom: 20px;
+}
+
+.summaryTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+}
+
+.summaryTotalLabel {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.summaryTotalValue {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.summaryDueRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.summaryDueLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.summaryDueValue {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.summaryDueSub {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.ctaBtn {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(145deg, #E07070, #D96363, #D25656, #B84848, #A33F3F);
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-top: 20px;
+}
+
+.ctaBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.ctaBtnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ctaBtnDisabled:hover {
+  opacity: 0.5;
+  transform: none;
+}
+
+.footnote {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 980px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .summary {
+    width: 100%;
+    position: static;
+  }
+
+  .scopeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardGrid2,
+  .cardGrid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .addonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 60px 20px 60px;
+  }
+
+  .headline {
+    font-size: 24px;
+  }
+
+  .sub {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 16px 40px;
+  }
+
+  .headline {
+    font-size: 22px;
+  }
+
+  .moduleTitle {
+    font-size: 16px;
+  }
+
+  .cardName {
+    font-size: 14px;
+  }
+
+  .cardPrice {
+    font-size: 16px;
+  }
+
+  .cardDesc {
+    font-size: 12px;
+  }
+
+  .summaryBox {
+    padding: 20px;
+  }
+
+  .summaryTitle {
+    font-size: 16px;
+  }
+}
