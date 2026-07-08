@@ -60,9 +60,8 @@ export function Footer() {
         <motion.div variants={colItem}>
           <div className={styles.colTitle}>{t('Navigate')}</div>
           <div className={styles.colLinks}>
-            <a href="#services" className={styles.colLink}>{t('Services')}</a>
-            <a href="#about" className={styles.colLink}>{t('About')}</a>
-            <a href="#cohorts" className={styles.colLink}>{t('Cohorts')}</a>
+            <a href="#about-v3" className={styles.colLink}>{t('About')}</a>
+            <a href="#works" className={styles.colLink}>{t('Works')}</a>
             <a href="#pricing" className={styles.colLink}>{t('Pricing')}</a>
             <a href="#faq" className={styles.colLink}>{t('FAQ')}</a>
           </div>
@@ -72,8 +71,6 @@ export function Footer() {
           <div className={styles.colLinks}>
             <a href="#" className={styles.colLink}>{t('Website Design')}</a>
             <a href="#" className={styles.colLink}>{t('Social Media')}</a>
-            <a href="#" className={styles.colLink}>{t('SEO')}</a>
-            <a href="#" className={styles.colLink}>{t('GenAI Marketing')}</a>
           </div>
         </motion.div>
         <motion.div variants={colItem}>
