@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './FAQ.module.css';
 import { SectionLabel } from '../shared/SectionLabel';
 import { useTranslation } from '../shared/useTranslation';
@@ -90,9 +90,19 @@ export function FAQ() {
                 <div className={styles.qText}>{t(item.q)}</div>
                 <div className={styles.toggle}>+</div>
               </div>
-              <div className={styles.answer}>
-                <div className={styles.aText}>{t(item.a)}</div>
-              </div>
+              <AnimatePresence initial={false}>
+                {openIndex === i && (
+                  <motion.div
+                    className={styles.answer}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    <div className={styles.aText}>{t(item.a)}</div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </motion.div>

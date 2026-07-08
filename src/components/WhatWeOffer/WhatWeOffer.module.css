@@ -1,0 +1,426 @@
+/* ── WhatWeOffer ── */
+
+.section {
+  padding: 120px 24px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.header h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.header p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ── Cards Grid ── */
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* ── Card Wrapper ── */
+
+.cardWrapper {
+  position: relative;
+}
+
+/* ── Shine Border (Bundle card) ── */
+
+.bundleGlow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    conic-gradient(
+      from var(--shine-angle, 0deg),
+      transparent 0%,
+      #A8D5BA 8%,
+      #E8D8A0 16%,
+      #C4C4C4 24%,
+      transparent 32%,
+      transparent 100%
+    ),
+    conic-gradient(
+      from calc(var(--shine-angle, 0deg) + 180deg),
+      transparent 0%,
+      #C4C4C4 8%,
+      #A8D5BA 16%,
+      #E8D8A0 24%,
+      transparent 32%,
+      transparent 100%
+    );
+  animation: shineRotate 6s linear infinite;
+  /* Mask: only the 2px border ring is visible */
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  padding: 2px;
+}
+
+/* Hide the extra div from JSX — beam not needed */
+.bundleBeam {
+  display: none;
+}
+
+@property --shine-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes shineRotate {
+  0%   { --shine-angle: 0deg; }
+  100% { --shine-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bundleGlow {
+    animation: none;
+    background: rgba(35, 35, 35, 0.15);
+  }
+}
+
+/* ── Standard Card ── */
+
+.card {
+  border: 1.5px dashed var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(26, 16, 8, 0.06), 0 1px 4px rgba(26, 16, 8, 0.04);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(26, 16, 8, 0.1), 0 2px 8px rgba(26, 16, 8, 0.06);
+}
+
+/* Title row: label + price inline */
+.cardHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 0 20px;
+}
+
+.cardTitle {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.cardPrice {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.cardPricePrefix {
+  font-weight: 400;
+}
+
+.cardDesc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin: 0 0 20px;
+}
+
+.checkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.checkMark {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 20px 0 14px;
+}
+
+.cardNote {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+.cardLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: 16px;
+  transition: opacity 0.2s ease;
+}
+
+.cardLink:hover {
+  opacity: 0.7;
+}
+
+/* ── Bundle Card (accent tint) ── */
+
+.bundleWrapper {
+  position: relative;
+}
+
+.bundleCard {
+  border-radius: 16px;
+  padding: 32px;
+  background: rgba(210, 86, 86, 0.08);
+  border: 1.5px dashed var(--accent);
+  transition: border-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.bundleWrapper:hover .bundleCard {
+  border-color: transparent;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.bestValue {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  z-index: 3;
+}
+
+.bundleTitle {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+.bundleHeading {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.bundleDesc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin: 0 0 24px;
+}
+
+.bundleCheckList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bundleCheckItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.bundleCheckMark {
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bundleCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.bundleCta:hover {
+  opacity: 0.9;
+}
+
+/* ── À la carte bar ── */
+
+.alaCarte {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 32px;
+  background: #fff;
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+}
+
+.alaCarteLeft {
+  flex-shrink: 0;
+}
+
+.alaCarteTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 2px;
+}
+
+.alaCarteSub {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.alaCartePills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.pill {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  white-space: nowrap;
+  background: var(--bg);
+}
+
+.alaCarteLink {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.alaCarteLink:hover {
+  opacity: 0.7;
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 16px 48px;
+  }
+
+  .header h2 {
+    font-size: 28px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .alaCarte {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .alaCartePills {
+    justify-content: flex-start;
+  }
+}
+
+/* ── Tablet ── */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+  }
+}
+

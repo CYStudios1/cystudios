@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CY Studios — Hero Orbit Experiment</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; -webkit-font-smoothing: antialiased; background: #F2E4D8; overflow: hidden; }
+
+  /* ── Vignette ── */
+  .vignette {
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(220,150,130,0.03) 70%, rgba(200,110,100,0.07) 85%, rgba(180,90,80,0.13) 100%);
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 64px; height: 64px; background: transparent;
+    border-bottom: 1px solid rgba(26,16,8,0.08);
+  }
+  .nav-logo { font-size: 16px; font-weight: 800; color: #1a1008; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 36px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4e44; text-decoration: none; }
+  .btn { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 22px; border-radius: 50px; border: none; color: #fff; cursor: pointer; background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%); }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    perspective: 900px;
+  }
+
+  /* ── Arc Background — centered, subtle, behind panels ── */
+  .bg-layer {
+    position: absolute; top: 0; left: 0; right: 0; height: 100vh;
+    z-index: 0; pointer-events: none;
+    perspective: 1100px; perspective-origin: 50% 50%;
+    opacity: 0.35;
+  }
+  .arcs-svg {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%; height: 120%;
+    transform-origin: center center;
+    animation: planeBreath 10s ease-in-out infinite;
+  }
+  .mark {
+    position: absolute; border-radius: 50%; background: #b83228;
+    animation: mpulse 4s ease-in-out infinite;
+  }
+  @keyframes mpulse { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.45;transform:scale(1.4)} }
+  .crosshair { animation: crossFade 9s ease-in-out infinite; }
+  @keyframes crossFade { 0%,100%{opacity:0.18} 50%{opacity:0.35} }
+  @keyframes planeBreath { 0%, 100% { transform: rotateX(0deg) translateY(0px); } 50% { transform: rotateX(5deg) translateY(-8px); } }
+  .ring { transform-box: view-box; transform-origin: 300px 350px; animation: ringWave ease-in-out infinite; }
+  @keyframes ringWave { 0%, 100% { transform: scale(1); opacity: var(--op); } 50% { transform: scale(1.022); opacity: calc(var(--op) * 1.7); } }
+  .ring-red { transform-box: view-box; transform-origin: 300px 350px; animation: ringRedWave ease-in-out infinite; }
+  @keyframes ringRedWave { 0%, 100% { transform: scale(1); opacity: 0.06; } 50% { transform: scale(1.015); opacity: 0.13; } }
+
+  /* ── Text inside the cylinder (pill + headline + CTA) ── */
+  /* Counter-rotate to cancel the parent orbit-sphere rotation */
+  .hero-3d-text {
+    position: absolute;
+    left: -300px;
+    top: -140px;
+    width: 600px;
+    text-align: center;
+    pointer-events: none;
+    transform: translateZ(0px);
+    /* Counter-rotation handled by JS to stay in sync with drag */
+  }
+
+  .hero-3d-text .hero-cta {
+    pointer-events: auto;
+  }
+
+  /* ── Subheader outside cylinder (always visible) ── */
+  .hero-sub-outer {
+    position: absolute;
+    z-index: 20;
+    bottom: calc(5% + 35px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: 420px;
+  }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #b83228; background: rgba(184,50,40,0.1); border: 1px solid rgba(184,50,40,0.2);
+    padding: 6px 16px; border-radius: 99px; margin-bottom: 28px;
+  }
+  .pill-dot { width: 6px; height: 6px; background: #b83228; border-radius: 50%; animation: pdot 2s infinite; }
+  @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero-headline {
+    font-size: clamp(36px, 4.5vw, 64px); font-weight: 800; line-height: 1.05;
+    color: #1a1008; margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: 15px; font-weight: 300; color: #5a4e44; line-height: 1.85;
+    max-width: 420px; margin: 0 auto 32px;
+  }
+  /* ── Gooey CTA with "It's Free" pill ── */
+  .gooey-wrap {
+    filter: url(#gooey);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .hero-cta {
+    font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 30px;
+    border-radius: 50px; border: none; color: #fff; cursor: pointer;
+    background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+  }
+
+  /* The "It's Free" pill — pure CSS transitions, one fluid motion */
+  .gooey-pill {
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, #d44a38 0%, #c43a2e 25%, #b83228 50%, #9e2820 80%, #8a221a 100%);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-radius: 50%;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+    /* Unhover: smooth collapse */
+    transition:
+      width 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+      top 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+      padding 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      border-radius 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gooey-pill span {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Hover: everything happens at once — top moves up while width/height expand */
+  .gooey-wrap:hover .gooey-pill {
+    width: 105px;
+    height: 32px;
+    top: -44px;
+    border-radius: 50px;
+    padding: 0 18px;
+    /* Top moves fast (ball rises quickly), width/height morph slightly slower (stretches into pill) */
+    transition:
+      top 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+      height 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+      padding 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.18s,
+      border-radius 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  }
+
+  .gooey-wrap:hover .gooey-pill span {
+    opacity: 1;
+    transition: opacity 0.2s ease 0.35s;
+  }
+
+  /* ── 3D Orbit — tight circle, all same height, curved screens ── */
+  .orbit-container {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    pointer-events: none;
+  }
+
+  .orbit-sphere {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    transform-style: preserve-3d;
+    animation: sphereSpin 24s linear infinite;
+    cursor: grab;
+  }
+
+
+  @keyframes sphereSpin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  /*
+    Each "screen" is made of multiple vertical slices to create a curved surface.
+    Like a cylinder — each slice is a narrow strip rotated slightly.
+  */
+  .orbit-screen {
+    position: absolute;
+    width: 0;
+    height: 320px;
+    left: 0;
+    top: -160px;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+  }
+
+  /* Each screen = 8 vertical slices forming a curved panel */
+  .screen-slice {
+    position: absolute;
+    width: 68px;
+    height: 100%;
+    top: 0;
+    background: linear-gradient(180deg, #EDD9C8, #F2E4D8);
+    border: 0.5px solid rgba(26,16,8,0.06);
+    transform-style: preserve-3d;
+  }
+
+  /* 8 slices × ~11.25 degrees each = 90 degrees total per screen */
+  /* Radius 260px, each slice rotated and translated to form the curve */
+
+  /* Screen 1: starts at 0deg */
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(1) { transform: rotateY(0deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(2) { transform: rotateY(7.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(3) { transform: rotateY(15deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(4) { transform: rotateY(22.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(5) { transform: rotateY(30deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(6) { transform: rotateY(37.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(7) { transform: rotateY(45deg) translateZ(380px); }
+  .orbit-screen:nth-child(1) .screen-slice:nth-child(8) { transform: rotateY(52.5deg) translateZ(380px); }
+
+  /* Screen 2: starts at 90deg */
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(1) { transform: rotateY(90deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(2) { transform: rotateY(97.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(3) { transform: rotateY(105deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(4) { transform: rotateY(112.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(5) { transform: rotateY(120deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(6) { transform: rotateY(127.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(7) { transform: rotateY(135deg) translateZ(380px); }
+  .orbit-screen:nth-child(2) .screen-slice:nth-child(8) { transform: rotateY(142.5deg) translateZ(380px); }
+
+  /* Screen 3: starts at 180deg */
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(1) { transform: rotateY(180deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(2) { transform: rotateY(187.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(3) { transform: rotateY(195deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(4) { transform: rotateY(202.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(5) { transform: rotateY(210deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(6) { transform: rotateY(217.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(7) { transform: rotateY(225deg) translateZ(380px); }
+  .orbit-screen:nth-child(3) .screen-slice:nth-child(8) { transform: rotateY(232.5deg) translateZ(380px); }
+
+  /* Screen 4: starts at 270deg */
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(1) { transform: rotateY(270deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(2) { transform: rotateY(277.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(3) { transform: rotateY(285deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(4) { transform: rotateY(292.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(5) { transform: rotateY(300deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(6) { transform: rotateY(307.5deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(7) { transform: rotateY(315deg) translateZ(380px); }
+  .orbit-screen:nth-child(4) .screen-slice:nth-child(8) { transform: rotateY(322.5deg) translateZ(380px); }
+
+  /* Small gap between each screen group (~25px worth at 60deg span + gaps) */
+
+  /* Screen label overlay — centered on the curved panel */
+  .screen-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(26.25deg) translateZ(262px);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .screen-label .label { font-size: 8px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #B83228; margin-bottom: 4px; }
+  .screen-label .title { font-size: 14px; font-weight: 700; color: #1a1008; }
+
+  /* ── Screen content placeholders ── */
+  .screen-placeholder {
+    text-align: center;
+  }
+  .screen-placeholder .label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #B83228;
+    margin-bottom: 4px;
+  }
+  .screen-placeholder .title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1008;
+  }
+</style>
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<nav class="nav">
+  <div class="nav-logo">CY Studios</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#">Services</a><a href="#">About</a><a href="#">Cohorts</a><a href="#">Pricing</a><a href="#">FAQ</a>
+    </div>
+    <button class="btn">Book a Consultation</button>
+  </div>
+</nav>
+
+<!-- Arc Background -->
+<div class="bg-layer">
+  <svg class="arcs-svg" viewBox="0 0 600 700" fill="none" preserveAspectRatio="xMaxYMid meet">
+    <circle class="ring" cx="300" cy="350" r="80" stroke="#1a1008" stroke-width="1" style="--op:0.07;animation-duration:4.5s;animation-delay:0s;"/>
+    <circle class="ring" cx="300" cy="350" r="140" stroke="#1a1008" stroke-width="1" style="--op:0.065;animation-duration:4.8s;animation-delay:-0.35s;"/>
+    <circle class="ring" cx="300" cy="350" r="200" stroke="#1a1008" stroke-width="1" style="--op:0.06;animation-duration:5.1s;animation-delay:-0.7s;"/>
+    <circle class="ring" cx="300" cy="350" r="265" stroke="#1a1008" stroke-width="1" style="--op:0.055;animation-duration:5.4s;animation-delay:-1.05s;"/>
+    <circle class="ring" cx="300" cy="350" r="335" stroke="#1a1008" stroke-width="1" style="--op:0.05;animation-duration:5.7s;animation-delay:-1.4s;"/>
+    <circle class="ring" cx="300" cy="350" r="410" stroke="#1a1008" stroke-width="1" style="--op:0.045;animation-duration:6.0s;animation-delay:-1.75s;"/>
+    <circle class="ring" cx="300" cy="350" r="490" stroke="#1a1008" stroke-width="1" style="--op:0.04;animation-duration:6.3s;animation-delay:-2.1s;"/>
+    <circle class="ring-red" cx="300" cy="350" r="575" stroke="#b83228" stroke-width="0.75" style="animation-duration:7s;animation-delay:-2.8s;"/>
+    <line class="crosshair" x1="280" y1="350" x2="320" y2="350" stroke="#b83228" stroke-width="0.75"/>
+    <line class="crosshair" x1="300" y1="330" x2="300" y2="372" stroke="#b83228" stroke-width="0.75" style="animation-delay:-1.5s;"/>
+    <circle cx="300" cy="350" r="4" fill="#b83228" opacity="0.2"/>
+  </svg>
+  <div class="mark" style="width:5px;height:5px;top:28%;left:68%;animation-delay:0s"></div>
+  <div class="mark" style="width:4px;height:4px;top:62%;left:82%;animation-delay:1.2s"></div>
+  <div class="mark" style="width:6px;height:6px;top:44%;left:74%;animation-delay:2.4s"></div>
+</div>
+
+<div class="hero">
+  <!-- Orbiting screens + headline in 3D scene -->
+  <div class="orbit-container">
+    <div class="orbit-sphere">
+      <div class="orbit-screen">
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+      </div>
+      <div class="orbit-screen">
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+      </div>
+      <div class="orbit-screen">
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+      </div>
+      <div class="orbit-screen">
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+        <div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div><div class="screen-slice"></div>
+      </div>
+      <!-- Text at center of cylinder — counter-rotates to stay static -->
+      <div class="hero-3d-text">
+        <div class="hero-pill"><span class="pill-dot"></span>Now Booking — Summer Cohort</div>
+        <h1 class="hero-headline">Your brand,<br>built with<br>intention.</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subheader — always visible, outside the cylinder -->
+  <div class="hero-sub-outer">
+    <div class="gooey-wrap" style="margin-bottom: 28px;">
+      <button class="hero-cta">Book a Consultation</button>
+      <div class="gooey-pill"><span>It's Free</span></div>
+    </div>
+    <p class="hero-sub">CY Studios is a boutique creative agency taking clients in cohorts — so every brand gets the attention it deserves.</p>
+  </div>
+</div>
+
+<!-- SVG Gooey filter — blur + contrast makes shapes merge like liquid -->
+<svg style="position:absolute;width:0;height:0;">
+  <defs>
+    <filter id="gooey">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        0 0 0 15 -7
+      " result="gooey" />
+      <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+    </filter>
+  </defs>
+</svg>
+
+<script>
+  // Draggable orbit — grab and spin with mouse/trackpad
+  const sphere = document.querySelector('.orbit-sphere');
+  const text3d = document.querySelector('.hero-3d-text');
+  let isDragging = false;
+  let startX = 0;
+  let currentRotation = 0;
+  let autoRotation = 0;
+  let animationId = null;
+  let lastTime = performance.now();
+  const speed = 360 / 24; // degrees per second (matches 24s CSS animation)
+
+  // Stop CSS animation — we'll control rotation via JS
+  sphere.style.animation = 'none';
+
+  function updateRotation(totalDeg) {
+    sphere.style.transform = `rotateY(${totalDeg}deg)`;
+    // Counter-rotate the text so it stays static
+    text3d.style.transform = `translateZ(0px) rotateY(${-totalDeg}deg)`;
+  }
+
+  function autoRotate(time) {
+    if (!isDragging) {
+      const delta = (time - lastTime) / 1000;
+      autoRotation += speed * delta;
+      updateRotation(autoRotation + currentRotation);
+    }
+    lastTime = time;
+    animationId = requestAnimationFrame(autoRotate);
+  }
+  animationId = requestAnimationFrame(autoRotate);
+
+  // Mouse drag
+  document.addEventListener('mousedown', (e) => {
+    // Don't drag if clicking on gooey button
+    if (e.target.closest('.gooey-wrap')) return;
+    isDragging = true;
+    startX = e.clientX;
+    document.body.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.clientX - startX;
+    currentRotation = deltaX * 0.5;
+    updateRotation(autoRotation + currentRotation);
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    autoRotation += currentRotation;
+    currentRotation = 0;
+    document.body.style.cursor = '';
+    lastTime = performance.now();
+  });
+</script>
+
+</body>
+</html>

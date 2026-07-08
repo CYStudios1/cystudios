@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vignette Color Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: #F2E4D8; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 100vh; }
+
+  .option {
+    position: relative;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .option-content {
+    text-align: center;
+    z-index: 1;
+  }
+
+  .option-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B83228;
+    margin-bottom: 12px;
+  }
+
+  .option-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1A1008;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .option-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: #5A4E44;
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* A: Warm amber/golden */
+  .vig-a {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 45%,
+      rgba(180, 130, 50, 0.08) 65%,
+      rgba(160, 110, 30, 0.18) 85%,
+      rgba(140, 90, 20, 0.28) 100%
+    );
+  }
+
+  /* B: Soft red/accent */
+  .vig-b {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 45%,
+      rgba(184, 50, 40, 0.05) 65%,
+      rgba(184, 50, 40, 0.12) 85%,
+      rgba(150, 30, 25, 0.22) 100%
+    );
+  }
+
+  /* C: Peachy pink */
+  .vig-c {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 45%,
+      rgba(220, 140, 120, 0.06) 65%,
+      rgba(200, 110, 100, 0.14) 85%,
+      rgba(180, 90, 80, 0.24) 100%
+    );
+  }
+
+  /* D: Lavender/cool */
+  .vig-d {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 45%,
+      rgba(120, 100, 160, 0.06) 65%,
+      rgba(100, 80, 140, 0.14) 85%,
+      rgba(80, 60, 120, 0.24) 100%
+    );
+  }
+
+  .divider-v { position: absolute; right: 0; top: 10%; bottom: 10%; width: 1px; background: rgba(26,16,8,0.1); z-index: 10; }
+  .divider-h { position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px; background: rgba(26,16,8,0.1); z-index: 10; }
+</style>
+</head>
+<body>
+
+<div class="grid">
+  <!-- A: Warm amber -->
+  <div class="option">
+    <div class="option-content">
+      <div class="option-label">A</div>
+      <div class="option-title">Warm Amber</div>
+      <div class="option-desc">Golden sunlight framing the page</div>
+    </div>
+    <div class="vignette vig-a"></div>
+    <div class="divider-v"></div>
+    <div class="divider-h"></div>
+  </div>
+
+  <!-- B: Soft red -->
+  <div class="option">
+    <div class="option-content">
+      <div class="option-label">B</div>
+      <div class="option-title">Soft Red</div>
+      <div class="option-desc">Accent color glow on the edges</div>
+    </div>
+    <div class="vignette vig-b"></div>
+    <div class="divider-h"></div>
+  </div>
+
+  <!-- C: Peachy pink -->
+  <div class="option">
+    <div class="option-content">
+      <div class="option-label">C</div>
+      <div class="option-title">Peachy Pink</div>
+      <div class="option-desc">Soft, warm, editorial feel</div>
+    </div>
+    <div class="vignette vig-c"></div>
+    <div class="divider-v"></div>
+  </div>
+
+  <!-- D: Lavender -->
+  <div class="option">
+    <div class="option-content">
+      <div class="option-label">D</div>
+      <div class="option-title">Lavender</div>
+      <div class="option-desc">Cool contrast against warm terracotta</div>
+    </div>
+    <div class="vignette vig-d"></div>
+  </div>
+</div>
+
+</body>
+</html>

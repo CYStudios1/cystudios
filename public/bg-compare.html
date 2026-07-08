@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BG Color Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Raleway', sans-serif; }
+
+  .label-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    background: #1A1008;
+  }
+  .label-bar span {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .label-bar span:last-child { border-right: none; }
+  .label-bar .current { color: #B83228; }
+
+  .row {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .panel {
+    flex: 1;
+    padding: 80px 48px;
+    border-right: 1px solid rgba(26,16,8,0.06);
+  }
+  .panel:last-child { border-right: none; }
+
+  /* Current */
+  .panel.a { background: #F5F5F5; }
+  /* Option B: warm ivory */
+  .panel.b { background: #F7F4EF; }
+  /* Option C: soft warm white */
+  .panel.c { background: #FDFBF8; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B83228;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1A1008;
+    line-height: 1.12;
+    margin-bottom: 14px;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 300;
+    color: #5A4E44;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .card {
+    border-radius: 14px;
+    padding: 32px 24px;
+    border: 1px solid rgba(26,16,8,0.06);
+    margin-bottom: 16px;
+  }
+  .panel.a .card { background: #EDEDEC; }
+  .panel.b .card { background: #F0EBE3; }
+  .panel.c .card { background: #F5F2ED; }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1008;
+    margin-bottom: 8px;
+  }
+  .card-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: #5A4E44;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 50px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(145deg, #d44a38, #b83228);
+    margin-top: 24px;
+    cursor: pointer;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(26,16,8,0.08);
+    margin: 40px 0;
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(26,16,8,0.1);
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+  .hex {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A1008;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div class="label-bar">
+  <span class="current">Current: #F5F5F5</span>
+  <span>Option B: #F7F4EF</span>
+  <span>Option C: #FDFBF8</span>
+</div>
+
+<div class="row">
+  <!-- Current -->
+  <div class="panel a">
+    <div style="margin-bottom: 32px;">
+      <div class="swatch" style="background:#F5F5F5;"></div>
+      <span class="hex">#F5F5F5 — Neutral Grey</span>
+    </div>
+    <div class="section-label">Who We Are</div>
+    <h2>Two designers who got tired of the agency grind.</h2>
+    <p>We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients.</p>
+    <div class="divider"></div>
+    <div class="section-label">Our Work</div>
+    <h2>Built with intention.</h2>
+    <p>A look at the brands we've brought to life.</p>
+    <div class="card">
+      <div class="card-title">Spring Cohort</div>
+      <div class="card-text">Three brands, fully locked in. No distractions, no queues.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Summer Cohort</div>
+      <div class="card-text">Now booking — limited to three clients.</div>
+    </div>
+    <button class="btn">Book a Consultation</button>
+  </div>
+
+  <!-- Option B -->
+  <div class="panel b">
+    <div style="margin-bottom: 32px;">
+      <div class="swatch" style="background:#F7F4EF;"></div>
+      <span class="hex">#F7F4EF — Warm Ivory</span>
+    </div>
+    <div class="section-label">Who We Are</div>
+    <h2>Two designers who got tired of the agency grind.</h2>
+    <p>We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients.</p>
+    <div class="divider"></div>
+    <div class="section-label">Our Work</div>
+    <h2>Built with intention.</h2>
+    <p>A look at the brands we've brought to life.</p>
+    <div class="card">
+      <div class="card-title">Spring Cohort</div>
+      <div class="card-text">Three brands, fully locked in. No distractions, no queues.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Summer Cohort</div>
+      <div class="card-text">Now booking — limited to three clients.</div>
+    </div>
+    <button class="btn">Book a Consultation</button>
+  </div>
+
+  <!-- Option C -->
+  <div class="panel c">
+    <div style="margin-bottom: 32px;">
+      <div class="swatch" style="background:#FDFBF8;"></div>
+      <span class="hex">#FDFBF8 — Soft Warm White</span>
+    </div>
+    <div class="section-label">Who We Are</div>
+    <h2>Two designers who got tired of the agency grind.</h2>
+    <p>We started CY Studios because we saw the same story play out — talented brands stuck in a queue of 40+ clients.</p>
+    <div class="divider"></div>
+    <div class="section-label">Our Work</div>
+    <h2>Built with intention.</h2>
+    <p>A look at the brands we've brought to life.</p>
+    <div class="card">
+      <div class="card-title">Spring Cohort</div>
+      <div class="card-text">Three brands, fully locked in. No distractions, no queues.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Summer Cohort</div>
+      <div class="card-text">Now booking — limited to three clients.</div>
+    </div>
+    <button class="btn">Book a Consultation</button>
+  </div>
+</div>
+
+</body>
+</html>

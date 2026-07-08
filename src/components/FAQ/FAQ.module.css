@@ -87,7 +87,7 @@
   font-size: 18px;
   font-weight: 300;
   color: var(--ink-muted);
-  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  transition: border-color 0.4s ease, color 0.4s ease, transform 0.4s ease;
 }
 
 .item:hover .toggle {
@@ -103,15 +103,7 @@
 
 /* Answer */
 .answer {
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), padding 0.4s ease;
-  padding: 0;
-}
-
-.itemOpen .answer {
-  max-height: 200px;
-  padding: 0 0 24px 0;
 }
 
 .aText {
@@ -119,6 +111,7 @@
   font-weight: 300;
   color: var(--ink-muted);
   line-height: 1.8;
+  padding-bottom: 24px;
 }
 
 /* ── Mobile ── */

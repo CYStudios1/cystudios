@@ -22,6 +22,8 @@ export function AboutV3() {
   // Rings move at a different rate than the photos — subtle parallax
   const ring1Y = useTransform(scrollYProgress, [0, 1], [8, -8]);
   const ring2Y = useTransform(scrollYProgress, [0, 1], [6, -10]);
+  // Photos + names parallax (same as pricing cards)
+  const photosY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
     <motion.section
@@ -50,7 +52,7 @@ export function AboutV3() {
           </p>
         </motion.div>
 
-        <motion.div className={s.left} {...fadeIn} viewport={{ once: true }} transition={{ ...fadeIn.transition, delay: 0.15 }}>
+        <motion.div className={s.left} {...fadeIn} viewport={{ once: true }} transition={{ ...fadeIn.transition, delay: 0.15 }} style={{ y: photosY }}>
           <div className={s.photos}>
             <div className={s.photoWrap}>
               <motion.div className={s.ring} style={{ y: ring1Y }} />

@@ -1,69 +1,114 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { SmoothScroll } from './components/shared/SmoothScroll';
 import { Vignette } from './components/shared/Vignette';
-import { LoadingScreen } from './components/LoadingScreen/LoadingScreen';
-import { Nav } from './components/Nav/Nav';
-import { Hero } from './components/Hero/Hero';
-import { LogoTicker } from './components/LogoTicker/LogoTicker';
-import { AboutV3 } from './components/AboutV3/AboutV3';
-import { WorkShowcase } from './components/WorkShowcase/WorkShowcase';
-import { Pricing } from './components/Pricing/Pricing';
-import { FAQ } from './components/FAQ/FAQ';
-import { Footer } from './components/Footer/Footer';
+import Home from './pages/Home';
+import PricingPage from './pages/PricingPage';
+import './page-transition.css';
 
-function App() {
-  const [loading, setLoading] = useState(true);
-  const [heroReady, setHeroReady] = useState(false);
-  // Called when loading screen text has reached hero position — make hero headline visible
-  const handleTextPositioned = useCallback(() => {
-    setHeroReady(true);
-  }, []);
-  // Called when loading screen is fully done (background faded) — unmount it
-  const handleLoadingComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+// Context-free navigation with gooey transition
+let triggerTransition: ((to: string) => void) | null = null;
 
-  // Keep scroll locked until hero animations complete
+export function navigateWithTransition(to: string) {
+  if (triggerTransition) triggerTransition(to);
+}
+
+function PageTransition() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [phase, setPhase] = useState<'idle' | 'cover' | 'reveal'>('idle');
+  const pendingPath = useRef<string | null>(null);
+  const isFirstRender = useRef(true);
+
+  // Skip transition on first render (loading screen handles that)
   useEffect(() => {
-    if (!heroReady) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Unlock scroll after hero elements have animated in
-      const timer = setTimeout(() => {
-        document.body.style.overflow = '';
-      }, 2000); // wait for loading fade + panels + CTA to finish animating
-      return () => clearTimeout(timer);
-    }
-  }, [heroReady]);
+    isFirstRender.current = false;
+  }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: wrapperRef,
-    offset: ['start start', '30% start'],
-  });
-  const tickerY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location.pathname]);
+
+  const startTransition = useCallback((to: string) => {
+    if (to === location.pathname || phase !== 'idle') return;
+    pendingPath.current = to;
+    setPhase('cover');
+  }, [location.pathname, phase]);
+
+  // Register the global trigger
+  useEffect(() => {
+    triggerTransition = startTransition;
+    return () => { triggerTransition = null; };
+  }, [startTransition]);
+
+  // When cover animation ends, swap the page
+  const handleCoverEnd = useCallback(() => {
+    if (phase === 'cover' && pendingPath.current) {
+      navigate(pendingPath.current);
+      pendingPath.current = null;
+      // Small delay for the page to render before revealing
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setPhase('reveal');
+        });
+      });
+    }
+  }, [phase, navigate]);
+
+  // When reveal animation ends, go back to idle
+  const handleRevealEnd = useCallback(() => {
+    if (phase === 'reveal') {
+      setPhase('idle');
+    }
+  }, [phase]);
+
+  if (phase === 'idle') return null;
 
   return (
-    <LanguageProvider>
-      <SmoothScroll />
-      <Vignette />
-      {loading && <LoadingScreen onTextPositioned={handleTextPositioned} onComplete={handleLoadingComplete} />}
-      <div ref={wrapperRef} className="page-wrapper" style={{ position: 'relative', overflowX: 'clip' as const, background: 'var(--bg)' }}>
-        {/* ArcBackground removed */}
-        <Nav introComplete={heroReady} />
-        <Hero introComplete={heroReady} />
-        <motion.div style={{ y: tickerY, position: 'relative' as const, zIndex: 2 }}>
-          <LogoTicker />
-        </motion.div>
-        <AboutV3 />
+    <div
+      className={`page-transition-overlay ${phase === 'cover' ? 'covering' : 'revealing'}`}
+      onAnimationEnd={phase === 'cover' ? handleCoverEnd : handleRevealEnd}
+    >
+      {/* SVG gooey filter for liquid edges */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          <filter id="gooey-transition">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -12"
+              result="gooey"
+            />
+          </filter>
+        </defs>
+      </svg>
+      <div className="page-transition-blobs">
+        <div className="page-transition-blob blob-1" />
+        <div className="page-transition-blob blob-2" />
+        <div className="page-transition-blob blob-3" />
       </div>
-      <WorkShowcase />
-      <Pricing />
-      <FAQ />
-      <Footer />
-    </LanguageProvider>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <PageTransition />
+      <LanguageProvider>
+        <SmoothScroll />
+        <Vignette />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/pricing" element={<PricingPage />} />
+        </Routes>
+      </LanguageProvider>
+    </BrowserRouter>
   );
 }
 

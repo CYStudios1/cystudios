@@ -1,0 +1,93 @@
+/* ── Page Transition — gooey blob wipe ── */
+
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  pointer-events: none;
+}
+
+.page-transition-blobs {
+  position: absolute;
+  inset: 0;
+  filter: url(#gooey-transition);
+}
+
+.page-transition-blob {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--bg, #FAFAFA);
+}
+
+/* Blob sizes and positions — offset from center for organic look */
+.blob-1 {
+  width: 60vmax;
+  height: 60vmax;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blob-2 {
+  width: 45vmax;
+  height: 45vmax;
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.blob-3 {
+  width: 50vmax;
+  height: 50vmax;
+  top: 55%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
+
+/* ── COVER: blobs expand from center to fill screen ── */
+.covering .page-transition-blob {
+  animation: blobCover 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.covering .blob-2 {
+  animation-delay: 0.04s;
+}
+
+.covering .blob-3 {
+  animation-delay: 0.08s;
+}
+
+@keyframes blobCover {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 1;
+  }
+}
+
+/* ── REVEAL: blobs shrink from full back to nothing ── */
+.revealing .page-transition-blob {
+  animation: blobReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.revealing .blob-2 {
+  animation-delay: 0.04s;
+}
+
+.revealing .blob-3 {
+  animation-delay: 0.08s;
+}
+
+@keyframes blobReveal {
+  0% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+}

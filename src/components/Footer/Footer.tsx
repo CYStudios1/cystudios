@@ -3,6 +3,7 @@ import styles from './Footer.module.css';
 import { GooeyButton } from '../shared/GooeyButton';
 import { useTranslation } from '../shared/useTranslation';
 import Threads from '../Hero/Threads';
+import { navigateWithTransition } from '../../App';
 import { CYLogo } from '../Nav/CYLogo';
 
 const colContainer = {
@@ -62,7 +63,7 @@ export function Footer() {
           <div className={styles.colLinks}>
             <a href="#about-v3" className={styles.colLink}>{t('About')}</a>
             <a href="#works" className={styles.colLink}>{t('Works')}</a>
-            <a href="#pricing" className={styles.colLink}>{t('Pricing')}</a>
+            <a href="/pricing" className={styles.colLink} onClick={(e) => { e.preventDefault(); navigateWithTransition('/pricing'); }}>{t('Pricing')}</a>
             <a href="#faq" className={styles.colLink}>{t('FAQ')}</a>
           </div>
         </motion.div>

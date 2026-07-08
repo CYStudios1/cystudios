@@ -8,65 +8,8 @@
   justify-content: center;
 }
 
-.headline {
-  font-size: clamp(28px, 3.5vw, 52px);
-  font-weight: 800;
-  color: var(--ink);
-  line-height: 1.2;
-  white-space: nowrap;
-  position: relative;
-}
-
-.wordClip {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding-bottom: 4px;
-}
-
-.wordInner {
-  display: inline-block;
-}
-
-.ball {
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(210, 86, 86, 1);
-  pointer-events: none;
-  z-index: 5;
-  transform-origin: center center;
-}
-
-/* Gooey filter container — always active, blur decreases over time */
-.gooeyContainer {
-  filter: url(#gooey-loading);
-}
-
-/* ── Transition phases ── */
-
-/* Rearrange: switch to three-line layout instantly (FLIP handles animation) */
-.headlineRearranging {
-  white-space: normal;
-  max-width: 500px;
-  font-size: clamp(36px, 4.5vw, 64px);
-  line-height: 1.05;
-  text-align: center;
-}
-
-/* Word clips need overflow visible during FLIP animation */
-.headlineRearranging .wordClip {
-  overflow: visible;
-}
-
 /* Background fades during falling phase */
 .overlayFading {
   background: transparent !important;
   transition: background 0.5s ease;
-}
-
-/* Text stays in place during falling phase (already at hero position) */
-.headlineFalling {
-  /* No transform — text is already positioned at hero headline location */
 }

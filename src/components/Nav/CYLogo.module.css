@@ -13,31 +13,32 @@
   display: block;
 }
 
-.layer {
+/* Layers start visible (5-filled state) and fade out on hover */
+.layerOut {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
-/* middle-right fills first */
-.wrap:hover .layer1 {
-  opacity: 1;
+/* On hover: middle-right disappears first */
+.wrap:hover .layerOut1 {
+  opacity: 0;
   transition-delay: 0s;
 }
 
-/* bottom-right fills second */
-.wrap:hover .layer2 {
-  opacity: 1;
+/* Then bottom-left */
+.wrap:hover .layerOut2 {
+  opacity: 0;
   transition-delay: 0.12s;
 }
 
-/* bottom-left fills last */
-.wrap:hover .layer3 {
-  opacity: 1;
+/* Then bottom-right */
+.wrap:hover .layerOut3 {
+  opacity: 0;
   transition-delay: 0.24s;
 }
