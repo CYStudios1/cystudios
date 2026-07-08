@@ -50,26 +50,7 @@
   border-radius: 18px;
   pointer-events: none;
   z-index: 2;
-  background:
-    conic-gradient(
-      from var(--shine-angle, 0deg),
-      transparent 0%,
-      #A8D5BA 8%,
-      #E8D8A0 16%,
-      #C4C4C4 24%,
-      transparent 32%,
-      transparent 100%
-    ),
-    conic-gradient(
-      from calc(var(--shine-angle, 0deg) + 180deg),
-      transparent 0%,
-      #C4C4C4 8%,
-      #A8D5BA 16%,
-      #E8D8A0 24%,
-      transparent 32%,
-      transparent 100%
-    );
-  animation: shineRotate 6s linear infinite;
+  overflow: hidden;
   /* Mask: only the 2px border ring is visible */
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
@@ -78,26 +59,40 @@
   padding: 2px;
 }
 
-/* Hide the extra div from JSX — beam not needed */
+/* Rotating gradient disc behind the mask */
 .bundleBeam {
-  display: none;
-}
-
-@property --shine-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    transparent 0%,
+    #A8D5BA 8%,
+    #E8D8A0 16%,
+    #C4C4C4 24%,
+    transparent 32%,
+    transparent 50%,
+    #C4C4C4 58%,
+    #A8D5BA 66%,
+    #E8D8A0 74%,
+    transparent 82%,
+    transparent 100%
+  );
+  animation: shineRotate 6s linear infinite;
+  border-radius: 50%;
 }
 
 @keyframes shineRotate {
-  0%   { --shine-angle: 0deg; }
-  100% { --shine-angle: 360deg; }
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bundleGlow {
+  .bundleBeam {
     animation: none;
-    background: rgba(35, 35, 35, 0.15);
+    opacity: 0;
   }
 }
 
