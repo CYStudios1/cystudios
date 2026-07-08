@@ -540,7 +540,7 @@ export function LoadingScreen({ onTextPositioned, onComplete }: { onTextPosition
           <motion.div
             className={styles.ball}
             animate={ballControls}
-            initial={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
             style={{
               position: 'absolute',
               opacity: isFalling ? 0 : undefined,

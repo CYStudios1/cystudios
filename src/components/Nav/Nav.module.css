@@ -54,8 +54,8 @@
   left: 50%;
   top: 100%;
   transform: translateX(-50%) scale(0);
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   margin-top: 3px;
   background: url('/nav-hover.png') center / contain no-repeat;
   opacity: 0;

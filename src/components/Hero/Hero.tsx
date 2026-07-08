@@ -112,7 +112,7 @@ export function Hero({ introComplete = false }: HeroProps) {
   const SLICE_ANGLE = 3.75;
   const RADIUS = 380;
   const CENTER_OFFSET = ((NUM_SLICES - 1) / 2) * SLICE_ANGLE;
-  const panelImages = ['/project-1.jpg', '/project-2.jpg', '/project-3.jpg', '/project-4.jpg'];
+  const panelImages = ['/project-1.jpg', '/project-2.jpg', '/project-3.jpg', '/project-4.png'];
   const baseAngles = [0, 90, 180, 270];
   // Geometric chord width — background positions step on this grid so image
   // content is continuous across slice boundaries

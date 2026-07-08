@@ -5,10 +5,10 @@ import { useTranslation } from '../shared/useTranslation';
 import s from './WorkShowcase.module.css';
 
 const projects = [
-  { src: '/project-1.jpg', alt: 'Nakwon Catering', href: 'http://localhost:3003' },
-  { src: '/project-2.jpg', alt: 'Beauty One Supply', href: 'https://beautyone.vercel.app/concepts/01-editorial-premium/index.html' },
   { src: '/project-3.jpg', alt: 'Burg & Shaw', href: 'https://burgshaw.com/' },
-  { src: '/project-4.jpg', alt: 'Rytual', href: 'https://www.joinrytual.com/' },
+  { src: '/project-4.png', alt: 'Colorbridge', href: '#' },
+  { src: '/project-2.jpg', alt: 'Beauty One Supply', href: 'https://beautyone.vercel.app/concepts/01-editorial-premium/index.html' },
+  { src: '/project-1.jpg', alt: 'Nakwon Catering', href: 'http://localhost:3003' },
 ];
 
 export function WorkShowcase() {
