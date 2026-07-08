@@ -43,23 +43,16 @@
 }
 
 /* ── Shine Border (Bundle card) ── */
+/* Approach: gradient sits behind card wrapper, card covers center with its own bg */
 
 .bundleGlow {
   position: absolute;
   inset: -2px;
   border-radius: 18px;
-  pointer-events: none;
-  z-index: 2;
   overflow: hidden;
-  /* Mask: only the 2px border ring is visible */
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  padding: 2px;
+  z-index: 0;
 }
 
-/* Rotating gradient disc behind the mask */
 .bundleBeam {
   position: absolute;
   top: 50%;
@@ -214,8 +207,8 @@
 .bundleCard {
   border-radius: 16px;
   padding: 32px;
-  background: rgba(210, 86, 86, 0.08);
-  border: 1.5px dashed var(--accent);
+  background: #F8F0F0;
+  border: none;
   transition: border-color 0.3s ease;
   position: relative;
   z-index: 1;
@@ -223,7 +216,6 @@
 }
 
 .bundleWrapper:hover .bundleCard {
-  border-color: transparent;
   display: flex;
   flex-direction: column;
   position: relative;
